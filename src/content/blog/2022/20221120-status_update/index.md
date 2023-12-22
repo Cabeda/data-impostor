@@ -1,6 +1,6 @@
 ---
 title: "Status update | Readings"
-date: "2022-11-20"
+pubDate: "2022-11-20"
 ---
 
 ![Casa da música Porto](./casa_musica.avif)

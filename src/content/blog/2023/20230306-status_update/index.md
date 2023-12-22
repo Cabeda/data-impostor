@@ -1,6 +1,6 @@
 ---
 title: "Productivity on reading habits | Readings"
-date: "2023-03-06"
+pubDate: "2023-03-06"
 ---
 
 ![Photo by Clay Banks](./reading_window.avif)

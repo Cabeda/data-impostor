@@ -1,6 +1,6 @@
 ---
 title: "Rust, Deno, and Genome | Readings"
-date: "2023-01-22"
+pubDate: "2023-01-22"
 ---
 
 ![Photo by ruddy.media](./eindhoven.avif)

@@ -1,9 +1,9 @@
 ---
 title: "Writing and oh Readings"
-date: "2023-04-20"
+pubDate: "2023-04-20"
 ---
 
-![starship first test](starship.avif)
+![starship first test](./starship.avif)
 
 I've been pulling some ideas on what I should do next to improve myself. Doing talks, reading, and, writing about the data ecosystem are some of which, for some reason, I've been postponing. I'll be sure to try and pick the Flink book at the end of the week. Just after reading Anatomy of a Swipe. Aside from that, I'll be taking some notes regarding subjects to write in a long format. That yes would be a challenge worth working on.
 

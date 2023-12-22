@@ -1,6 +1,6 @@
 ---
 title: "Rusty progress | Readings"
-date: "2023-01-15"
+pubDate: "2023-01-15"
 ---
 
 ![Photo by Bas Peperzak](./bread.avif)

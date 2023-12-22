@@ -1,6 +1,6 @@
 ---
 title: "Dreaming of better data processing"
-date: "2021-05-26"
+pubDate: "2021-05-26"
 ---
 
 I've tried to summarize most of the ideas I have on better data processes. Of course many of them are simplified and up to debate but I guess this is a good starting point.

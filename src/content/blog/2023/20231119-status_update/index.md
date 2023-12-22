@@ -1,6 +1,6 @@
 ---
 title: "Data Impostor blog idea | Readings"
-date: "2023-11-19"
+pubDate: "2023-11-19"
 tags: 
     - newsletter
 ---

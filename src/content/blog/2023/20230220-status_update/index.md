@@ -1,6 +1,6 @@
 ---
 title: "Rambling on data | Readings"
-date: "2023-02-24"
+pubDate: "2023-02-24"
 ---
 
 I've tried to focus again on the data side. This means a bit more Python and looking, again, for how to integrate a data platform cheaply. And seamlessly. This will be for my talk and I think this will be super relevant. More than I thought and I need to make it work. Everything else might be secondary. With that said I've tried to do a bit more reading and I'm sure I'll have it picked up for next reading update. Afterwards... A lot of tests and iterations on Python, AWS, dbt, and DuckDB.

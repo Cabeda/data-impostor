@@ -1,6 +1,6 @@
 ---
 title: "Lambdas and runs | Readings"
-date: "2023-10-23"
+pubDate: "2023-10-23"
 tags: 
     - newsletter
     - aws lambda

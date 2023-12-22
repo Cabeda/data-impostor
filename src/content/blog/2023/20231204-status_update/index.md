@@ -1,6 +1,6 @@
 ---
 title: "Start of Advent of Code | Readings"
-date: "2023-12-04"
+pubDate: "2023-12-04"
 tags: 
     - newsletter
 ---

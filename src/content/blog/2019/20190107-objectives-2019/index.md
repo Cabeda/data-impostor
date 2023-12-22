@@ -1,9 +1,9 @@
 ---
 title: Objectives for 2019
-date: "2019-01-07"
+pubDate: "2019-01-07"
 ---
 
-![Kudos to Mike Smith in Unsplash](mike-smith-644465-unsplash.webp)
+![Kudos to Mike Smith in Unsplash](./mike-smith-644465-unsplash.webp)
 
 
 Hi there!

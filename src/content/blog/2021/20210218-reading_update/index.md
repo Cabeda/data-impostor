@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-02-18"
+pubDate: "2021-02-18"
 ---
 
 ![<span>Photo by <a href="https://unsplash.com/@romankraft?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Roman Kraft</a> on <a href="https://unsplash.com/s/photos/read?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></span>](./unsplash.jpg)

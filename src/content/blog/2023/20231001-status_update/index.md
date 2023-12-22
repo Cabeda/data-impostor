@@ -1,6 +1,6 @@
 ---
 title: "Data stream has started and small steps taken | Readings"
-date: "2023-10-01"
+pubDate: "2023-10-01"
 ---
 
 ![https://unsplash.com/photos/9_wUG_dw5rE](./batalha.avif)

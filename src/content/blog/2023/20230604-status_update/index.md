@@ -1,6 +1,6 @@
 ---
 title: "Reflections | Readings"
-date: "2023-06-04"
+pubDate: "2023-06-04"
 ---
 
 ![Farturas na festa](./fartura.avif)

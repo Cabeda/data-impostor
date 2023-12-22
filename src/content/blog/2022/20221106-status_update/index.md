@@ -1,6 +1,6 @@
 ---
 title: "Layoffs and focusing efforts on talk | Readings"
-date: "2022-11-07"
+pubDate: "2022-11-07"
 ---
 
 ![Thunder in a city](./flying.jpg)

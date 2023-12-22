@@ -1,6 +1,6 @@
 ---
 title: "Typescript, debugging and focus | Readings"
-date: "2023-02-05"
+pubDate: "2023-02-05"
 ---
 
 ![Photo by Jordan Opel](./run.avif)

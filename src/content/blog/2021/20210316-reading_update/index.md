@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-03-14"
+pubDate: "2021-03-14"
 ---
 
 ![Photo by Biel Morro on Unsplash](./biel-morro-d0xjEv-WJQk-unsplash-1.jpg)

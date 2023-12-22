@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-07-10"
+pubDate: "2021-07-10"
 ---
 
 ![Photo by Niklas Ohlrogge on Unsplash](./niklas-ohlrogge.jpg)

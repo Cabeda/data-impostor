@@ -1,6 +1,6 @@
 ---
 title: "TIl 2023-02-13"
-date: "2023-02-13"
+pubDate: "2023-02-13"
 ---
 
 - George Orwell's six rules of writing:

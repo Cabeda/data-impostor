@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2022-03-20"
+pubDate: "2022-03-20"
 ---
 
 ![Photo by Patrick Perkins on Unsplash](./blade_runner.jpeg)

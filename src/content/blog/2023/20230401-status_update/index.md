@@ -1,9 +1,9 @@
 ---
 title: "Lots of ideas, little time | Readings"
-date: "2023-04-12"
+pubDate: "2023-04-12"
 ---
 
-![https://unsplash.com/@victorbrd](easter.avif)
+![https://unsplash.com/@victorbrd](./easter.avif)
 
 I've been having a lot of long-term ideas which I've yet to grasp if they are important enough to change my short term plans. For now, I'm focusing on improving my focus time to be able to do more in less time. I've been reading a lot of fiction as I've found an interest in audiobooks and went in the last 3 weeks over 3 fantasy books and 3 short stories. I'd say that's a lot. So in terms of development, I've been lacking a bit. I hope to now be able to define when I'm going to focus on work and when I can do whatever I want and not feel bad about it. This might lead to some tweaking on the [workflow page](../../workflow.md).
 

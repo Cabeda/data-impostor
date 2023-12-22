@@ -1,6 +1,6 @@
 ---
 title: "DuckDB VS Porto buses - A small case for a new OLAP engine"
-date: "2022-11-24" 
+pubDate: "2022-11-24" 
 ---
 
 ![Beautiful duck in a lake](./images/duck.jpg)
@@ -21,7 +21,7 @@ In other words, this means we can just execute a file, import data, and analyze 
 
 For this article, I'm testing with a Macbook Pro M1 and will be running version `0.6.0`. To install it you can do as below:
 
-```shell{numberLines:true}
+```shell
 wget https://github.com/duckdb/duckdb/releases/download/v0.6.0/duckdb_cli-osx-universal.zip
 
 unzip duckdb_cli-osx-universal.zip
@@ -35,11 +35,11 @@ Run Duckdb from any console and now you'll be presented with a new session 🙂.
 
 For this test, I'll take the opportunity and analyze the schedule of my local public bus (Porto, Portugal 🇵🇹). Luckily for us, the municipal chamber has an open data portal. Searched a bit and found a [dataset](https://opendata.porto.digital/dataset/horarios-paragens-e-rotas-em-formato-gtfs-stcp) with exactly what we need (⚠️ the portal is in Portuguese).
 
-![open data portal](images/2022-11-17-17-14-32.png)
+![open data portal](./images/2022-11-17-17-14-32.png)
 
 We proceed to transfer it by clicking on the transfer button or you can run the following commands:
 
-```shell{numberLines:true}
+```shell
 wget https://opendata.porto.digital/dataset/5275c986-592c-43f5-8f87-aabbd4e4f3a4/resource/1f845744-1962-4108-a20c-ac3357d0957b/download/gtfs-stcp.zip
 
 unzip gtfs-stcp.zip
@@ -59,11 +59,11 @@ The zip contains 9 files:
 
 Although they are text files, after opening them we can see that they follow a CSV format. This is great as DuckDB has a native function `read_csv_auto` to reads these files.
 
-![read_csv_auto](images/2022-11-17-17-30-59.png)
+![read_csv_auto](./images/2022-11-17-17-30-59.png)
 
 This is a nice feature but we don't want to import the files each time we run a query. So, the next step is to create a table for each file:
 
-```sql{numberLines: true}
+```sql
 create table routes as select * from read_csv_auto('routes.txt');
 create table calendar as select * from read_csv_auto('calendar.txt');
 create table stops as select * from read_csv_auto('stops.txt');
@@ -79,7 +79,7 @@ create table agency as select * from read_csv_auto('agency.txt' , header=True);
 
 After running this command, you can check the tables you created with `show tables`.
 
-![show tables](images/2022-11-17-17-54-40.png)
+![show tables](./images/2022-11-17-17-54-40.png)
 
 Neat 🤌🏼 But...
 
@@ -100,17 +100,17 @@ With the steps above, we can proceed to analyze our dataset. For this test, I ca
 
 To answer these we should first check the schema of our tables (for this article I draw this one manually).
 
-![Schema](images/2022-11-21-16-31-28.png)
+![Schema](./images/2022-11-21-16-31-28.png)
 
 > How many routes do we have? And stops per route?
 
 For this first question, we can check the table routes with a select statement.
 
-![select * routes](images/2022-11-21-12-09-15.png)
+![select * routes](./images/2022-11-21-12-09-15.png)
 
 The first column is named a route_id which, if unique, will correctly point us to how many lines we have. For that we run both queries:
 
-```sql{numberLines:true}
+```sql
 select count(*) from routes;
 
 select count(distinct route_id) from routes;
@@ -118,7 +118,7 @@ select count(distinct route_id) from routes;
 
 Both return 73 so we can safely say that in Porto there are 73 routes. But how many stops do we have per line?
 
-```sql{numberLines: true}
+```sql
 create table route_stops as
 with stops_routes as (
 
@@ -144,7 +144,7 @@ order by total desc;
 
 Now we get a nice table with the results. Now we get a nice table with the results. From this table, we learn that the average number of stops is 70. And that it can go as little as 21 (routes [920](https://www.stcp.pt/pt/viajar/linhas/?linha=920) and [910](https://www.stcp.pt/pt/viajar/linhas/?linha=910)) to 121 (routes [508](https://www.stcp.pt/pt/viajar/linhas/?linha=508) and [603](https://www.stcp.pt/pt/viajar/linhas/?linha=603)). All this using aggregation functions avg, min, and, max.
 
-```sql{numberLines:true}
+```sql
 select avg(total) from route_stops;
 select min(total) from route_stops;
 select max(total) from route_stops;
@@ -158,14 +158,14 @@ select * from route_stops order by total desc limit 10;
 
 To answer this question we can look at the trips table.
 
-```sql{numberLines:true}
+```sql
 select
     route_id,
     count(trip_id) as total
 from trips group by route_id order by total desc limit 10;
 ```
 
-![Frequency trip per route](images/2022-11-21-13-03-13.png)
+![Frequency trip per route](./images/2022-11-21-13-03-13.png)
 
 This is all nice, but it would be more useful if we distributed the trips by the different periods. To keep it simple, we can use the service_id which defines the "type" of weekday:
 
@@ -178,7 +178,7 @@ This is all nice, but it would be more useful if we distributed the trips by the
 - DOMVERAO: Sunday during summer
 - UTEISVERAO: weekday during summer
 
-```sql{numberLines:true}
+```sql
 select
     route_id,
     service_id,
@@ -186,7 +186,7 @@ select
 from trips group by route_id, service_id order by total desc limit 10;
 ```
 
-![Total Trips by service_id ](images/2022-11-21-13-13-38.png)
+![Total Trips by service_id ](./images/2022-11-21-13-13-38.png)
 
 Now we get something more interesting to analyze. [Route 205](https://www.stcp.pt/pt/viajar/linhas/?linha=205) is the most frequent on work days by far. Another route of note is [907](https://www.stcp.pt/pt/viajar/linhas/?linha=907). It's the second most frequent route on work days but during weekends it disappears from the top 20. This indicates that it's mostly a route for workers.
 

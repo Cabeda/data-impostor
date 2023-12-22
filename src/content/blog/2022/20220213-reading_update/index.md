@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2022-02-13"
+pubDate: "2022-02-13"
 ---
 
 ![Photo by Gwen King on Unsplash](./west end.jpeg)

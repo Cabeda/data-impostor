@@ -1,6 +1,6 @@
 ---
 title: 'Building Quizzer'
-date: '2019-05-26'
+pubDate: '2019-05-26'
 ---
 
 A JSON-based quiz shuffler.
@@ -30,7 +30,7 @@ With the goal of helping him I started by making some questions. In the end we a
 
 The create-react-app has a default structure as seen below.
 
-![](Untitled-2674a39e-b1e1-45e1-b885-6194bb851dc6.png)
+![](./Untitled-2674a39e-b1e1-45e1-b885-6194bb851dc6.png)
 
 I'm using VS Code as my IDE (the .vscode folder is created to hold files for debugging among other things) and other files like package.json (node.js) and now.json (zeit now) are important but aren't specific to the application. The juice of the application is in the src folder.
 
@@ -44,7 +44,7 @@ The application only has one router which points to the main component "Quiz". T
 
 Finally, as the questions needed to be shuffled, for each phase, I've added a shuffer based on Mike Bostock's implementation of the Fisher Yates algorithm. It's simple and works.
 
-![](Untitled-e45086e8-5038-46b2-bb4c-9630b2f1e06e.png)
+![](./Untitled-e45086e8-5038-46b2-bb4c-9630b2f1e06e.png)
 
 Shuffer of the questions (kudos to Mike Bostock [https://bost.ocks.org/mike/shuffle/](https://bost.ocks.org/mike/shuffle/))
 
@@ -80,7 +80,7 @@ Yah I know, you want to know how it works and if it's any good. Well, this is su
 
 First, you are given this entry page.
 
-![](Untitled-42fd50f6-78be-452a-be43-9e8ac394cdf1.png)
+![](./Untitled-42fd50f6-78be-452a-be43-9e8ac394cdf1.png)
 
 A beautiful page I know
 
@@ -88,15 +88,15 @@ You can download the template file and edit as you wish. Just follow the structu
 
 You are given the basic info of the quiz, the question and options as seen below.
 
-![](Untitled-c1ab5840-ab6a-4cc2-aba7-6b5e977b3edf.png)
+![](./Untitled-c1ab5840-ab6a-4cc2-aba7-6b5e977b3edf.png)
 
 And then you're given a message to continue.
 
-![](Untitled-b93c5354-49a9-4ed9-b2fb-dc71d724e7ff.png)
+![](./Untitled-b93c5354-49a9-4ed9-b2fb-dc71d724e7ff.png)
 
 In the end. If you complete all question you are presented with this amazing message.
 
-![](Untitled-560f3487-22e4-486d-bc5c-36571054eb33.png)
+![](./Untitled-560f3487-22e4-486d-bc5c-36571054eb33.png)
 
 And that's it!!!
 

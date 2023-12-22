@@ -1,6 +1,6 @@
 ---
 title: "Meetup potential for data stream | Readings"
-date: "2023-10-07"
+pubDate: "2023-10-07"
 tags:
   - newsletter
 ---

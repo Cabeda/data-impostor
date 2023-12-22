@@ -1,6 +1,6 @@
 ---
 title: "Ducks and evidences | Readings"
-date: "2023-11-30"
+pubDate: "2023-11-30"
 tags: 
     - newsletter
 ---

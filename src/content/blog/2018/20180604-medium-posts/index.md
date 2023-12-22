@@ -1,6 +1,6 @@
 ---
 title: Medium Articles
-date: "2018-06-04"
+pubDate: "2018-06-04"
 ---
 
 Previous posts I've written on medium:

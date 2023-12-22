@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-03-07"
+pubDate: "2021-03-07"
 ---
 
 ![Photo by Nicki Eliza Schinow on Unsplash](./nicki-eliza-schinow-BjJP2TN8WoI-unsplash.jpg)

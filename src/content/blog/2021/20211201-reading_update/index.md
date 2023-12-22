@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-12-01"
+pubDate: "2021-12-01"
 ---
 
 ![Photo by Logan Armstrong on Unsplash](./barcelona.jpeg)

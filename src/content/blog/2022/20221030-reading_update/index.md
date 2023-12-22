@@ -1,6 +1,6 @@
 ---
 title: "Status update"
-date: "2022-10-30"
+pubDate: "2022-10-30"
 ---
 
 ![Thunder in a city](./thunder.jpg)

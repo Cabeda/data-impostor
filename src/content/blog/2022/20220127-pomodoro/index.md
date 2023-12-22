@@ -1,6 +1,6 @@
 ---
 title: Pomodoro
-date: 2022-01-27
+pubDate: 2022-01-27
 ---
 
 I was looking into some old code I had written for Freecodecamp and found this little thing that from time to time I've come to use. Thought I'd leave it here and I might bring myself to publish as a standalone app.

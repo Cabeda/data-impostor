@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-04-03"
+pubDate: "2021-04-03"
 ---
 
 ![Photo by Alfons Morales on Unsplash](./alfons-morales-YLSwjSy7stw-unsplash.jpg)

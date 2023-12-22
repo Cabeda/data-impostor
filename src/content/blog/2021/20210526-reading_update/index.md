@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-05-26"
+pubDate: "2021-05-26"
 ---
 
 I'm actually trying to write a bit more but in the meantime here goes another batch of reading 😅

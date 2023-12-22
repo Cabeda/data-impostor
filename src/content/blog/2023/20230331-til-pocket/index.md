@@ -1,6 +1,6 @@
 ---
 title: "Moved from Pocket to Notion"
-date: "2023-03-31"
+pubDate: "2023-03-31"
 ---
 
 I've decided to move my read-it-later list to Notion. Up until now, I've been a happy user of Pocket but I'm starting to feel a need for more in-depth reading. With that end in sight, I was looking for how to leave comments on the videos/articles. I looked for how to do it with Pocket but with no success. Only had a limited highlight system. So I decided to test if Notion was up to the task.

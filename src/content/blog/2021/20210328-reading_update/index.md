@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-03-28"
+pubDate: "2021-03-28"
 ---
 
 ![Photo by samuel hanna on Unsplash](./samuel-hanna-kmZe7p4Kb3A-unsplash.jpg)

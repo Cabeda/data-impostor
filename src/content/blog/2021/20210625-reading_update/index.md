@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-06-25"
+pubDate: "2021-06-25"
 ---
 
 ![Night Watch by Rembrandt](./night_watch.jpg)

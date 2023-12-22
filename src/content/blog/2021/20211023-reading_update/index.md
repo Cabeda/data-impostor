@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-10-23"
+pubDate: "2021-10-23"
 ---
 
 ![Photo by Serey Morm on Unsplash](./iceland.jpeg)

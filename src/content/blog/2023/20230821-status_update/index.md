@@ -1,6 +1,6 @@
 ---
 title: "Cooking | Readings"
-date: "2023-08-21"
+pubDate: "2023-08-21"
 ---
 
 ![https://unsplash.com/photos/HiiBPW_Sx3U](./binge.avif)

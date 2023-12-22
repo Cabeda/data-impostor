@@ -1,6 +1,6 @@
 ---
 title: "AWS certification | Readings"
-date: "2023-07-03"
+pubDate: "2023-07-03"
 ---
 
 ![https://unsplash.com/photos/c2a0TydMlAs](./pos.avif)

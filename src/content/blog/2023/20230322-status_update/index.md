@@ -1,6 +1,6 @@
 ---
 title: "Back to data | Readings"
-date: "2023-03-22"
+pubDate: "2023-03-22"
 ---
 
 ![Photo by Matthew Henry](./pug.avif)

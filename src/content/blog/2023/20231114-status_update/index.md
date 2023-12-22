@@ -1,6 +1,6 @@
 ---
 title: "Streams, streams and streams | Readings"
-date: "2023-11-14"
+pubDate: "2023-11-14"
 tags: 
     - newsletter
 ---

@@ -1,9 +1,9 @@
 ---
 title: "2020 review and beyond"
-date: "2021-01-03"
+pubDate: "2021-01-03"
 ---
 
-![Pena's palace balcony](sintra.jpg)
+![Pena's palace balcony](./sintra.jpg)
 
 Just like most people I know (and at least half the world) the pandemic took hold of a big chunk of my life. Fortunately, I was able to cope with most of it but not with this blog which I haven't given a second of notice (I've only published an article on [talkdesk's](https://engineering.talkdesk.com/business-intelligence-a-road-from-staging-to-production-b708a662c668)).
 

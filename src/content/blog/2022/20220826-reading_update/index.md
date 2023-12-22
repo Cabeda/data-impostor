@@ -1,6 +1,6 @@
 ---
 title: "Status update"
-date: "2022-08-26"
+pubDate: "2022-08-26"
 ---
 
 ![Photo by Ricardo Resende on Unsplash](./douro.jpeg)

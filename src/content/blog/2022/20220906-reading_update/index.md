@@ -1,6 +1,6 @@
 ---
 title: "Status update"
-date: "2022-09-06"
+pubDate: "2022-09-06"
 ---
 
 ![Photo by Emilio Garcia on Unsplash](./soccer.jpeg)

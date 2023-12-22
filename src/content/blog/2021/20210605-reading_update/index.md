@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-06-05"
+pubDate: "2021-06-05"
 ---
 
 ![Photo by Martin Munk on Unsplash](./martin-munk-ez7pWbOebRk-unsplash.jpg)

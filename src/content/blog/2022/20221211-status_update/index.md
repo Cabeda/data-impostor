@@ -1,6 +1,6 @@
 ---
 title: "Talk, Advent of code & Rust | Readings"
-date: "2022-12-11"
+pubDate: "2022-12-11"
 ---
 
 ![Photo by Bao Menglong](./tree.avif)

@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2022-03-13"
+pubDate: "2022-03-13"
 ---
 
 ![Photo by allison christine on Unsplash](./rain.jpeg)

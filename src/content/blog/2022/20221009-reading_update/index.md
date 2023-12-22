@@ -1,6 +1,6 @@
 ---
 title: "Status update"
-date: "2022-10-09"
+pubDate: "2022-10-09"
 ---
 
 ![Photo by Constantinos Kollias on Unsplash](./athens.jpeg)

@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2022-03-06"
+pubDate: "2022-03-06"
 ---
 
 ![Photo by Eugene on Unsplash](./kyiv.jpeg)

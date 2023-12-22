@@ -1,6 +1,6 @@
 ---
 title: "Single-man data platform | Readings"
-date: "2023-04-30"
+pubDate: "2023-04-30"
 ---
 
 ![https://unsplash.com/photos/NfZiOJzZgcg](./suit.avif)

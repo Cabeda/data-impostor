@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-01-23"
+pubDate: "2021-01-23"
 ---
 
 ![Sunset at Parque de Montesinho](./main.jpg)

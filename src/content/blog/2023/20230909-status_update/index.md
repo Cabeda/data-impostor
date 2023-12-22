@@ -1,6 +1,6 @@
 ---
 title: "Omnivore & Semester | Readings"
-date: "2023-09-09"
+pubDate: "2023-09-09"
 ---
 
 ![https://unsplash.com/photos/1-29wyvvLJA](./travel_plan.avif)

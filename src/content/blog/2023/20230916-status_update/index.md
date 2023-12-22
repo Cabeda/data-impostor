@@ -1,9 +1,9 @@
 ---
 title: "First week of the semester | Readings"
-date: "2023-09-16"
+pubDate: "2023-09-16"
 ---
 
-![https://unsplash.com/photos/0ex_Wub2ZXM](./travel_plan.avif)
+![https://unsplash.com/photos/0ex_Wub2ZXM](./verona_sunset.avif)
 
 For this week I can start to do an update status by each subject.
 

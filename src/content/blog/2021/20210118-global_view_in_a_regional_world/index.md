@@ -1,7 +1,7 @@
 ---
 title: "Global view in a regional world"
 type: "data"
-date: "2021-01-18"
+pubDate: "2021-01-18"
 ---
 
 As a data engineer, my main goal is to create a single and complete source of truth. This has brought me into the cloud and the ELT architecture where we can easily bring all data into a single source (usually a data warehouse) for later usage. However, in recent years we've seen a bigger awareness on where the data is stored and in some cases a requirement to hold it and keep it in a specific region. For teams like BI, this trend becomes a challenge. How can we produce analysis with data that can't be moved away from another region? To solve this we have the following options:

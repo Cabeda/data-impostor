@@ -1,6 +1,6 @@
 ---
 title: "Small thoughts | Readings"
-date: "2023-03-27"
+pubDate: "2023-03-27"
 ---
 
 This week I've taken to do a lot of reading but less on the technical side. It's time to do a bit more implementing. I'm also keen that for some subjects I should be moving to read more papers/books instead of general articles at least for subjects that both I and the industry have a better understanding. So, for this week, I'm hoping to have a skeleton for a new project at work. I'm not going to pick another side project and shouldn't be picking one for the week after. Will be focusing on what currently have, maybe do some writing 🤔

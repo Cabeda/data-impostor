@@ -1,6 +1,6 @@
 ---
 title: "Rust and side projects | Readings"
-date: "2023-01-08"
+pubDate: "2023-01-08"
 ---
 
 ![Photo by Thomas Park on Unsplash](./swim.avif)

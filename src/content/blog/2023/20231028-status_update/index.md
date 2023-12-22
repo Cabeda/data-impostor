@@ -1,6 +1,6 @@
 ---
 title: "Readings basically"
-date: "2023-10-28"
+pubDate: "2023-10-28"
 tags: 
     - newsletter
 ---

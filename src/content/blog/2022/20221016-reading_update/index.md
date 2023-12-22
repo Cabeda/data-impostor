@@ -1,6 +1,6 @@
 ---
 title: "Status update"
-date: "2022-10-16"
+pubDate: "2022-10-16"
 ---
 
 ![Photo by Inês Lucas on Unsplash](./marques.jpg)

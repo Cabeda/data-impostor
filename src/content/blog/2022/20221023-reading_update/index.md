@@ -1,6 +1,6 @@
 ---
 title: "Status update"
-date: "2022-10-23"
+pubDate: "2022-10-23"
 ---
 
 ![Photo by Micaela Parente on Unsplash](./valetta_malta.jpg)

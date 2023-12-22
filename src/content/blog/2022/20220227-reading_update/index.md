@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2022-02-27"
+pubDate: "2022-02-27"
 ---
 
 ![Photo by Tina Hartung on Unsplash](./ukraine.jpeg)

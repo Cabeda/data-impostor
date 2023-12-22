@@ -1,6 +1,6 @@
 ---
 title: "TIL | 2023-01-27"
-date: "2023-01-27"
+pubDate: "2023-01-27"
 ---
 
 ## Today I learned

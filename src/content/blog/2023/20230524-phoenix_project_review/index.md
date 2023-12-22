@@ -1,6 +1,6 @@
 ---
 title: "Phoenix Project Book Review"
-date: 2023-05-24
+pubDate: 2023-05-24
 ---s
 
 The book is an excellent read where I've had the opportunity to read about Parts Unlimited going through many pains to improve the IT operations and go from a drag of the company (at risk of being split apart) to moving ahead of the competition. This book is built on top of the DevOps Handbook which was written by the same authors and brings the concept of the three ways. A good summary of this can be seen at https://www.techtarget.com/whatis/definition/The-Three-Ways but a quick skim of the article shows the following:

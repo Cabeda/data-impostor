@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-05-09"
+pubDate: "2021-05-09"
 ---
 
 I've been trying to read some books so I've taken a bit of a break reading article. But in the meantime I've found a good share related to system's architecture and I'm taking a bit of time to focus on implementing a system with trino + dbt + iceberg. 

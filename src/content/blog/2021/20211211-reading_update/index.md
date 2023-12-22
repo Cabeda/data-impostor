@@ -1,6 +1,6 @@
 ---
 title: "Reading Update | dbt speaker!"
-date: "2021-12-11"
+pubDate: "2021-12-11"
 ---
 
 ![Photo by Florian Wehde on Unsplash](./berlin.jpeg)

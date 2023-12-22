@@ -1,6 +1,6 @@
 ---
 title: "New moves! | Readings"
-date: "2023-03-15"
+pubDate: "2023-03-15"
 ---
 
 ![Photo by Towfiqu barbhuiya](./payment.avif)

@@ -1,6 +1,6 @@
 ---
 title: "Logseq, Impostor Syndrome | Readings"
-date: "2023-11-05"
+pubDate: "2023-11-05"
 tags: 
     - newsletter
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Readings and quick side project | Readings"
-date: "2023-06-13"
+pubDate: "2023-06-13"
 ---
 
 ![Padel](./padel.avif)

@@ -1,13 +1,13 @@
 ---
 title: Tests checklist
-date: 2023-11-21
+pubDate: 2023-11-21
 tags:
   - development
   - agile
   - checklists
 ---
 
-![https://unsplash.com/photos/person-writing-bucket-list-on-book-RLw-UC03Gwc](checklist.avif)
+![https://unsplash.com/photos/person-writing-bucket-list-on-book-RLw-UC03Gwc](./checklist.avif)
 
 > This document will be a live document where I reflect and update my most current view
 

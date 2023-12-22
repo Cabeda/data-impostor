@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2022-02-20"
+pubDate: "2022-02-20"
 ---
 
 ![Photo by Gwen King on Unsplash](./lisbon.jpeg)

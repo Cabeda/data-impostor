@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-date: "2021-03-20"
+pubDate: "2021-03-20"
 ---
 
 ![Photo by Theo Eilertsen Photography on Unsplash](./theo-eilertsen-photography-ajhmqq12XvI-unsplash.jpg)

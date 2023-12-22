@@ -1,6 +1,6 @@
 ---
 title: "Week review | Readings"
-date: "2023-04-26"
+pubDate: "2023-04-26"
 ---
 
 ![https://unsplash.com/photos/VsUUHKQk-gc](./paiva.avif)

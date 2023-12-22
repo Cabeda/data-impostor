@@ -1,6 +1,6 @@
 ---
 title: "Talk, blogging & rust | Readings"
-date: "2022-11-27"
+pubDate: "2022-11-27"
 ---
 
 ![Bom Jesus Braga, Photo by Angela Compagnone](./bom_jesus.avif)

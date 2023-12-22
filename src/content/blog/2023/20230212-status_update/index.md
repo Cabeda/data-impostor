@@ -1,6 +1,6 @@
 ---
 title: "Focus, python, and DuckDB | Readings"
-date: "2023-02-12"
+pubDate: "2023-02-12"
 ---
 
 The funny thing about this week was that focusing indeed helped. I was trying to learn Rust to implement the genome project (which I might still do later on) but after some feedback, by focusing for a couple of hours I was able to get something working. And I got it to write the output to DuckDB which at first glance seems to provide great results (5 million rows were stored in 1.3 MB).

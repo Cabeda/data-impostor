@@ -1,6 +1,6 @@
 ---
 title: "Reading Update | Hopes for 2022"
-date: "2021-12-21"
+pubDate: "2021-12-21"
 ---
 
 ![Photo by Giammarco on Unsplash](./ireland-library.jpg)

@@ -1,6 +1,6 @@
 ---
 title: "This week interesting links"
-date: "2021-01-10"
+pubDate: "2021-01-10"
 ---
 
 This week I've mainly focused on either data quality through examples like Great Expectation or on data modeling with the help of Airflow and DBT. But the article below show how themes like good quality article are becoming mainstream!

@@ -1,6 +1,6 @@
 ---
 title: SSIS Naming Conventions
-date: "2018-06-06"
+pubDate: "2018-06-06"
 ---
 
 Hi folks!

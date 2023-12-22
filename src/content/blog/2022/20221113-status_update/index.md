@@ -1,6 +1,6 @@
 ---
 title: "Slow weeks happen now and then | Readings"
-date: "2022-11-13"
+pubDate: "2022-11-13"
 ---
 
 ![Cyberpunk by DALL-E](./dall_e_cyberpunk.avif)
