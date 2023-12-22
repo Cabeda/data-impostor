@@ -3,7 +3,7 @@ title: '2019 Review and Beyond'
 date: '2020-01-02'
 ---
 
-![Budapest Christmas market](budapest.jpg)
+![Budapest Christmas market](./budapest.jpg)
 
 2019 was a good and challenging year. Looking back at the article [I wrote](../20190107-objectives-2019/index.md), it seems I've done more than I hoped (I'm a bit pessimistic at times).
 
