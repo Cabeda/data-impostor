@@ -1,0 +1,31 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+
+export async function getStaticPaths() {
+  return [
+    { params: { tag: "newsletter" } },
+    { params: { tag: "development" } },
+  ];
+}
+
+const { tag } = Astro.params;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+    <Header />
+  
+    <body>
+      <main>
+        <p>Posts tagged with {tag}</p>
+      </main>
+      <Footer />
+    </body>
+  </body>
+</html>
