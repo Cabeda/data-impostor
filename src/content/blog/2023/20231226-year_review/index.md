@@ -3,7 +3,7 @@ title: "2024 - Year in review | Readings"
 pubDate: "2023-12-26"
 tags:
   - newsletter
-heroImage: src/content/blog/2023/20231226-year_review/beyond.jpg
+heroImage: src/content/blog/2023/20231226-year_review/beyond.avif
 ---
 
 ![https://unsplash.com/photos/man-standing-on-top-of-mountain-4uojMEdcwI8)](./beyond.avif)
