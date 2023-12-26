@@ -1,6 +1,5 @@
 # Data Impostor - Blog
 
-
 ## 🚀 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:
@@ -39,3 +38,8 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## Lint markdown
+
+This project uses [Vale](www.vale.sh) to lint markdown files. On bootstrap run `vale sync` to retrieve the style files.
+
+Afterward you can check the text using the vale command (install it beforehand).
