@@ -1,6 +1,7 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <header>
@@ -32,6 +33,7 @@ import { SITE_TITLE } from '../consts';
 			</a>
 		</div>
 	</nav>
+	<ViewTransitions />
 </header>
 <style>
 	header {
