@@ -3,10 +3,8 @@ title: "2023 - Year in review | Readings"
 pubDate: "2023-12-26"
 tags:
   - newsletter
-heroImage: src/content/blog/2023/20231226-year_review/beyond.avif
+heroImage: ./beyond.avif
 ---
-
-![https://unsplash.com/photos/man-standing-on-top-of-mountain-4uojMEdcwI8)](./beyond.avif)
 
 Year after year, I get to look back on my goals. It's a bit of an humbling experience as I see how much I didn't do and need to reflect back on why and what changed since then.
 

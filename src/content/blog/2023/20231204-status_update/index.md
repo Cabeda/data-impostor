@@ -3,10 +3,10 @@ title: "Start of Advent of Code | Readings"
 pubDate: "2023-12-04"
 tags: 
     - newsletter
-heroImage: src/content/blog/2023/20231204-status_update/crown.avif
+heroImage: ./crown.avif
 ---
 
-![https://unsplash.com/@anniespratt](./crown.avif)
+
 
 ## Web Dev
 
