@@ -1,5 +1,5 @@
 ---
-title: "2024 - Year in review | Readings"
+title: "2023 - Year in review | Readings"
 pubDate: "2023-12-26"
 tags:
   - newsletter
