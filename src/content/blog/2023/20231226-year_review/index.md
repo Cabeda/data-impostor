@@ -4,6 +4,7 @@ pubDate: "2023-12-26"
 tags:
   - newsletter
 heroImage: ./beyond.avif
+heroImageAlt: https://unsplash.com/photos/man-standing-on-top-of-mountain-4uojMEdcwI8
 ---
 
 Year after year, I get to look back on my goals. It's a bit of an humbling experience as I see how much I didn't do and need to reflect back on why and what changed since then.

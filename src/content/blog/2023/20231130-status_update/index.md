@@ -3,9 +3,9 @@ title: "Ducks and evidences | Readings"
 pubDate: "2023-11-30"
 tags: 
     - newsletter
+heroImage: ./christmas_tree.avif
+heroImageAlt: https://unsplash.com/@lasse_bergqvist
 ---
-
-![https://unsplash.com/@lasse_bergqvist](./christmas_tree.avif)
 
 So, the meetup is scheduled for next month, on January 10. I'm doing a lot more work on the presentation and I've switched from superset to [evidence.dev](https://evidence.dev). Much simpler and I can get all code locally.
 

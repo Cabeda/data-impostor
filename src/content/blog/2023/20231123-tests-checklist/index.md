@@ -5,9 +5,9 @@ tags:
   - development
   - agile
   - checklists
+heroImage: ./checklist.avif
+heroImageAlt: https://unsplash.com/photos/person-writing-bucket-list-on-book-RLw-UC03Gwc
 ---
-
-![https://unsplash.com/photos/person-writing-bucket-list-on-book-RLw-UC03Gwc](./checklist.avif)
 
 > This document will be a live document where I reflect and update my most current view
 

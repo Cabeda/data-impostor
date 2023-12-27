@@ -4,9 +4,8 @@ pubDate: "2023-12-04"
 tags: 
     - newsletter
 heroImage: ./crown.avif
+heroImageAlt: https://unsplash.com/@anniespratt
 ---
-
-
 
 ## Web Dev
 
