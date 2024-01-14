@@ -7,7 +7,7 @@ heroImage: ./swim.avif
 heroImageAlt: https://unsplash.com/photos/person-in-blue-and-white-shorts-in-water-rAn25CLlyLE
 ---
 
-For the last week I've focsued on 3 topics. One is related to reading, the second to the meetup. But the third one which is a big change, is that I've started working at Volkswagen Digital Solutions where I'll be the data engineer for the Artificial Intelligence team. I'll be visitng the Lisbon office from time to time which should be fun to get to know more of my team as well as the city. I'll be sure to write more regarding the role of data engineering in the AI world but for now I'll be focusing on finishing the semester.
+For the last week I've focused on 3 topics. One is related to reading, the second to the meetup. But the third one which is a big change, is that I've started working at Volkswagen Digital Solutions where I'll be the data engineer for the Artificial Intelligence team. I'll be visiting the Lisbon office from time to time which should be fun to get to know more of my team as well as the city. I'll be sure to write more regarding the role of data engineering in the AI world but for now I'll be focusing on finishing the semester.
 
 ## Web Dev
 
