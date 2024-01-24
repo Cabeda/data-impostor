@@ -3,10 +3,9 @@ title: " Readings"
 pubDate: "2024-01-28"
 tags:
   - newsletter
-heroImage: 
-heroImageAlt: 
+heroImage:
+heroImageAlt:
 ---
-
 
 ## Readings of the week
 
@@ -34,5 +33,14 @@ heroImageAlt:
 - [Felix' Blog - GitHub Actions are a Problem by Felix Knorr](https://felix-knorr.net/posts/2023-11-11-github-actions.html)
 - [MotherDuck: Making PySpark Code Faster with DuckDB by MotherDuck](https://motherduck.com/blog/making-pyspark-code-faster-with-duckdb/)
 - [git rebase: what can go wrong? by Julia Evans](https://jvns.ca/blog/2023/11/06/rebasing-what-can-go-wrong-/)
+- [Spark, Dask, DuckDB, Polars: TPC-H Benchmarks at Scale by Coiled](https://www.youtube.com/watch?v=wKH0-zs2g_U)
+- [Talks - Moshe Zadka: pyproject.toml, packaging, and you by PyCon US](https://youtube.com/watch?v=UOdMnlQRRCk)
+- [Understanding Parquet, Iceberg and Data Lakehouses at Broad by David Gomes](https://davidgomes.com/understanding-parquet-iceberg-and-data-lakehouses-at-broad/)
+- [Zendesk Moves from DynamoDB to MySQL and S3 to Save over 80% in Costs by Rafal Gancarz](https://www.infoq.com/news/2023/12/zendesk-dynamodb-mysql-s3-cost/)
+- [Database Isolation Is Broken and You Should Care by Chris Riccomini](https://materializedview.io/p/database-isolation-is-broken-you-should-care)
+- [Introducing Fly Kubernetes · The Fly Blog](https://fly.io/blog/fks/)
+- [Crush Your Interviews with the Power of Storytelling by Dave Anderson](https://www.scarletink.com/p/crush-your-interviews-power-of-storytelling)
+- [New AWS Lambda scaling controls for Kinesis and DynamoDB event sources | AWS Compute Blog](https://aws.amazon.com/blogs/compute/new-aws-lambda-scaling-controls-for-kinesis-and-dynamodb-event-sources/)
+- [Distributed Transactions at Scale in Amazon DynamoDB by Akshat Vig](https://www.infoq.com/articles/amazon-dynamodb-transactions/)
 
 ## Goals for this week
