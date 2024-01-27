@@ -1,11 +1,13 @@
 ---
-title: " Readings"
+title: "Catching up with my omnivore readings"
 pubDate: "2024-01-28"
 tags:
   - newsletter
-heroImage:
-heroImageAlt:
+heroImage: './turf.avif'
+heroImageAlt: https://unsplash.com/photos/football-field-during-daytime-9HsRmdogZsU
 ---
+
+For this week, I've spent it on reading. Below I got a list of 45 articles of highlighted videos and articles (basically cleaned the omnivore saves of last year). My main topics are AWS, Python, Spark as well as a bit of AI as this is the main focus of my work. The subjects are quite motivating for me although I have the constant feeling that the Web folk have it much better. The podcasts are great, the documentation is top notch and the quick iteration of tools makes for a healthy competition that in the ends helps the developers.
 
 ## Readings of the week
 
@@ -42,5 +44,21 @@ heroImageAlt:
 - [Crush Your Interviews with the Power of Storytelling by Dave Anderson](https://www.scarletink.com/p/crush-your-interviews-power-of-storytelling)
 - [New AWS Lambda scaling controls for Kinesis and DynamoDB event sources | AWS Compute Blog](https://aws.amazon.com/blogs/compute/new-aws-lambda-scaling-controls-for-kinesis-and-dynamodb-event-sources/)
 - [Distributed Transactions at Scale in Amazon DynamoDB by Akshat Vig](https://www.infoq.com/articles/amazon-dynamodb-transactions/)
+- [Portable EPUBs by Will Crichton](https://willcrichton.net/notes/portable-epubs/)
+- [Do we think of git commits as diffs, snapshots, and/or histories? by Julia Evans](https://jvns.ca/blog/2024/01/05/do-we-think-of-git-commits-as-diffs--snapshots--or-histories/)
+- [“Human error” means they don’t understand how the system worked – Surfing Complexity by Lorin Hochstein](https://surfingcomplexity.blog/2023/12/10/human-error-means-they-dont-understand-how-the-system-worked/)
+- [SQLite Forum: JSONB has landed](https://sqlite.org/forum/forumpost/fa6f64e3dc1a5d97)
+- [It's About Time! - Marc's Blog by Marc Brooker](https://brooker.co.za/blog/2023/11/27/about-time.html)
+- [git branches: intuition & reality by Julia Evans](https://jvns.ca/blog/2023/11/23/branches-intuition-reality/)
+- [Incremental Processing using Netflix Maestro and Apache Iceberg | by Netflix Technology Blog | Nov, 2023 | Netflix TechBlog by Netflix Technology Blog](https://netflixtechblog.com/incremental-processing-using-netflix-maestro-and-apache-iceberg-b8ba072ddeeb?source=rss----2615bd06b42e---4)
+- [Psyberg: Automated end to end catch up | by Netflix Technology Blog | Nov, 2023 | Netflix TechBlog by Netflix Technology Blog](https://netflixtechblog.com/3-psyberg-automated-end-to-end-catch-up-260fbe366fe2?source=rss----2615bd06b42e---4)
+- [Diving Deeper into Psyberg: Stateless vs Stateful Data Processing | by Netflix Technology Blog | Nov, 2023 | Netflix TechBlog by Netflix Technology Blog](https://netflixtechblog.com/2-diving-deeper-into-psyberg-stateless-vs-stateful-data-processing-1d273b3aaefb?source=rss----2615bd06b42e---4)
+- [Streamlining Membership Data Engineering at Netflix with Psyberg | by Netflix Technology Blog | Nov, 2023 | Netflix TechBlog | Netflix TechBlog by Netflix Technology Blog](https://netflixtechblog.com/1-streamlining-membership-data-engineering-at-netflix-with-psyberg-f68830617dd1?source=rss----2615bd06b42e---4)
+- [How git cherry-pick and revert use 3-way merge by Julia Evans](https://jvns.ca/blog/2023/11/10/how-cherry-pick-and-revert-work/)
+- [Summing columns in remote Parquet files using DuckDB | Simon Willison’s TILs](https://til.simonwillison.net/duckdb/remote-parquet)
 
 ## Goals for this week
+
+I'm making my only goal for this week to advance on Advent of code. With a goal of at least a challenge per day I'll be quite satisfied.
+
+- [ ] Advance advent of Code to at least day 20
