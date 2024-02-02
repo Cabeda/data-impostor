@@ -1,9 +1,10 @@
 ---
-title: "Publishing Markdown Slides with Pandoc"
+title: "TIL: Publishing Markdown Slides with Pandoc"
 pubDate: "2024-02-02"
 tags:
   - pandoc
-heroImageAlt: https://unsplash.com/photos/football-field-during-daytime-9HsRmdogZsU
+heroImage: ./map.avif
+heroImageAlt: https://unsplash.com/photos/the-new-york-times-square-oO7txJP2hls
 ---
 
 I have used Pandoc for very small things but I just found a feature killer. Instead of using the proprietary Google Slides, I can just write them in markdown and quickly convert them to HTML slides with pandoc with the following command:
