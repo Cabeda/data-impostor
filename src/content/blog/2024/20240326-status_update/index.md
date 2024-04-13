@@ -1,5 +1,5 @@
 ---
-title: "One month lateer... 🤦‍♂️ | Readings"
+title: "One month later... 🤦‍♂️ | Readings"
 pubDate: "2024-03-26"
 tags:
   - newsletter
