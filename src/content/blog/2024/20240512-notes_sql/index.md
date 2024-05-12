@@ -1,6 +1,6 @@
 ---
 title: "SQL: how to empower your decisions - notes and links"
-pubDate: "2024-05-16"
+pubDate: "2024-04-13"
 tags:
   - presentation
 ---
