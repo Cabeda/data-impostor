@@ -7,7 +7,7 @@ heroImage: ./bordeaux.avif
 heroImageAlt: https://unsplash.com/photos/low-angle-photo-of-white-concrete-building-ulhxvMjzI_4
 ---
 
-This past week I've had the opportunity to talk for Volkswagen's internal tech summit about how we can use SQL on our day-to-day. It was great to give a talk outside Porto and for sure I'll be looking into presenting another one this year. With that said I have a personal project that I'll be focusing on for the next weeks. I'm considering using gpt4O as the basis. If all goes well it might be enough for a conference talk!
+This past week I've had the opportunity to talk for Volkswagen's internal tech summit ([slides]((/slides/test.html))) about how we can use SQL on our day-to-day. It was great to give a talk outside Porto and for sure I'll be looking into presenting another one this year. With that said I have a personal project that I'll be focusing on for the next weeks. I'm considering using gpt4O as the basis. If all goes well it might be enough for a conference talk!
 
 ## Readings
 
