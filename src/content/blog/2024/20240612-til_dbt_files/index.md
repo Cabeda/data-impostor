@@ -1,5 +1,5 @@
 ---
-title: TIL: dbt no-file mode: How to run on a secured fargate container
+title: "TIL: dbt no-file mode: How to run on a secured fargate container"
 pubDate: 2024-06-12
 tags:
   - til
