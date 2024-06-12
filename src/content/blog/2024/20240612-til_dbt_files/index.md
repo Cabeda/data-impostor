@@ -4,7 +4,6 @@ pubDate: 2024-06-12
 tags:
   - til
   - dbt
-heroImageAlt:  https://unsplash.com/photos/high-rise-building-JD7lQkhFoIA
 ---
 
 So for today I had a fun challenge. Run dbt in a fargate container with the flag `ReadonlyRootFilesystem` set to true. This means that the container can't write to the filesystem. And why? Because this is a good practice to avoid any data corruption or security issues. A container should be immutable and stateless.
