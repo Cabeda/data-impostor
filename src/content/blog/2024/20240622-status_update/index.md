@@ -1,8 +1,9 @@
 ---
-title: Small revamp to chatbot, POS and  | Readings
+title: Small revamp to chatbot  | Readings
 pubDate: 2024-06-22
 tags:
   - newsletter
+  - pos
 heroImage: ./stadium.avif
 heroImageAlt: https://unsplash.com/photos/a-stadium-filled-with-lots-of-empty-seats-MiQEr9B_svM
 ---
