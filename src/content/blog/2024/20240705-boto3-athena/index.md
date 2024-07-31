@@ -14,7 +14,7 @@ So, for all methods below to work it's important to have your AWS credentials se
 
 ## Level 1: AWS CLI
 
-I started from the most basic way to connect to Athena, the AWS CLI. It's not shiny but frankly I already have AWS Cli installed and thought that decided to test it out. The following command will run a query and return the results.
+I started from the most basic way to connect to Athena, the AWS CLI. It's not shiny but frankly I already have AWS CLI installed and decided to test it out. The following command will run a query and return the results.
 
 ```shell
 query_execution_id=$(aws athena start-query-execution \
@@ -33,7 +33,7 @@ As you can see, as it's a serverless solution we require 3 commands. Request dat
 
 ## Level 2: Boto3
 
-With the AWS Cli solution tested
+With the AWS CLI solution tested went to use the boto3, the main aws python package. It's simpler to use, but still requires using the same low level logic. Added additional logic to wait for the response in the script.
 
 ```python
 import boto3
@@ -83,7 +83,11 @@ I was considering not adding this option because DuckDB doesn't know about Athen
 select * from read_parquet('s3://table/**/*.parquet', hive_partitioning=1);
 ```
 
+Note that additional commands are necessary to setup AWS access for DuckDB. It can be done using the credentials manager.
+
 ## Level 3: PyAthena
+
+In the case where we accept the cost of using Athena, we can leverage it's connection to the glue data catalog and query it's tables. In the code below we we pyathena which knows how to retrieve the credentials from the environment just like the previous options.
 
 ```python
 from pyathena import connect
