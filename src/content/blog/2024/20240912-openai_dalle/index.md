@@ -8,7 +8,7 @@ tags:
 
 After another, very fun Dungeons&Dragons sessions I wanted to generate an image for a scene that occured. It envolved a camel falling through a well (there's a very long story behind it). I quickly remembered that OpenAI had dall-e but sadly I found out that it Dall-E 3 doesn't have a free tier.
 
-![no free tier for dall-e according to their main page](images/2024-09-12-21-26-16.png)
+![no free tier for dall-e according to their main page](dalle_intro_page.avif)
 
 Although I could have used free alternatives (midjourney or flux.1 came to mind) I decided to use the credits I have on openAI to get a premium image (the free tiers usually provide a light version, or in the case of flux.1, schnell 😅). Looking at the docs I was surprised on how easy it is to get something working. Here goes my 2 minute script.
 
@@ -45,7 +45,7 @@ with open("camel.jpg", "wb") as file:
 
 And the final result:
 
-![camel jumping into well](./images/camel.png)
+![camel jumping into well](camel.avif)
 
 As a plus, I've installed the dependencies using uv. I can get the code above to run in less than 10 seconds with the following commands:
 
