@@ -1,9 +1,13 @@
 ---
 title: "Getting back on track"
 pubDate: 2024-09-17
+heroImage: ./tarragona.avif
+heroImageAlt:  https://images.unsplash.com/photo-1639650708447-8dc68c363563?ixid=M3w1NDUzNDd8MHwxfHNlYXJjaHw1fHx0YXJyYWdvbmF8ZW58MHx8fHwxNzI2NTkyMjc2fDA&ixlib=rb-4.0.3
 tags:
   - newsletter
 ---
+
+
 
 With impostor syndrome hitting hard I've decided to dedicate each week to write on a specific topic. I'll be picking on the topic each Friday and deep dive into it during the week with the goal of publishing it on the next Thursday. This will be my main focus for the semester starting on the end of October right after I've finished the AWS exam (postponed due to a bike accident).
 
