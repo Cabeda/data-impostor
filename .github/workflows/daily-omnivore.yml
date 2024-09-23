@@ -18,6 +18,8 @@ jobs:
           deno-version: 1.x
 
       - name: Run Deno script
+        env:
+          OMNIVORE_API_KEY: ${{ secrets.OMNIVORE_API_KEY }}
         run: deno run --allow-read --allow-env --allow-net --allow-write scripts/omnivore.ts --write
 
       - name: Commit and push changes
