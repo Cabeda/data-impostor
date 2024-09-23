@@ -18,7 +18,7 @@ jobs:
           deno-version: 1.x
 
       - name: Run Deno script
-        run: deno run --allow-read --allow-write scripts/omnivore.ts --write
+        run: deno run --allow-read --allow-env --allow-net --allow-write scripts/omnivore.ts --write
 
       - name: Commit and push changes
         run: |
