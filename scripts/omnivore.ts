@@ -227,7 +227,7 @@ if (!response) {
 const articles = response.data.search.edges.map((x) => x.node) as Article[];
 
 if (articles.length === 0) {
-  console.error("No articles found");
+  console.warn("No articles found");
   Deno.exit(0);
 }
 
