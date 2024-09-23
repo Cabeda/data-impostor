@@ -22,13 +22,16 @@ jobs:
           OMNIVORE_API_KEY: ${{ secrets.OMNIVORE_API_KEY }}
         run: deno run --allow-read --allow-env --allow-net --allow-write scripts/omnivore.ts --write
 
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "Add daily reading page for $(date +'%Y%m%d')"
-          git push
+        # Commit all changed files back to the repository
+      - uses: stefanzweifel/git-auto-commit-action@v5
+
+      # - name: Commit and push changes
+      #   run: |
+      #     git config --global user.name 'github-actions[bot]'
+      #     git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      #     git add .
+      #     git commit -m "Add daily reading page for $(date +'%Y%m%d')"
+      #     git push
 
       - name: Archive newsletter omnivore articles
         run: deno run --allow-read --allow-write scripts/omnivore.ts --archive
