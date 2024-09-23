@@ -225,6 +225,12 @@ if (!response) {
   Deno.exit(1);
 }
 const articles = response.data.search.edges.map((x) => x.node) as Article[];
+
+if (articles.length === 0) {
+  console.error("No articles found");
+  Deno.exit(0);
+}
+
 const md = await convertToMarkdown(articles, flags.complete)
 console.log(md);
 
