@@ -1,0 +1,31 @@
+name: Daily Omnivore
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  generate-reading-page:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+
+      - name: Run Deno script
+        run: deno run --allow-read --allow-write scripts/omnivore.ts --write
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Add daily reading page for $(date +'%Y%m%d')"
+          git push
+
+      - name: Archive newsletter omnivore articles
+        run: deno run --allow-read --allow-write scripts/omnivore.ts --archive
