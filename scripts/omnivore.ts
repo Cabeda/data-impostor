@@ -88,8 +88,9 @@ function generateArticleMarkdown(article: Article, summary: boolean): string {
   const { title, author, url, highlights } = article;
   const authorText = author ? ` by ${author}` : "";
   const highlightsText = highlights.filter(highlight => highlight.annotation).map((highlight) => `\n- ${highlight.annotation}`);
-  return `### [${title}${authorText}](${url})
-  ${highlightsText}\n`;
+  const highlightsContent = highlightsText.length > 0 ? highlightsText : "<br>";
+  return `##### [${title}${authorText}](${url})
+  ${highlightsContent}\n`;
 }
 
 function convertToMarkdown(articles: Article[], summary: boolean = true): string {
