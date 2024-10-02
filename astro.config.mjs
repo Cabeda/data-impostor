@@ -3,8 +3,23 @@ import mdx from '@astrojs/mdx';
 
 import sitemap from '@astrojs/sitemap';
 
+import remarkToc from 'remark-toc';
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://cabeda.dev',
-	integrations: [mdx(), sitemap()],
+	integrations: [mdx(
+		{
+			syntaxHighlight: 'shiki',
+			shikiConfig: {
+				theme: 'github-dark-default', themes: {
+					light: 'github-light',
+					dark: 'github-dark',
+				},
+			},
+			remarkPlugins: [[remarkToc, { heading: "contents" }]],
+			remarkRehype: { footnoteLabel: 'Footnotes' },
+		}
+	), sitemap()],
+
 });
