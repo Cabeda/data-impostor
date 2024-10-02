@@ -7,25 +7,25 @@ tags:
 heroImage: ./duck.jpg
 ---
 
-*So, with me having to do a bit more with AWS glue, I have a couple of features I would like to test out on the platform. One of those is to test if we could run DuckDB on it and how it would fare with a constrained instance. At first, I thought the minimum was the 2 DPU's plus a spark environment setup but after a closer look AWS Glue is able to scale down to a single DPU or 1/16 DPUs ig we forego spark and just want to run glue python scripts. With this I decided to see how useful would this be for a normal workload.
+With my increasing use of AWS Glue, I wanted to test some features on the platform, particularly running DuckDB on a constrained instance. Initially, I thought the minimum requirement was 2 DPUs with a Spark environment setup. However, AWS Glue can scale down to a single DPU or even 1/16 DPUs if we forego Spark and just run [Glue Python scripts](https://docs.aws.amazon.com/glue/latest/dg/add-job-python.html). This led me to explore how useful this setup would be for a typical workload.
 
-## The test
+## The Test
 
-For this article I decided to do the following:
+For this article, I decided to:
 
-1. process a small dataset (1GB) using DuckDB and see how it performs.
-2. Retrieve the dataset from an s3 bucket
-3. Process it and write it back to another s3 bucket.
+1. Process a small dataset (1GB) using DuckDB and evaluate its performance.
+2. Retrieve the dataset from an S3 bucket.
+3. Process it and write it back to another S3 bucket.
 
-Run all the steps above using the smallest DPU available (1/16 DPU) and see how it performs.
+All steps were run using the smallest DPU available (1/16 DPU) to see how it performs.
 
 ![alt text](images/image.png)
 
-> Note: At first I planned on running DuckDB through Ibis. Some people are put off by the SQL interface and Ibis provides a stop gap for that. However, Ibis requires python 3.9 and AWS Glue python scripts run only 3.8.
+> Initially, I planned to run DuckDB through Ibis to provide a more user-friendly interface. However, [Ibis](https://ibis-project.org/) requires Python 3.9, while AWS Glue Python scripts run on Python 3.8.
 
-## Running DuckDB directly
+## Running DuckDB Directly
 
-I started by generating the dataset locally using the following code:
+I started by generating the dataset locally using the following SQL code ([source](https://duckdb.org/docs/guides/snippets/create_synthetic_data.html)):
 
 ```sql
 
@@ -36,24 +36,24 @@ SELECT hash(i * 10 + j) AS id, IF (j % 2, true, false)
 
 ```
 
-However, a big problem with this approach is that uploading a 2 GB file was a slow. So I decided to actually start by testing how DuckDB would run on glue generating this file and uploading it to s3.
+Uploading a 2GB file was slow, so I decided to test how DuckDB would perform on AWS Glue by generating this file and uploading it to S3.
 
-Using the AWS Console I went to AWS Glue > create job > script editor and chose `Python shell` as my engine.
+Using the AWS Console, I navigated to **AWS Glue > Create Job > Script Editor** and chose **Python shell** as my engine.
 
 ![alt text](images/image-1.png)
 
 Before adding to the script we need two things:
 
 1. Install DuckDB
-2. Choose an IAM role (I used an admin)
+2. Choose an IAM role (how to create one to use is out of scope for this article)
 
-Any additional libraries can be added to the script by adding by setting the `--additional-python-modules` job parameter and adding, in my case, the value `DuckDB==1.1.0`.
+Additional libraries can be added to the script by setting the `--additional-python-modules` job parameter In my case, I added `DuckDB==1.1.0`.
 
 ![Job parameters --additional-python-modules](images/image-2.png)
 
-With this setup I was ready to test DuckDB.
+With this setup, I was ready to test DuckDB.
 
-To warm up I just wanted to test if I could run the engine which I was successul by running the following code:
+To warm up, I tested if I could run the engine successfully with the following code:
 
 ```python
 
@@ -63,13 +63,15 @@ DuckDB.sql("SELECT 1")
 
 ```
 
-yay!!!
+Success!
 
-As we now were certain that dudckdb run on glue I need to make sure that we could load extensions. For this test I needed two, `aws` to retrieve the credentials and `httpfs` to upload and read from s3. With this features I added a secret pointing to the credential_chain (this in turn uses the job's associated IAM role) and moved the sql data generator inside a [copy statement](https://DuckDB.org/docs/sql/statements/copy.html). All this as seen below:
+Now that DuckDB was running on Glue, I needed to ensure we could load extensions. For this test, I needed two extensions: `aws` to retrieve credentials and `httpfs` to upload and read from S3. I added a secret pointing to the credential chain (which uses the job's associated IAM role) and moved the SQL data generator inside a [COPY statement](https://DuckDB.org/docs/sql/statements/copy.html). The code is as follows:
 
 ```python
 
 import DuckDB
+
+DuckDB.sql("SET home_directory='/tmp';")
 
 DuckDB.sql("""CREATE SECRET (
     TYPE S3,
@@ -77,21 +79,20 @@ DuckDB.sql("""CREATE SECRET (
 );""")
 
 DuckDB.sql("""
-        COPY (
+    COPY (
         SELECT hash(i * 10 + j) AS id, IF (j % 2, true, false)
-         FROM generate_series(1, 50) s(i)
-         CROSS JOIN generate_series(1, 5000000) t(j)
-         ) 
-         TO 's3://cabeda-test-glue/data_2GB.parquet'""")
+        FROM generate_series(1, 50) s(i)
+        CROSS JOIN generate_series(1, 5000000) t(j)
+    ) 
+    TO 's3://cabeda-test-glue/data_2GB.parquet'
+""")
 ```
 
-To test it out I quickly run locally with success but, as soon as I ran it on glue I got the following error:
+I ran the code locally with success, but encountered an error on Glue:
 
 **`IOException: IO Error: Failed to create directory "/.DuckDB/": Permission denied`**
 
-This was a bit weird and had to run a lot of iterations until I understood the root issue. Glue has a readonly filesystem and the extensions were trying to write to the home directory. To fix this I had to set the home directory to a writable location through the `home_directory` variable. In this case glue provides `tmp` so I got it working by adding `SET home_directory='/tmp'`.
-
-In the end the code looked like this:
+The issue was that Glue has a read-only filesystem, and the extensions were trying to write to the home directory. To fix this, I set the home directory to a writable location (/tmp). The final code looked like this:
 
 ```python
 
@@ -116,44 +117,41 @@ DuckDB.sql("""
 
 Quite simple!
 
-> Fun note: On my first run the job took almost 30 minutes to run. When I looked at the file instead of the expected 2GB I had just generated a 186 GB file. So, by mistake I was actually able to show how well DuckDB is able to adapt to scarce resources and still handle the job.
+> Fun note: On my first run, the job took almost 30 minutes and generated a 186GB file instead of the expected 2GB. This demonstrated DuckDB's ability to handle scarce resources effectively.
 
 ![alt text](images/image-3.png)
 
-## Access the data
+## Accessing the Data
 
-We were able to prove that we could run DuckDB on glue and generate parquet files. But can we access the data in a cost effective way?
+We proved that DuckDB can run on Glue and generate Parquet files. But can we access the data cost-effectively?
 
-Well, thankfully the parquet extension plus the httpfs extension is quite performant. I did a quick test by accessing the file, retrieving a subset of 1 million rows and then writing it back to another s3 bucket. The code for this is below:
+Thankfully, the Parquet extension and the `httpfs` extension are quite performant. I tested accessing the file, retrieving a subset of 1 million rows, and writing it back to another S3 bucket. The code is below:
 
 ```python
 
-import DuckDB
+import duckDB
 
 DuckDB.sql("SET home_directory='/tmp';")
-
 
 DuckDB.sql("""CREATE SECRET (
     TYPE S3,
     PROVIDER CREDENTIAL_CHAIN
 );""")
 
-
-t = DuckDB.sql("SELECT * FROM 's3://cabeda-test-glue/data_2GB.parquet' limit 1000000").df()
+t = DuckDB.sql("SELECT * FROM 's3://cabeda-test-glue/data_2GB.parquet' LIMIT 1000000").df()
 
 print(t.head())
 
-DuckDB.sql("copy t to 's3://cabeda-test-glue/data_limit.parquet'")
+DuckDB.sql("COPY t TO 's3://cabeda-test-glue/data_limit.parquet'")
 
 ```
 
-And this run in just 30 seconds. Quite impressive!
+This ran in just 30 seconds. Quite impressive!
 
 ![alt text](images/image-4.png)
 
 ## Final thoughts
 
-So, why use DuckDB inside a glue job? Well, DuckDB is quite powerful, and being able to read s3 data and quickly process it for a fraction of the cost of a spark job is great. SO, for teams that have are using AWS Glue and to process files and have a bug monthly bill this is an easily swapable migration.
+Why use DuckDB inside a Glue job? DuckDB is powerful and can read S3 data and process it quickly for a fraction of the cost of a Spark job. For teams using AWS Glue to process files and facing high monthly bills, this is an easily swappable migration.
 
-Personally I'm hoping this will turn into an even bigger trend as soon as DuckDB gains the ability to read directly from glue data catalog and operate on apache iceberg tables. At that point there's no reason to use spark unless you're dealing with petabytes of data.
-*
+Personally, I hope this becomes a bigger trend as DuckDB gains the ability to read directly from the Glue Data Catalog and operate on Apache Iceberg tables. At that point, there's no reason to use Spark unless you're dealing with petabytes of data.
