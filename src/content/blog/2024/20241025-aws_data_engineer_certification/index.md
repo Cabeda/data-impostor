@@ -1,52 +1,33 @@
 ---
 title: "Study notes: AWS Data Engineering"
-pubDate: 2024-10-29
+pubDate: 2024-10-25
 tags:
   - aws
   - data engineering
 heroImage: ./asprela.avif
 ---
 
-So, I've got my AWS Data Engineering certification on the 25th October. To help me prepare for the exam I'm writing down my notes. Hopefully they'll be useful to someone else too.
+So, I've done my AWS Data Engineering certification on the 25th October. To help me prepare for the exam I've written down some notes. Hopefully they'll be useful to someone else too.
 
 > Note: This is planned to be a long post and not something to be read like a normal post. I'm writing this as a way to better organize my thoughts.
 
 ## Courses done
 
 - Udemy data engineering course
+  - https://vwds.udemy.com/course/aws-certified-data-engineer-associate-dea-c01
+  - https://vwds.udemy.com/course/aws-data-engineer
 - Udemy Glue course (as a refresher)
 - AWS Skill Builder (payed for 1 month before exame)
 
-Going through both the oficial preparation and the Udemy course they both point to having base experience. You can check the recommendations on this [PDF](https://d1.awsstatic.com/training-and-certification/docs-data-engineer-associate/AWS-Certified-Data-Engineer-Associate_Exam-Guide.pdf) .****
-
-## The Udemy exam
-
-## The AWS course
-
-It provides a clear roadmap:
-
-1. Study the exam questions
-2. Do a practice exam
-3. Do the courses for each domain
-4. Study some resources, docs and whitepapers
-5. Train with more exams
-
-The domains of the exam are:
-
-- Domain 1: Data Ingestion and Transformation (34% of scored content)
-- Domain 2: Data Store Management (26% of scored content)
-- Domain 3: Data Operations and Support (22% of scored content)
-- Domain 4: Data Security and Governance (18% of scored content)
+Going through both the official preparation and the Udemy courses, I'd say to go for the official course if you want to get the best exam test experience. However Udemy is cheaper, provides way more courses and has a lot of exams to test out (like [this](https://vwds.udemy.com/course/practice-exams-aws-certified-data-engineer-associate-r)) although the questions quality may vary. You can check the recommendations on this [PDF](https://d1.awsstatic.com/training-and-certification/docs-data-engineer-associate/AWS-Certified-Data-Engineer-Associate_Exam-Guide.pdf) .****
 
 ## My timeline
 
-I've set out to do this exam initially at the end of July but sadly I had an accident and had the vacations. I did the udemy course in July but to prepare for the exam I took to the AWS course during the month of November.
-
-![alt text](image-2.png)
+I've set out to do this exam initially at the end of July but sadly I had an accident and had vacations after recovery. I did one Udemy course in July but to prepare for the exam I took to the AWS course during October. If you are confident on your skills one month to study is more than enough with a bit of focus. If doing this less intensively I'd say 2/3 months is a good timeline.
 
 ## Notes by services
 
-with my previous experience there's a base knowledge that I think I've gathered. In this section I'll be focusing on writing about the services and/or features I don't know about
+With my previous experience there's a base knowledge that I think I've gathered. In this section I'll be focusing on writing about the services and/or features I don't know about.
 
 ### S3
 
@@ -280,7 +261,6 @@ QuickSight's Generative Business Intelligence (BI) feature leverages machine lea
 ### Session Manager
 
 - Can be used to manage EC2 instances without the need for SSH
--
 
 ### AWS Application Discovery Service
 
@@ -321,3 +301,5 @@ It has two components:
 - For each table in DynamoDB, you can create up to 20 global secondary indexes and 5 local secondary indexes.
 
 ## Final thoughts
+
+It has been interesting to get the AWS Certification. I've gotten to learn quite a bit on specifics of the aws services which I'll surely be using them in the future. It provides a good baseline or even update on the available services (i.e. redshidt materialized views, datashares and even lake formation) but if you are already working with these services experiences beats by far this. Or just write an article on the services you don't know about (which is what I have planned for the next couple of months).
