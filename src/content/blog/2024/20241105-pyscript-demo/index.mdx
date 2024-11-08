@@ -1,0 +1,56 @@
+---
+title: "Pyscript Demo"
+pubDate: 2024-11-08
+heroImage: ./python.avif
+heroImageAlt:  https://unsplash.com/photos/a-river-running-through-a-city-next-to-tall-buildings-SqGStNKm1co
+tags:
+  - newsletter
+---
+
+For past few months I've been hearing about Pyscript and how useful it was to be able to run python directly on the browser. Behind the scens it uses web assembly + pyodide. For the sake of testing it out, and because I think it could prove to be a great tool for teaching python, I decided to give it a try. 
+
+Basing on https://docs.pyscript.net/2024.10.2/beginning-pyscript/ and on https://docs.pyscript.net/2024.10.2/user-guide/terminal/ I created a static site on https://pyscript.cabeda.dev/ that allows to run python code directly on the browser! As a bonus, the folk from Pyscript even provided a way to [run python in an editor](https://docs.pyscript.net/2024.10.2/user-guide/editor/).
+
+I was quite fond of this but in truth I want to run pyscript inside my blog articles. As I'm using astro's mdx, I've created a new component:
+
+```jsx
+---
+const props = Astro.props;
+---
+<html>
+    <head>
+      <title>{props.title}</title>
+      <meta name="description" content={props.description} />
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.2/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.10.2/core.js"></script>
+  </head>
+  <script type="py" terminal worker>
+    import code
+    print("Hello from the terminal!")
+    code.interact()
+    </script>
+</html>
+```
+
+and with this I now can call the component and provide the python code I want to run:
+
+```js
+import Pyscript from '../../../../components/Pyscript.astro'
+
+<Pyscript ></Pyscript>
+```
+
+And just like that we have the result below.
+
+
+import Pyscript from '../../../../components/Pyscript.astro'
+
+<Pyscript >
+</Pyscript>
+
+
+## Final thoughts
+
+This should prove as a great tool to provide code snippets, to run them and avoid third party services. As a bonus I'd love to find a way to provide a generic component and define the code to run in each article. But I'll leave that for another day.

@@ -1,44 +1,62 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../components/FormattedDate.astro';
-import { ViewTransitions } from 'astro:transitions';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { getCollection } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+import { ViewTransitions } from "astro:transitions";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0,5);
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 5);
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<ViewTransitions />
-	</head>
-	<body>
-		<Header title={SITE_TITLE} />
-		<main>
-			<h1>Hey fellow datanaut! 🧑‍🚀  </h1>
-			<p>
-				Welcome to my data impostor blog. I'm a data engineer and here I write a bit about data engineering, my latest readings and whatever comes to my mind. The way I see the world there are a couple of truly geniuses among us. For the rest of us we struggle to get a hold of how the world works and the more we learn, the more we know that we know nothing. So here is a public space for me to share my learnings, what I'm struggling with and how (hopefully) I overcome it.
-			</p>
-			<br/>
-			<h3>Latest</h3>
-			<main>
-					<ul>
-						{
-							posts.map((post) => (
-									<a href={`/blog/${post.slug}/`}>
-										<h4 class="title"><FormattedDate date={post.data.pubDate} /> - {post.data.title}</h4>
-									</a>
-							))
-						}
-					</ul>
-				</section>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <script type="module" src="https://pyscript.net/releases/2023.12.1/core.js"
+    ></script>
+    <ViewTransitions />
+  </head>
+  <body>
+    <Header title={SITE_TITLE} />
+    <main>
+      <py-editor>
+        # Text inside the editor is pre-populated for i in range(5): print(i)
+      </py-editor>
+      <script type="py" terminal worker>
+		import code
+        print("Hello from the terminal!");
+		code.interact()
+      </script>
+      <h1>Hey fellow datanaut! 🧑‍🚀</h1>
+      <p>
+        Welcome to my data impostor blog. I'm a data engineer and here I write a
+        bit about data engineering, my latest readings and whatever comes to my
+        mind. The way I see the world there are a couple of truly geniuses among
+        us. For the rest of us we struggle to get a hold of how the world works
+        and the more we learn, the more we know that we know nothing. So here is
+        a public space for me to share my learnings, what I'm struggling with
+        and how (hopefully) I overcome it.
+      </p>
+      <br />
+      <h3>Latest</h3>
+      <main>
+        <ul>
+          {
+            posts.map((post) => (
+              <a href={`/blog/${post.slug}/`}>
+                <h4 class="title">
+                  <FormattedDate date={post.data.pubDate} /> - {post.data.title}
+                </h4>
+              </a>
+            ))
+          }
+        </ul>
+      </main>
+    </main>
+    <Footer />
+  </body>
 </html>
