@@ -16,21 +16,11 @@ const posts = (await getCollection("blog"))
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <script type="module" src="https://pyscript.net/releases/2023.12.1/core.js"
-    ></script>
     <ViewTransitions />
   </head>
   <body>
     <Header title={SITE_TITLE} />
     <main>
-      <py-editor>
-        # Text inside the editor is pre-populated for i in range(5): print(i)
-      </py-editor>
-      <script type="py" terminal worker>
-		import code
-        print("Hello from the terminal!");
-		code.interact()
-      </script>
       <h1>Hey fellow datanaut! 🧑‍🚀</h1>
       <p>
         Welcome to my data impostor blog. I'm a data engineer and here I write a
