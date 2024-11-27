@@ -1,0 +1,30 @@
+name: Daily Readeck
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate-reading-page:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: 2.x
+
+      - name: Run Deno script
+        env:
+          READDECK_API_KEY: ${{ secrets.READDECK_API_KEY }}
+        run: deno run --allow-read --allow-env --allow-net --allow-write scripts/readeck.ts --write
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+
+      - name: Archive newsletter readeck articles
+        env:
+          READDECK_API_KEY: ${{ secrets.READDECK_API_KEY }}
+        run: deno run --allow-read --allow-env --allow-net --allow-write scripts/readeck.ts --archive

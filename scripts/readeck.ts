@@ -49,7 +49,8 @@ async function retrieveBookmarks(query = "labels=newsletter"): Promise<Bookmark[
     }
 
     try {
-        const response = await fetch(`${API_BASE}/bookmarks${query ? `?q=${query}` : ""}`, {
+
+        const response = await fetch(`${API_BASE}/bookmarks?is_archived=true${query ? `&q=${query}` : ""}`, {
             headers: {
                 "accept": "application/json",
                 "Authorization": `Bearer ${API_KEY}`,
@@ -118,9 +119,28 @@ async function writeToFile(markdown: string) {
     }
 }
 
+async function archiveBookmarks(bookmarks: Bookmark[]): Promise<void> {
+    try {
+        for (const bookmark of bookmarks) {
+            await fetch(`${API_BASE}/bookmarks/${bookmark.id}`, {
+                method: "PATCH",
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${API_KEY}`,
+                },
+                body: JSON.stringify({ is_archived: true }),
+            });
+        }
+        console.log("Bookmarks archived successfully");
+    } catch (error) {
+        console.error("Error archiving bookmarks:", error.message);
+    }
+}
+
 // Main execution
 const flags = parseArgs(Deno.args, {
-    boolean: ["total", "write"],
+    boolean: ["total", "write", "archive"],
     string: ["query"],
 });
 
@@ -131,6 +151,7 @@ if (!API_KEY) {
 
 const bookmarks = await retrieveBookmarks();
 
+
 if (!bookmarks) {
     console.warn("No bookmarks found");
     Deno.exit(0);
@@ -138,6 +159,15 @@ if (!bookmarks) {
 
 if (flags.total) {
     console.log(`${bookmarks.length} bookmarks found ${calculateTotalTimes(bookmarks)}`);
+    Deno.exit(0);
+}
+
+if (flags.archive) {
+    if (bookmarks.length > 0) {
+        await archiveBookmarks(bookmarks);
+    } else {
+        console.warn("No newsletter articles to archive");
+    }
     Deno.exit(0);
 }
 
