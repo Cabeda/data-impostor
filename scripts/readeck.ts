@@ -50,10 +50,11 @@ async function retrieveBookmarks(query = "labels=newsletter"): Promise<Bookmark[
 
     try {
 
-        const response = await fetch(`${API_BASE}/bookmarks?is_archived=true${query ? `&q=${query}` : ""}`, {
+        const response = await fetch(`${API_§1BASE}/bookmarks?is_archived=true${query ? `&q=${query}` : ""
+} `, {
             headers: {
                 "accept": "application/json",
-                "Authorization": `Bearer ${API_KEY}`,
+                "Authorization": `Bearer ${ API_KEY } `,
             },
         });
 
@@ -66,18 +67,18 @@ async function retrieveBookmarks(query = "labels=newsletter"): Promise<Bookmark[
 
 async function getAnnotations(bookmarkId: string): Promise<Annotation[]> {
     try {
-        const response = await fetch(`${API_BASE}/bookmarks/${bookmarkId}/annotations`, {
-            headers: {
-                "Authorization": `Bearer ${API_KEY}`,
+        const response = await fetch(`${ API_BASE } /bookmarks/${ bookmarkId }/annotations`, {
+headers: {
+    "Authorization": `Bearer ${API_KEY}`,
             },
         });
 
-        const data: AnnotationResponse = await response.json();
-        return data.items;
+const data: AnnotationResponse = await response.json();
+return data.items;
     } catch (error) {
-        console.error(error.message);
-        return [];
-    }
+    console.error(error.message);
+    return [];
+}
 }
 
 function generateArticleMarkdown(bookmark: Bookmark): string {
