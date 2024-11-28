@@ -42,7 +42,7 @@ interface AnnotationResponse {
 const API_KEY = Deno.env.get("READDECK_API_KEY");
 const API_BASE = Deno.env.get("READDECK_API_URL") || "https://readeck-crimson-water-318.fly.dev/api";
 
-async function retrieveBookmarks(query = "labels=newsletter"): Promise<Bookmark[] | undefined> {
+async function retrieveBookmarks(query = "?is_archived=false&labels=newsletter"): Promise<Bookmark[] | undefined> {
     if (!API_KEY) {
         console.error("Missing READDECK_API_KEY");
         Deno.exit(1);
@@ -50,11 +50,11 @@ async function retrieveBookmarks(query = "labels=newsletter"): Promise<Bookmark[
 
     try {
 
-        const response = await fetch(`${API_§1BASE}/bookmarks?is_archived=true${query ? `&q=${query}` : ""
-} `, {
+        const response = await fetch(`${API_BASE}/bookmarks${query ? `${query}` : ""
+            } `, {
             headers: {
                 "accept": "application/json",
-                "Authorization": `Bearer ${ API_KEY } `,
+                "Authorization": `Bearer ${API_KEY} `,
             },
         });
 
@@ -65,20 +65,38 @@ async function retrieveBookmarks(query = "labels=newsletter"): Promise<Bookmark[
     }
 }
 
+async function delete_bookmarks(bookmarks: Bookmark[]): Promise<void> {
+    try {
+        for (const bookmark of bookmarks) {
+            await fetch(`${API_BASE}/bookmarks/${bookmark.id}`, {
+                method: "DELETE",
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${API_KEY}`,
+                },
+            });
+        }
+        console.log("Bookmarks deleted successfully");
+    } catch (error) {
+        console.error("Error deleting bookmarks:", error.message);
+    }
+}
+
 async function getAnnotations(bookmarkId: string): Promise<Annotation[]> {
     try {
-        const response = await fetch(`${ API_BASE } /bookmarks/${ bookmarkId }/annotations`, {
-headers: {
-    "Authorization": `Bearer ${API_KEY}`,
+        const response = await fetch(`${API_BASE} /bookmarks/${bookmarkId}/annotations`, {
+            headers: {
+                "Authorization": `Bearer ${API_KEY}`,
             },
         });
 
-const data: AnnotationResponse = await response.json();
-return data.items;
+        const data: AnnotationResponse = await response.json();
+        return data.items;
     } catch (error) {
-    console.error(error.message);
-    return [];
-}
+        console.error(error.message);
+        return [];
+    }
 }
 
 function generateArticleMarkdown(bookmark: Bookmark): string {
@@ -141,7 +159,7 @@ async function archiveBookmarks(bookmarks: Bookmark[]): Promise<void> {
 
 // Main execution
 const flags = parseArgs(Deno.args, {
-    boolean: ["total", "write", "archive"],
+    boolean: ["total", "write", "archive", "clean"],
     string: ["query"],
 });
 
@@ -171,6 +189,18 @@ if (flags.archive) {
     }
     Deno.exit(0);
 }
+
+if (flags.clean) {
+    const articles = await retrieveBookmarks("?limit=100&loaded=false");
+
+    if (articles) {
+        console.log(`Deleting ${articles.length} unloaded bookmarks
+            `);
+        delete_bookmarks(articles);
+    }
+    Deno.exit(0);
+}
+
 
 const md = await convertToMarkdown(bookmarks);
 console.log(md);
