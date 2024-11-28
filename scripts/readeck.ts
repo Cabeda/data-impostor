@@ -49,6 +49,7 @@ async function retrieveBookmarks(query = "?is_archived=false&labels=newsletter")
     }
 
     try {
+        console.log(`Retrieving bookmarks... ${query}`);
 
         const response = await fetch(`${API_BASE}/bookmarks${query ? `${query}` : ""
             } `, {
@@ -76,6 +77,8 @@ async function delete_bookmarks(bookmarks: Bookmark[]): Promise<void> {
                     "Authorization": `Bearer ${API_KEY}`,
                 },
             });
+
+            console.log(`Deleted bookmark: ${bookmark.title} - ${bookmark.url}`);
         }
         console.log("Bookmarks deleted successfully");
     } catch (error) {
@@ -191,12 +194,12 @@ if (flags.archive) {
 }
 
 if (flags.clean) {
-    const articles = await retrieveBookmarks("?limit=100&loaded=false");
+    const articles = await retrieveBookmarks("?is_loaded=false");
 
     if (articles) {
         console.log(`Deleting ${articles.length} unloaded bookmarks
             `);
-        delete_bookmarks(articles);
+        await delete_bookmarks(articles);
     }
     Deno.exit(0);
 }
