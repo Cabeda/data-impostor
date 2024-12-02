@@ -208,6 +208,6 @@ if (flags.clean) {
 const md = await convertToMarkdown(bookmarks);
 console.log(md);
 
-if (flags.write) {
+if (flags.write && bookmarks) {
     await writeToFile(md);
 }
