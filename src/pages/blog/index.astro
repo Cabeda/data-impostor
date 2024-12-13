@@ -5,11 +5,12 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import { Image } from "astro:assets";
 
 const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) =>
+    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
 );
 
 const imageRandom = `/blog-placeholder-${
@@ -21,7 +22,7 @@ const imageRandom = `/blog-placeholder-${
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <ClientRouter />
     <style>
       main {
         width: 960px;
@@ -100,18 +101,24 @@ const imageRandom = `/blog-placeholder-${
           {
             posts.map((post) => (
               <li>
-                <a href={`/blog/${post.slug}/`}>
+                <a href={`/blog/${post.id}`}>
                   {post.data.heroImage && (
                     <Image
                       width={720}
                       height={360}
+                      fit="cover"
                       src={post.data.heroImage}
                       format="avif"
-					  alt=""
+                      alt=""
                     />
                   )}
                   {!post.data.heroImage && (
-                    <img width={720} height={360} src={imageRandom} alt={post.data.heroImageAlt || ""} />
+                    <img
+                      width={720}
+                      height={360}
+                      src={imageRandom}
+                      alt={post.data.heroImageAlt || ""}
+                    />
                   )}
                   <h4 class="title">{post.data.title}</h4>
                   <p class="date">
