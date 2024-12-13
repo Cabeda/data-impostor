@@ -3,20 +3,24 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
-import { getEntry } from "astro:content";
-import { ViewTransitions } from "astro:transitions";
+import { getEntry, render } from "astro:content";
+import { ClientRouter } from "astro:transitions";
 import Talks from "../../layouts/Talks.astro";
 
-const post = await getEntry('talks', 'index');
+const post = await getEntry("talks", "index");
 
-const { Content } = await post.render();
+if (!post) {
+  throw new Error("Post not found");
+}
+
+const { Content } = await render(post);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <ClientRouter />
     <style>
       main {
         width: 960px;
@@ -26,17 +30,14 @@ const { Content } = await post.render();
         color: rgb(var(--black));
         line-height: 1;
       }
-
-      
     </style>
   </head>
   <body>
     <Header />
     <main>
       <Talks {...post.data}>
-	<Content />
-</Talks>
-
+        <Content />
+      </Talks>
     </main>
     <Footer />
   </body>

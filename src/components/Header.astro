@@ -1,7 +1,7 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 ---
 
 <header>
@@ -57,7 +57,7 @@ import { ViewTransitions } from "astro:transitions";
     </div>
   </nav>
 </header>
-<ViewTransitions />
+<ClientRouter />
 
 <style>
   header {

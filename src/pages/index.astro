@@ -5,10 +5,13 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 const posts = (await getCollection("blog"))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .sort(
+    (a, b) =>
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+  )
   .slice(0, 5);
 ---
 
@@ -16,7 +19,7 @@ const posts = (await getCollection("blog"))
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <Header title={SITE_TITLE} />
@@ -37,7 +40,7 @@ const posts = (await getCollection("blog"))
         <ul>
           {
             posts.map((post) => (
-              <a href={`/blog/${post.slug}/`}>
+              <a href={`/blog/${post.id}/`}>
                 <h4 class="title">
                   <FormattedDate date={post.data.pubDate} /> - {post.data.title}
                 </h4>

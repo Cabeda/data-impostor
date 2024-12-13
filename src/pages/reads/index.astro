@@ -3,12 +3,12 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
-import { getCollection } from "astro:content";
-import { ViewTransitions } from "astro:transitions";
+import { getCollection, render } from "astro:content";
+import { ClientRouter } from "astro:transitions";
 import Reads from "../../layouts/Reads.astro";
 
 const posts = (await getCollection("reads")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 ---
 
@@ -16,7 +16,7 @@ const posts = (await getCollection("reads")).sort(
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <ClientRouter />
     <style>
       main {
         width: 960px;
@@ -80,7 +80,7 @@ const posts = (await getCollection("reads")).sort(
           {
             await Promise.all(
               posts.map(async (post) => {
-                const { Content } = await post.render();
+                const { Content } = await render(post);
                 return (
                   <li>
                     <Reads {...post.data}>
@@ -88,7 +88,7 @@ const posts = (await getCollection("reads")).sort(
                     </Reads>
                   </li>
                 );
-              }),
+              })
             )
           }
         </ul>

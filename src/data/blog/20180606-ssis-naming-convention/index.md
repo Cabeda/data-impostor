@@ -1,6 +1,10 @@
 ---
 title: SSIS Naming Conventions
 pubDate: "2018-06-06"
+updatedDate: "2021-06-06"
+tags:
+  - sql
+  - ssis
 ---
 
 Hi folks!
@@ -11,10 +15,8 @@ This is a simple list of how to name the tasks, but it's one that I've found to 
 
 As I love to have cheat sheets I've create the one that follows :
 
-
 ![SSIS Naming Convention First page](./ssis-page-1.webp)
 ![SSIS Naming Convention Second page](./ssis-page-2.webp)
 To download click [here](https://bit.ly/2Jhnksv).
 
-
-I hope this can be useful to someone and if I detect any updates I'll keep it updated :-).
+I hope this can be useful to someone and if I detect any updates I'll keep it updated 😃.
