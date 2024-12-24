@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { notionLoader } from "notion-astro-loader";
 
 const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.md', base: "./src/data/blog" }),
@@ -30,4 +31,9 @@ const talks = defineCollection({
     }),
 });
 
-export const collections = { blog, reads, talks }
+const database = defineCollection({
+    // Automatically fetch content in one line with a loader
+    loader: notionLoader({ /* ... */ })
+});
+
+export const collections = { blog, reads, talks, database }
