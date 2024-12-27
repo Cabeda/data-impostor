@@ -13,18 +13,20 @@ const imageRandom = `/blog-placeholder-${
 }.jpg`;
 
 const blogposts = await getCollection("blog");
-const database = (await getCollection("database")).map((post) => ({
-  id: post.id,
-  slug: post.id,
-  body: post.body,
-  collection: post.collection,
-  data: {
-    title: post.data.properties.Name,
-    pubDate: post.data.properties.pubDate,
-    description: "",
-    tags: [],
-  },
-}));
+const database = (await getCollection("database")).map((post) => {
+  //@ts-ignore # Currently it doesn't properly recognize the external property
+  const coverImage: string | undefined = post.data.cover?.external?.url;
+  return {
+    ...post,
+    data: {
+      title: post.data.properties.Name,
+      pubDate: post.data.properties.pubDate,
+      description: "",
+      heroImage: coverImage,
+      tags: [],
+    },
+  };
+});
 const allPosts = [...blogposts, ...database];
 
 const posts = allPosts.sort(
