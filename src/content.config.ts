@@ -1,5 +1,11 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { notionLoader } from "notion-astro-loader";
+import {
+    notionPageSchema,
+    propertySchema,
+    transformedPropertySchema,
+} from "notion-astro-loader/schemas";
 
 const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.md', base: "./src/data/blog" }),
@@ -30,4 +36,24 @@ const talks = defineCollection({
     }),
 });
 
-export const collections = { blog, reads, talks }
+const database = defineCollection({
+    loader: notionLoader({
+        auth: import.meta.env.NOTION_TOKEN,
+        database_id: import.meta.env.NOTION_DATABASE_ID,
+        filter: {
+            property: "Published",
+            checkbox: { equals: true },
+        },
+    }),
+    schema: notionPageSchema({
+        properties: z.object({
+            "Name": transformedPropertySchema.title,
+            pubDate: transformedPropertySchema.created_time.pipe(z.coerce.date()),
+            description: transformedPropertySchema.rich_text.optional(),
+            tags: z.array(z.string()).optional(),
+            heroImageAlt: z.string().optional()
+        })
+    }),
+});
+
+export const collections = { blog, reads, talks, database }

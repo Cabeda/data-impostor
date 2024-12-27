@@ -3,8 +3,23 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
+  const blogposts = await getCollection("blog");
+  const database = (await getCollection("database")).map((post) => {
+    //@ts-ignore # Currently it doesn't properly recognize the external property
+    const coverImage: string | undefined = post.data.cover?.external?.url;
+    return {
+      ...post,
+      data: {
+        title: post.data.properties.Name,
+        pubDate: post.data.properties.pubDate,
+        description: "",
+        heroImage: coverImage,
+        tags: [],
+      },
+    };
+  });
+  const allPosts = [...blogposts, ...database];
+  return allPosts.map((post) => ({
     params: { id: post.id },
     props: post,
   }));
@@ -12,6 +27,8 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
+console.log(post.data);
+
 const { Content } = await render(post);
 ---
 

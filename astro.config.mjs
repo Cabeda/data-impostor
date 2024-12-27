@@ -21,5 +21,12 @@ export default defineConfig({
 			remarkRehype: { footnoteLabel: 'Footnotes' },
 		}
 	), sitemap()],
-
+	image: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "**.amazonaws.com",
+			},
+		],
+	},
 });
