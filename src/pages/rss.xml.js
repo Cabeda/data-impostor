@@ -11,7 +11,6 @@ export async function GET(context) {
 				title: post.data.properties.Name,
 				pubDate: post.data.properties.pubDate,
 				description: "",
-				heroImage: coverImage,
 				tags: [],
 			},
 		};
