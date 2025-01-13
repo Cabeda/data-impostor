@@ -130,7 +130,7 @@ async function writeToFile(markdown: string) {
         const dd = String(today.getDate()).padStart(2, '0');
         const formattedDate = `${yyyy}${mm}${dd}`;
 
-        const dirPath = `src/content/reads/${yyyy}`;
+        const dirPath = `src/data/reads/${yyyy}`;
         const filePath = `${dirPath}/${formattedDate}.md`;
 
         await ensureDir(dirPath);
