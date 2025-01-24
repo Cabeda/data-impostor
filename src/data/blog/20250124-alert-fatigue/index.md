@@ -11,6 +11,8 @@ tags:
   - on-call
 ---
 
+> This is a draft. Still in development.
+
 I'm always in awe for those doing on-call. There are a lot of people with different tastes but, to me, being able to quickly respond to incidents and keep the systems up is an high impact, high rewarding job. More importantly, if done correctly, it not only helps keep the systems up but improves the trust of the users in the team's capabilities.
 
 So, what are the main components in an application to enable on-call? There are three main components:
