@@ -11,7 +11,9 @@ tags:
   - on-call
 ---
 
-I'm always in awe for those doing on-call. There are a lot of people with different tastes but, to me, being able to quickly respond to incidents and keep the systems up is an high impact, high rewarding job. More importantly, if done correctly, it not only helps keep the systems up but improves the trust of the users in the team's capabilities.
+# Why On-Call Matters
+
+I'm always in awe of those doing on-call work. While preferences vary, being able to quickly respond to incidents and maintain system uptime is both high-impact and rewarding. More importantly, when done effectively, it not only keeps systems running but builds user trust in the team's capabilities.
 
 So, what are the main components in an application to enable on-call? There are three main components:
 
