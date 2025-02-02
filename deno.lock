@@ -52,10 +52,10 @@
     "packageJson": {
       "dependencies": [
         "npm:@astrojs/check@~0.9.4",
-        "npm:@astrojs/mdx@^4.0.3",
-        "npm:@astrojs/rss@^4.0.10",
+        "npm:@astrojs/mdx@^4.0.7",
+        "npm:@astrojs/rss@^4.0.11",
         "npm:@astrojs/sitemap@^3.2.1",
-        "npm:astro@^5.1.1",
+        "npm:astro@^5.1.9",
         "npm:notion-astro-loader@0.4",
         "npm:remark-toc@9",
         "npm:sharp@~0.33.5",
