@@ -165,11 +165,20 @@ async function convertToMarkdown(bookmarks: Bookmark[]): Promise<string> {
     return markdownEntries.join("\n");
 }
 
+function convertMinutesToHumanReadable(totalMinutes: number): string {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    let result = "";
+    if (hours > 0) result += `${hours} hour${hours > 1 ? "s" : ""}`;
+    if (minutes > 0) result += `${hours > 0 ? " " : ""}${minutes} minute${minutes !== 1 ? "s" : ""}`;
+    return result || "0 minutes";
+}
+
 function calculateTotalTimes(bookmarks: Bookmark[]): string {
     const totalArticles = bookmarks.length;
-
-    const totalReadingTime = bookmarks.reduce((total, bookmark) => total + bookmark.reading_time || 0, 0);
-    return `\nTotal articles: ${totalArticles}, Total reading time: ${totalReadingTime} minutes`;
+    const totalReadingTime = bookmarks.reduce((total, bookmark) => total + (bookmark.reading_time ?? 0), 0);
+    const humanTime = convertMinutesToHumanReadable(totalReadingTime);
+    return `\nTotal articles: ${totalArticles}, Total reading time: ${humanTime}`;
 }
 
 async function writeToFile(markdown: string) {
@@ -239,7 +248,7 @@ if (!bookmarks) {
 }
 
 if (flags.total) {
-    const totalBookmarks = await retrieveBookmarks("?is_archived=false");
+    const totalBookmarks = await retrieveBookmarks("?is_archived=false& has_labels=false", false);
     log.info(`${calculateTotalTimes(totalBookmarks)}`);
     Deno.exit(0);
 }
