@@ -3,6 +3,16 @@ import { ensureDir } from "jsr:@std/fs";
 import * as log from "jsr:@std/log"; // new import
 
 
+interface Highlight {
+    created: string; // date-time
+    end_offset: number; // integer
+    end_selector: string; // XPath selector for end element
+    id: string; // short-uid
+    start_offset: number; // integer
+    start_selector: string; // XPath selector for start element
+    text: string; // highlighted text
+}
+
 interface Bookmark {
     id: string;
     created: string;
@@ -25,12 +35,13 @@ interface Bookmark {
     is_marked: boolean;
     is_archived: boolean;
     labels: string[];
-    summary?: string; // new property
+    summary?: string;
+    highlights?: Highlight[];
     resources: {
         article: { src: string };
         log: { src: string };
         props: { src: string };
-        thumbnail?: { src: string }; // new field
+        thumbnail?: { src: string };
     };
 }
 
@@ -52,7 +63,7 @@ Options:
     `);
 }
 
-async function retrieveBookmarks(query = "?labels=newsletter&is_archived=false"): Promise<Bookmark[]> {
+async function retrieveBookmarks(query = "?labels=newsletter&is_archived=false", addHighlights: boolean = true): Promise<Bookmark[]> {
     if (!API_KEY) {
         log.error("Missing READDECK_API_KEY");
         Deno.exit(1);
@@ -68,10 +79,44 @@ async function retrieveBookmarks(query = "?labels=newsletter&is_archived=false")
             },
         });
 
-        return await response.json();
+        const bookmarks = await response.json();
+
+        if (addHighlights) {
+            for (const bookmark of bookmarks) {
+                bookmark.highlights = await retrieveHighlights(bookmark.id);
+            }
+        }
+
+        return bookmarks;
     } catch (error) {
+        if (error instanceof Error) {
+            log.error(error.message);
+            throw new Error(error.message);
+        } else {
+            log.error(String(error));
+            throw new Error(String(error));
+        }
+    }
+}
+
+async function retrieveHighlights(bookmarkId: string): Promise<Highlight[]> {
+    try {
+        const response = await fetch(`${API_BASE}/bookmarks/${bookmarkId}/annotations`, {
+            method: "GET",
+            headers: {
+                "accept": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch highlights for bookmark ${bookmarkId}`);
+        }
+        const highlights = await response.json();
+        return highlights;
+
+    } catch (error: any) {
         log.error(error.message);
-        throw new Error(error);
+        throw error;
     }
 }
 
@@ -102,10 +147,11 @@ function generateArticleMarkdown(bookmark: Bookmark): string {
     // Create header with title
     let markdown = `##### [${title}${authorText}](${url})`;
     // Append highlights if available as bullet points
-    if (summary) {
-        // Splitting summary by newline to support multiple bullet points
-        const bullets = summary.split("\n").map(line => `- ${line.trim()}`).join("\n");
-        markdown += `\n${bullets}`;
+    if (bookmark.highlights && bookmark.highlights.length) {
+        markdown += "\n\n";
+        for (const highlight of bookmark.highlights) {
+            markdown += `- ${highlight.text}\n`;
+        }
     }
     return markdown;
 }
