@@ -217,6 +217,14 @@ paths:
     $merge:
       - "bookmarks/routes.yaml#.withBookmark"
 
+    patch:
+      tags: [bookmark highlights]
+      $merge:
+        - "traits.yaml#.authenticated"
+        - "traits.yaml#.validator"
+        - "bookmarks/routes.yaml#.withAnnotation"
+        - "bookmarks/routes.yaml#.bookmarkAnnotationUpdate"
+
     delete:
       tags: [bookmark highlights]
       $merge:
