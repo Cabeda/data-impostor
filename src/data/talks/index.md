@@ -17,3 +17,8 @@ title: "Talks"
 #### 2024
 
 - Quacking with DuckDB: a Duck take on Porto Mass Transit ([meetup](https://www.meetup.com/pt-BR/five9-tech-talks/events/297779016/)) ([slides](https://docs.google.com/presentation/d/11lIqDkjNbjd-vp7fAhnu6hZ-SzLeodHgf0gkvJCr5rI/edit?usp=sharing))
+
+
+#### 2025
+
+- Invisible women: Presented the impact of gender bias at Volkswagen Digital Solutions
