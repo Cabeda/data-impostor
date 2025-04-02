@@ -1,5 +1,5 @@
 ---
-title: "Status update - April Week 4"
+title: "Status update - April Week 1"
 pubDate: 2025-03-23
 heroImage: welcome_denmark.avif
 heroImageAlt: https://unsplash.com/photos/a-train-traveling-down-train-tracks-next-to-a-forest-mW1bD8w8foY
