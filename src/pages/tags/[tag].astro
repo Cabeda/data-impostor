@@ -19,13 +19,13 @@ const { tag } = Astro.params;
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-    <Header />
-  
-    <body>
+  <body>
+    <div class="blog-post">
+      <Header />
       <main>
         <p>Posts tagged with {tag}</p>
       </main>
       <Footer />
-    </body>
+    </div>
   </body>
 </html>

@@ -42,17 +42,35 @@ const posts = (await getCollection("reads")).sort(
 
       .title {
         margin: 0;
-        color: rgb(var(--black));
+        color: var(--text-light);
         line-height: 1;
       }
       .date {
         margin: 0;
-        color: rgb(var(--gray));
+        color: var(--gray-light);
       }
+      
+      @media (prefers-color-scheme: dark) {
+        .title {
+          color: var(--text-dark);
+        }
+        .date {
+          color: var(--gray-light);
+        }
+      }
+      
       ul li a:hover h4,
       ul li a:hover .date {
-        color: rgb(var(--accent));
+        color: var(--accent);
       }
+      
+      @media (prefers-color-scheme: dark) {
+        ul li a:hover h4,
+        ul li a:hover .date {
+          color: var(--accent-dark);
+        }
+      }
+      
       ul a:hover img {
         box-shadow: var(--box-shadow);
       }
@@ -76,22 +94,24 @@ const posts = (await getCollection("reads")).sort(
     <Header />
     <main>
       <section>
-        <ul>
-          {
-            await Promise.all(
-              posts.map(async (post) => {
-                const { Content } = await render(post);
-                return (
-                  <li>
-                    <Reads {...post.data}>
-                      <Content />
-                    </Reads>
-                  </li>
-                );
-              })
-            )
-          }
-        </ul>
+        <div class="blog-post">
+          <ul>
+            {
+              await Promise.all(
+                posts.map(async (post) => {
+                  const { Content } = await render(post);
+                  return (
+                    <li>
+                      <Reads {...post.data}>
+                        <Content />
+                      </Reads>
+                    </li>
+                  );
+                })
+              )
+            }
+          </ul>
+        </div>
       </section>
     </main>
     <Footer />
