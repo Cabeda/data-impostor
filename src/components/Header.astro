@@ -2,6 +2,7 @@
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
 import { ClientRouter } from "astro:transitions";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
 <header class="header">
@@ -14,6 +15,7 @@ import { ClientRouter } from "astro:transitions";
         <HeaderLink href="/about">About</HeaderLink>
       </div>
       <div class="social-links">
+        <ThemeToggle />
         <a href="https://mastodon.social/@jecabeda" target="_blank">
           <span class="sr-only">Follow me on Mastodon</span>
           <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
