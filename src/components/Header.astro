@@ -50,11 +50,9 @@ import ThemeToggle from "./ThemeToggle.astro";
       transition: background-color 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      header {
-        background: var(--background-dark);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      }
+    html.dark header {
+      background: var(--background-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     h2 {
@@ -69,10 +67,8 @@ import ThemeToggle from "./ThemeToggle.astro";
       transition: color 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .site-title a {
-        color: var(--text-dark);
-      }
+    html.dark .site-title a {
+      color: var(--text-dark);
     }
 
     h2 a:hover,
@@ -81,11 +77,9 @@ import ThemeToggle from "./ThemeToggle.astro";
       text-decoration: none;
     }
 
-    @media (prefers-color-scheme: dark) {
-      h2 a:hover,
-      h2 a.active {
-        color: var(--accent-dark);
-      }
+    html.dark h2 a:hover,
+    html.dark h2 a.active {
+      color: var(--accent-dark);
     }
 
     nav {
@@ -109,10 +103,8 @@ import ThemeToggle from "./ThemeToggle.astro";
       transition: all 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      nav a {
-        color: var(--text-dark);
-      }
+    html.dark nav a {
+      color: var(--text-dark);
     }
 
     nav a:hover {
@@ -120,11 +112,9 @@ import ThemeToggle from "./ThemeToggle.astro";
       border-bottom-color: var(--accent);
     }
 
-    @media (prefers-color-scheme: dark) {
-      nav a:hover {
-        color: var(--accent-dark);
-        border-bottom-color: var(--accent-dark);
-      }
+    html.dark nav a:hover {
+      color: var(--accent-dark);
+      border-bottom-color: var(--accent-dark);
     }
 
     nav a.active {
@@ -133,10 +123,8 @@ import ThemeToggle from "./ThemeToggle.astro";
       font-weight: bold;
     }
 
-    @media (prefers-color-scheme: dark) {
-      nav a.active {
-        border-bottom-color: var(--accent-dark);
-      }
+    html.dark nav a.active {
+      border-bottom-color: var(--accent-dark);
     }
 
     .social-links,
@@ -154,20 +142,16 @@ import ThemeToggle from "./ThemeToggle.astro";
       transition: color 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .social-links a {
-        color: var(--text-dark);
-      }
+    html.dark .social-links a {
+      color: var(--text-dark);
     }
 
     .social-links a:hover {
       color: var(--accent);
     }
 
-    @media (prefers-color-scheme: dark) {
-      .social-links a:hover {
-        color: var(--accent-dark);
-      }
+    html.dark .social-links a:hover {
+      color: var(--accent-dark);
     }
 
     @media (max-width: 720px) {

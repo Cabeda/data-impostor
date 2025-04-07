@@ -3,79 +3,64 @@ const today = new Date();
 ---
 
 <footer>
-    <div class="footer-content">
-      <div class="footer-links">
-        <a href="https://github.com/cabeda" target="_blank">GitHub</a>
-        <a href="https://mastodon.social/@jecabeda" target="_blank">Mastodon</a>
-        <a href="https://cabeda.dev/rss.xml" target="_blank">RSS</a>
-      </div>
+  <div class="footer-content">
+    <div class="social-links">
+      <a href="https://github.com/cabeda" target="_blank">GitHub</a>
+      <a href="https://mastodon.social/@jecabeda" target="_blank">Mastodon</a>
+      <a href="https://cabeda.dev/rss.xml" target="_blank">RSS</a>
     </div>
-  </footer>
-  <style>
-    footer {
-      padding: 2rem 1rem;
-      background: var(--background-light);
-      color: var(--text-light);
-      text-align: center;
-      margin-top: 3rem;
-      border-top: 1px solid var(--border-light);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+  </div>
+</footer>
 
-    @media (prefers-color-scheme: dark) {
-      footer {
-        background: var(--background-dark);
-        color: var(--text-dark);
-        border-top: 1px solid var(--border-dark);
-      }
-    }
+<style>
+  footer {
+    padding: 2rem 1rem;
+    background: var(--background-light);
+    color: var(--text-light);
+    border-top: 1px solid var(--border-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 
+  html.dark footer {
+    background: var(--background-dark);
+    color: var(--text-dark);
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .footer-content {
+    width: 720px;
+    max-width: calc(100% - 2em);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-links a {
+    color: var(--text-light);
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+
+  html.dark .social-links a {
+    color: var(--text-dark);
+  }
+
+  .social-links a:hover {
+    opacity: 1;
+  }
+
+  @media (min-width: 720px) {
     .footer-content {
-      max-width: 720px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
+      flex-direction: row;
+      justify-content: space-between;
     }
-
-    .copyright {
-      font-size: 0.9rem;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .footer-links a {
-      color: var(--text-light);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.3s ease;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .footer-links a {
-        color: var(--text-dark);
-      }
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-      text-decoration: underline;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .footer-links a:hover {
-        color: var(--accent-dark);
-      }
-    }
-
-    @media (min-width: 480px) {
-      .footer-content {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-    }
-  </style>
+  }
+</style>
