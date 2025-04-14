@@ -34,20 +34,106 @@ const { title, _, pubDate, updatedDate, heroImage, heroImageAlt } = Astro.props;
         color: rgb(var(--gray-dark));
       }
       .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
-        text-align: center;
-        line-height: 1;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 1rem;
       }
-      .title h1 {
-        margin: 0 0 0.5em 0;
+      @media (prefers-color-scheme: dark) {
+        .title {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+      }
+      h1 {
+        font-size: 2.2rem;
+        margin: 0;
+        color: var(--text-light);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      @media (prefers-color-scheme: dark) {
+        h1 {
+          color: var(--text-dark);
+        }
       }
       .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
+        margin-top: 0.5rem;
+        color: var(--gray);
+        font-size: 0.9rem;
       }
-      .last-updated-on {
+      @media (prefers-color-scheme: dark) {
+        .date {
+          color: var(--gray-light);
+        }
+      }
+      .read-container {
+        color: var(--text-light);
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #4a7bab;
+        max-width: 800px;
+      }
+      @media (prefers-color-scheme: dark) {
+        .read-container {
+          color: var(--text-dark);
+          background: rgba(46, 52, 64, 0.8);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          border-left: 4px solid #81a1c1;
+        }
+      }
+      .content {
+        line-height: 1.8;
+        color: var(--text-light);
+        font-size: 1.05rem;
+      }
+      .content :global(h2) {
+        font-size: 1.6rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        color: #2f4858;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 0.5rem;
+      }
+      .content :global(h3) {
+        font-size: 1.3rem;
+        margin-top: 2rem;
+        color: #4a7bab;
+      }
+      .content :global(p) {
+        margin-bottom: 1.5rem;
+      }
+      .content :global(ul), .content :global(ol) {
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .content :global(li) {
+        margin-bottom: 0.5rem;
+      }
+      .content :global(blockquote) {
+        border-left: 3px solid #4a7bab;
+        padding-left: 1rem;
+        margin-left: 0;
+        color: #4f5b66;
         font-style: italic;
+        margin-bottom: 1.5rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        .content {
+          color: var(--text-dark);
+        }
+        .content :global(h2) {
+          color: #eceff4;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .content :global(h3) {
+          color: #88c0d0;
+        }
+        .content :global(blockquote) {
+          border-left: 3px solid #81a1c1;
+          color: #d8dee9;
+        }
       }
     </style>
   </head>
@@ -69,21 +155,17 @@ const { title, _, pubDate, updatedDate, heroImage, heroImageAlt } = Astro.props;
           }
         </div>
         <div class="prose">
-          <div class="title">
-            <div class="date">
-              <FormattedDate date={pubDate} />
-              {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    Last updated on <FormattedDate date={updatedDate} />
-                  </div>
-                )
-              }
+          <div class="read-container">
+            <div class="title">
+              <h1>{title}</h1>
+              <div class="date">
+                <FormattedDate date={pubDate} />
+              </div>
             </div>
-            <h1>{title}</h1>
-            <hr />
+            <div class="content">
+              <slot />
+            </div>
           </div>
-          <slot />
         </div>
       </article>
     </main>
