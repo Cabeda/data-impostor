@@ -46,7 +46,7 @@ interface Bookmark {
 }
 
 const API_KEY = Deno.env.get("READDECK_API_KEY");
-const API_BASE = Deno.env.get("READDECK_API_URL") || "https://readeck-crimson-water-318.fly.dev/api";
+const API_BASE = Deno.env.get("READDECK_API_URL") || "https://read.cabeda.dev/api";
 
 // Add a help function to display usage information.
 function printHelp(): void {
