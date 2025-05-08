@@ -42,21 +42,43 @@ const {
         max-width: calc(100% - 2em);
         margin: auto;
         padding: 1em;
-        color: rgb(var(--gray-dark));
+        color: var(--text-light);
       }
+      
+      @media (prefers-color-scheme: dark) {
+        .prose {
+          color: var(--text-dark);
+        }
+      }
+      
       .title {
         margin-bottom: 1em;
         padding: 1em 0;
         text-align: center;
         line-height: 1;
+        color: var(--text-light);
       }
+      
+      @media (prefers-color-scheme: dark) {
+        .title {
+          color: var(--text-dark);
+        }
+      }
+      
       .title h1 {
         margin: 0 0 0.5em 0;
       }
       .date {
         margin-bottom: 0.5em;
-        color: rgb(var(--gray));
+        color: var(--text-light);
       }
+      
+      @media (prefers-color-scheme: dark) {
+        .date {
+          color: var(--gray-light);
+        }
+      }
+      
       .last-updated-on {
         font-style: italic;
       }
