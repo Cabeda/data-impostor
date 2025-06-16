@@ -166,12 +166,15 @@
       "dependencies": [
         "npm:@astrojs/check@~0.9.4",
         "npm:@astrojs/mdx@^4.3.0",
-        "npm:@astrojs/rss@^4.0.11",
-        "npm:@astrojs/sitemap@^3.4.0",
-        "npm:astro@^5.8.0",
+        "npm:@astrojs/rss@4.0.12",
+        "npm:@astrojs/sitemap@3.4.1",
+        "npm:@slidev/theme-default@0.25",
+        "npm:astro@^5.9.3",
         "npm:notion-astro-loader@0.4",
+        "npm:playwright-chromium@^1.53.0",
         "npm:remark-toc@9",
         "npm:sharp@~0.34.2",
+        "npm:slidev-theme-academic@^2.1.0",
         "npm:typescript@^5.8.3"
       ]
     }
