@@ -1,33 +1,29 @@
+<!-- markdownlint-disable MD024 MD003 MD022-->
 ---
 theme: academic
 title: 'Search-R1: Training LLMs to Reason and Search with Reinforcement Learning'
 author: José Cabeda
-date: 2025-06-04
+date: 2025-06-06
 highlighter: shiki
 lineNumbers: true
-info: |
-  ## Search-R1 Paper Review
-  
-  A comprehensive analysis of the Search-R1 framework that trains LLMs to interleave reasoning and search through reinforcement learning.
-  
-  Paper: Jin et al., 2025 - https://arxiv.org/abs/2503.09516
 drawings:
   persist: false
 transition: slide-left
 css: unocss
 ---
+---
+layout: center
+class: text-center
+---
 
-# Search-R1: Training LLMs to Reason and Search with RL
+# Search-R1: Training LLMs to Reason and Search with Reinforcement Learning
 
-<div class="abs-br m-6 flex gap-2">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/PeterGriffinJin/Search-R1" target="_blank" alt="GitHub"
-    class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon-logo-github />
-  </a>
-</div>
+---
+layout: center
+class: text-center
+---
+
+# Search-R1
 
 ---
 layout: default
@@ -44,6 +40,7 @@ layout: default
 - **No Strategic Search**: Can't decide when to search
 - **Limited Multi-hop**: Poor at complex reasoning chains
 - **Static Queries**: No dynamic query formulation
+- **Scalability Issues**: Rely on high-quality labeled trajectories
 
 </div>
 <div>
@@ -64,7 +61,6 @@ Traditional RAG systems have a fundamental limitation - they retrieve informatio
 
 ---
 layout: image-right
-image: /background-2.png
 ---
 
 # The Search-R1 Solution
@@ -93,8 +89,6 @@ This diagram shows the core innovation of Search-R1 - instead of a linear retrie
 -->
 
 ---
-layout: default
----
 
 # Technical Architecture
 
@@ -104,11 +98,13 @@ layout: default
 ## Core Components
 
 ### 1. RL Training Framework
+
 - **PPO** (Proximal Policy Optimization) (Schulman et al., 201
 - **GRPO** (Generalized Reward Policy Optimization) (Shao et al., 2024; Guo et al., 2025
 - **Outcome-based rewards**: Exact match with ground truth
 
 ### 2. Search Engine Integration
+
 - **Local Sparse**: BM25 + CPU processing
 - **Local Dense**: E5 embeddings + GPU/ANN
 - **Online APIs**: Google, SerpAPI, Bing, Brave
@@ -168,6 +164,7 @@ class: text-center
 <div class="border rounded p-4">
 
 **General QA**
+
 - Natural Questions
 - TriviaQA  
 - PopQA
@@ -176,6 +173,7 @@ class: text-center
 <div class="border rounded p-4">
 
 **Multi-Hop QA**
+
 - HotpotQA
 - 2WikiMultiHopQA
 - Musique
@@ -185,6 +183,7 @@ class: text-center
 <div class="border rounded p-4">
 
 **Key Findings**
+
 - Consistent outperformance
 - Strong generalization
 - Scale benefits (7B > 3B)
@@ -210,17 +209,17 @@ layout: two-cols
 **Search-R1 Process**:
 
 1. **Reasoning**: "I need to find where Mount Everest is located"
-   
+
 2. **🔍 Search**: "Mount Everest location country"
    **Results**: "Mount Everest is on the border of Nepal and Tibet..."
 
 3. **Reasoning**: "Mount Everest is in Nepal. Now I need Nepal's capital"
-   
+
 4. **🔍 Search**: "capital of Nepal"  
    **Results**: "Kathmandu is the capital of Nepal..."
 
 5. **Reasoning**: "Now I need Kathmandu's population"
-   
+
 6. **🔍 Search**: "Kathmandu population current"
    **Results**: "Kathmandu has approximately 1.4 million people..."
 
@@ -245,6 +244,7 @@ layout: two-cols
 <div class="mt-8 p-4 bg-green-900 rounded">
 
 **Why Search-R1 Wins**:
+
 - ✅ Strategic, step-by-step information gathering
 - ✅ Context-aware query formulation  
 - ✅ Builds knowledge incrementally
@@ -296,6 +296,7 @@ pip install uvicorn fastapi
 ## Quick Start Options
 
 ### Local BM25 Search
+
 ```bash
 python search_r1/search/retrieval_server.py \
   --index_path $save_path/bm25 \
@@ -304,6 +305,7 @@ python search_r1/search/retrieval_server.py \
 ```
 
 ### Dense Retrieval (GPU)
+
 ```bash
 python search_r1/search/retrieval_server.py \
   --index_path $save_path/e5_Flat.index \
@@ -313,6 +315,7 @@ python search_r1/search/retrieval_server.py \
 ```
 
 ### Online Search (SerpAPI)
+
 ```bash
 python search_r1/search/serp_search_server.py \
   --search_url https://serpapi.com/search \
@@ -330,9 +333,9 @@ One of the great things about this research is that it's completely open source 
 layout: default
 ---
 
-# Comparison with State-of-the-Art
+<AutoFitText :max="200" :min="10">
 
-<div class="overflow-x-auto">
+# Comparison with State-of-the-Art
 
 | Aspect | Traditional RAG | DeepSeek-R1 | OpenAI DeepResearch | **Search-R1** |
 |--------|----------------|-------------|-------------------|----------------|
@@ -345,11 +348,7 @@ layout: default
 | **Transparency** | Medium | High | Low | ✅ **High** |
 | **Customization** | Medium | High | Low | ✅ **High** |
 
-</div>
-
-<div class="mt-8 p-4 bg-blue-50 rounded">
-<strong>Key Advantage</strong>: Search-R1 provides an open-source alternative to proprietary systems like DeepResearch while extending pure reasoning models like DeepSeek-R1 with search capabilities.
-</div>
+</AutoFitText>
 
 <!--
 This comparison shows how Search-R1 positions itself uniquely in the landscape - combining the best of reasoning capabilities with strategic search, all while remaining completely open source and customizable.
@@ -376,15 +375,17 @@ class: text-center
 - GRPO converges faster than PPO across all cases. This is because PPO relies on a critic model, which requires several warm-up steps before effective training begins.
 - PPO demonstrates greater training stability. As shown in Figure 2(a), GRPO leads to reward collapse after training for many steps, whereas PPO remains stable.
 - The final training rewards of PPO and GRPO are comparable
+
 ****
+
 ---
 layout: center
 class: text-center
 ---
+
 # Results token loss masking
 
 ![alt text](./image-3.png)
-
 
 ---
 layout: center
@@ -432,126 +433,20 @@ class: text-center
 </div>
 </div>
 
+<div class="mt-12 p-6 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg">
+<strong>Bottom Line</strong>: Search-R1 provides a more generic alternative to traditional RAG approaches
+</div>
+
 <!--
 While Search-R1 shows impressive results, there are still important challenges to address, particularly around cost and efficiency. The future directions are quite exciting, especially multi-modal search capabilities.
 -->
-
----
-layout: default
----
-
-# Community & Ecosystem
-
-<div grid="~ cols-2 gap-8">
-<div>
-
-## Official Resources
-
-🔗 **Papers**: 
-- [Primary Paper](https://arxiv.org/abs/2503.09516)
-- [Secondary Paper](https://arxiv.org/abs/2505.15117)
-
-🤗 **Models & Data**: [HuggingFace Collection](https://huggingface.co/collections/PeterJinGo/search-r1-67d1a021202731cb065740f5)
-
-📊 **Experiment Logs**: [Weights & Biases](https://wandb.ai/peterjin/Search-R1-v0.2)
-
-🐙 **Code**: [GitHub Repository](https://github.com/PeterGriffinJin/Search-R1)
-
-</div>
-<div>
-
-## Inspired Follow-up Works
-
-🔬 **DeepResearcher**: Scaling research via RL in real environments
-
-👁️ **Multimodal-Search-R1**: Visual search capabilities
-
-🔍 **ZeroSearch**: Incentivizing search without explicit searching
-
-🎭 **MaskSearch**: Universal pre-training for agentic search
-
-💡 **Various Applications**: Legal research, medical diagnosis, education
-
-</div>
-</div>
-
-<div class="mt-8 p-4 bg-yellow-50 rounded">
-<strong>Active Community</strong>: The framework has already inspired multiple follow-up works and applications across different domains, showing its broad impact and potential.
-</div>
-
-<!--
-The Search-R1 framework has already spawned a rich ecosystem of related work and applications, demonstrating its significant impact on the research community and practical applications.
--->
-
----
-layout: center
-class: text-center
----
-
-# Key Takeaways
-
-<div class="space-y-8 text-xl">
-
-<div class="p-6 bg-green-50 rounded-lg">
-<strong>1. Paradigm Shift</strong>: Interleaved reasoning-search is more effective than traditional RAG
-</div>
-
-<div class="p-6 bg-blue-50 rounded-lg">
-<strong>2. RL Success</strong>: Reinforcement learning can successfully train search strategies
-</div>
-
-<div class="p-6 bg-purple-50 rounded-lg">
-<strong>3. Open Innovation</strong>: Complete open-source implementation democratizes access
-</div>
-
-<div class="p-6 bg-orange-50 rounded-lg">
-<strong>4. Strong Results</strong>: 41% improvement demonstrates real-world effectiveness
-</div>
-
-</div>
-
-<div class="mt-12 text-lg text-gray-600">
-Search-R1 bridges the gap between static knowledge and dynamic information retrieval
-</div>
-
-<!--
-These four key takeaways capture the essence of why Search-R1 is such an important contribution to the field - it's not just about better performance, but about a fundamental shift in how we think about AI reasoning and search.
--->
-
----
-layout: center
-class: text-center
----
-
-# Conclusion
-
-<div class="text-2xl mb-8">
-Search-R1 represents a <strong class="text-blue-600">significant advancement</strong> in creating AI agents that can dynamically reason and search
-</div>
-
-<div class="space-y-6 text-lg">
-
-🧠 **Strategic Reasoning**: Models learn when and how to search during reasoning
-
-🔧 **Practical Implementation**: Complete open-source framework with multiple deployment options
-
-📈 **Strong Empirical Evidence**: Consistent improvements across diverse benchmarks
-
-🚀 **Foundation for Future**: Excellent base for next-generation AI research assistants
-
-</div>
-
-<div class="mt-12 p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">
-<strong>Bottom Line</strong>: Search-R1 makes intelligent search-augmented reasoning accessible to researchers and practitioners, opening new possibilities for AI applications.
-</div>
-
 
 ---
 layout: end
 class: text-center
 ---
 
-# Thank You!
+# Thank You
 
 ## Questions & Discussion
 
