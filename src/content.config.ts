@@ -3,7 +3,6 @@ import { glob } from 'astro/loaders';
 import { notionLoader } from "notion-astro-loader";
 import {
     notionPageSchema,
-    propertySchema,
     transformedPropertySchema,
 } from "notion-astro-loader/schemas";
 

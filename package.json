@@ -20,7 +20,7 @@
     "@astrojs/rss": "4.0.12",
     "@astrojs/sitemap": "3.4.1",
     "@slidev/theme-default": "^0.25.0",
-    "astro": "^5.9.3",
+    "astro": "^5.10.0",
     "notion-astro-loader": "^0.4.0",
     "remark-toc": "^9.0.0",
     "sharp": "^0.34.2",

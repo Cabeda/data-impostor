@@ -22,6 +22,7 @@ export default defineConfig({
 		}
 	), sitemap()],
 	image: {
+		responsiveStyles: false,
 		remotePatterns: [
 			{
 				protocol: "https",
