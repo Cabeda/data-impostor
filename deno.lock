@@ -169,7 +169,7 @@
         "npm:@astrojs/rss@4.0.12",
         "npm:@astrojs/sitemap@3.4.1",
         "npm:@slidev/theme-default@0.25",
-        "npm:astro@^5.9.3",
+        "npm:astro@^5.10.0",
         "npm:notion-astro-loader@0.4",
         "npm:playwright-chromium@^1.53.0",
         "npm:remark-toc@9",
