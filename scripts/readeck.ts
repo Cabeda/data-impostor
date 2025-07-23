@@ -55,15 +55,15 @@ Usage: deno run --allow-net --allow-env --allow-write readeck.ts [options]
 
 Options:
   --total       Display total number of bookmarks.
-  --write       Write bookmarks to a file.
-  --archive     Archive bookmarks.
+  --write       Write bookmarks to a file (newsletter articles and marked/favorite articles).
+  --archive     Archive bookmarks (newsletter articles and marked/favorite articles).
   --clean       Delete unloaded bookmarks.
   --query       Custom query for retrieving bookmarks.
   --help        Show this help message.
     `);
 }
 
-async function retrieveBookmarks(query = "?labels=newsletter&is_archived=false", addHighlights: boolean = true): Promise<Bookmark[]> {
+async function retrieveBookmarks(query = "?is_marked=true&is_archived=false", addHighlights: boolean = true): Promise<Bookmark[]> {
     if (!API_KEY) {
         log.error("Missing READDECK_API_KEY");
         Deno.exit(1);
@@ -79,7 +79,13 @@ async function retrieveBookmarks(query = "?labels=newsletter&is_archived=false",
             },
         });
 
+        if (response.status !== 200) {
+            log.error(`Failed to retrieve bookmarks: ${response.statusText}`);
+            Deno.exit(1);
+        }
+
         const bookmarks = await response.json();
+
 
         if (addHighlights) {
             for (const bookmark of bookmarks) {
@@ -248,7 +254,7 @@ if (!bookmarks) {
 }
 
 if (flags.total) {
-    const totalBookmarks = await retrieveBookmarks("?is_archived=false& has_labels=false", false);
+    const totalBookmarks = await retrieveBookmarks("?is_archived=false&has_labels=false", false);
     log.info(`${calculateTotalTimes(totalBookmarks)}`);
     Deno.exit(0);
 }
@@ -257,7 +263,7 @@ if (flags.archive) {
     if (bookmarks.length > 0) {
         await archiveBookmarks(bookmarks);
     } else {
-        log.warn("No newsletter articles to archive");
+        log.warn("No marked articles to archive");
     }
     Deno.exit(0);
 }
