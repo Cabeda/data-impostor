@@ -27,17 +27,35 @@ const { Content } = await render(post);
       }
       .title {
         margin: 0;
-        color: rgb(var(--black));
+        color: var(--text-light);
         line-height: 1;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .title {
+          color: var(--text-dark);
+        }
+      }
+      
+      .blog-post {
+        color: var(--text-light);
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .blog-post {
+          color: var(--text-dark);
+        }
       }
     </style>
   </head>
   <body>
     <Header />
     <main>
-      <Talks {...post.data}>
-        <Content />
-      </Talks>
+      <div class="blog-post">
+        <Talks {...post.data}>
+          <Content />
+        </Talks>
+      </div>
     </main>
     <Footer />
   </body>
