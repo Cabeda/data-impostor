@@ -12,23 +12,23 @@ importers:
         specifier: ^0.9.4
         version: 0.9.4(typescript@5.8.3)
       '@astrojs/mdx':
-        specifier: ^4.3.1
-        version: 4.3.1(astro@5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))
+        specifier: ^4.3.4
+        version: 4.3.4(astro@5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))
       '@astrojs/rss':
         specifier: 4.0.12
         version: 4.0.12
       '@astrojs/sitemap':
-        specifier: 3.4.1
-        version: 3.4.1
+        specifier: 3.5.1
+        version: 3.5.1
       '@slidev/theme-default':
         specifier: ^0.25.0
         version: 0.25.0
       astro:
-        specifier: ^5.12.2
-        version: 5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
+        specifier: ^5.13.5
+        version: 5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
       notion-astro-loader:
         specifier: ^0.4.0
-        version: 0.4.0(astro@5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))
+        version: 0.4.0(astro@5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))
       remark-toc:
         specifier: ^9.0.0
         version: 9.0.0
@@ -73,8 +73,8 @@ packages:
   '@astrojs/compiler@2.12.2':
     resolution: {integrity: sha512-w2zfvhjNCkNMmMMOn5b0J8+OmUaBL1o40ipMvqcG6NRpdC+lKxmTi48DT8Xw0SzJ3AfmeFLB45zXZXtmbsjcgw==}
 
-  '@astrojs/internal-helpers@0.6.1':
-    resolution: {integrity: sha512-l5Pqf6uZu31aG+3Lv8nl/3s4DbUzdlxTWDof4pEpto6GUJNhhCbelVi9dEyurOVyqaelwmS9oSyOWOENSfgo9A==}
+  '@astrojs/internal-helpers@0.7.2':
+    resolution: {integrity: sha512-KCkCqR3Goym79soqEtbtLzJfqhTWMyVaizUi35FLzgGSzBotSw8DB1qwsu7U96ihOJgYhDk2nVPz+3LnXPeX6g==}
 
   '@astrojs/language-server@2.15.4':
     resolution: {integrity: sha512-JivzASqTPR2bao9BWsSc/woPHH7OGSGc9aMxXL4U6egVTqBycB3ZHdBJPuOCVtcGLrzdWTosAqVPz1BVoxE0+A==}
@@ -88,11 +88,11 @@ packages:
       prettier-plugin-astro:
         optional: true
 
-  '@astrojs/markdown-remark@6.3.3':
-    resolution: {integrity: sha512-DDRtD1sPvAuA7ms2btc9A7/7DApKqgLMNrE6kh5tmkfy8utD0Z738gqd3p5aViYYdUtHIyEJ1X4mCMxfCfu15w==}
+  '@astrojs/markdown-remark@6.3.6':
+    resolution: {integrity: sha512-bwylYktCTsLMVoCOEHbn2GSUA3c5KT/qilekBKA3CBng0bo1TYjNZPr761vxumRk9kJGqTOtU+fgCAp5Vwokug==}
 
-  '@astrojs/mdx@4.3.1':
-    resolution: {integrity: sha512-0ynzkFd5p2IFDLPAfAcGizg44WyS0qUr43nP2vQkvrPlpoPEMeeoi1xWiWsVqQNaZ0FOmNqfUviUn52nm9mLag==}
+  '@astrojs/mdx@4.3.4':
+    resolution: {integrity: sha512-Ew3iP+6zuzzJWNEH5Qr1iknrue1heEfgmfuMpuwLaSwqlUiJQ0NDb2oxKosgWU1ROYmVf1H4KCmS6QdMWKyFjw==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0}
     peerDependencies:
       astro: ^5.0.0
@@ -104,8 +104,8 @@ packages:
   '@astrojs/rss@4.0.12':
     resolution: {integrity: sha512-O5yyxHuDVb6DQ6VLOrbUVFSm+NpObulPxjs6XT9q3tC+RoKbN4HXMZLpv0LvXd1qdAjzVgJ1NFD+zKHJNDXikw==}
 
-  '@astrojs/sitemap@3.4.1':
-    resolution: {integrity: sha512-VjZvr1e4FH6NHyyHXOiQgLiw94LnCVY4v06wN/D0gZKchTMkg71GrAHJz81/huafcmavtLkIv26HnpfDq6/h/Q==}
+  '@astrojs/sitemap@3.5.1':
+    resolution: {integrity: sha512-uX5z52GLtQTgOe8r3jeGmFRYrFe52mdpLYJzqjvL1cdy5Kg3MLOZEvaZ/OCH0fSq0t7e50uJQ6oBMZG0ffszBg==}
 
   '@astrojs/telemetry@3.3.0':
     resolution: {integrity: sha512-UFBgfeldP06qu6khs/yY+q1cDAaArM2/7AEIqQ9Cuvf7B1hNLq0xDrZkct+QoIGyjq56y8IaE2I3CTvG99mlhQ==}
@@ -1087,8 +1087,8 @@ packages:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
 
-  astro@5.12.2:
-    resolution: {integrity: sha512-/qTPSD8bSxjsh5KNXvOsf6Md7dqNuH3WSx6KLa1YbxPR2JZDgPWEKEyulS3/9L5h5aP0SkjONrqwOGdgWw97fg==}
+  astro@5.13.5:
+    resolution: {integrity: sha512-XmBzkl13XU97+n/QiOM5uXQdAVe0yKt5gO+Wlgc8dHRwHR499qhMQ5sMFckLJweUINLzcNGjP3F5nG4wV8a2XA==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2777,7 +2777,7 @@ snapshots:
 
   '@astrojs/compiler@2.12.2': {}
 
-  '@astrojs/internal-helpers@0.6.1': {}
+  '@astrojs/internal-helpers@0.7.2': {}
 
   '@astrojs/language-server@2.15.4(typescript@5.8.3)':
     dependencies:
@@ -2802,9 +2802,9 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@astrojs/markdown-remark@6.3.3':
+  '@astrojs/markdown-remark@6.3.6':
     dependencies:
-      '@astrojs/internal-helpers': 0.6.1
+      '@astrojs/internal-helpers': 0.7.2
       '@astrojs/prism': 3.3.0
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.3
@@ -2828,12 +2828,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.3.1(astro@5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))':
+  '@astrojs/mdx@4.3.4(astro@5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))':
     dependencies:
-      '@astrojs/markdown-remark': 6.3.3
+      '@astrojs/markdown-remark': 6.3.6
       '@mdx-js/mdx': 3.1.0(acorn@8.14.1)
       acorn: 8.14.1
-      astro: 5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
+      astro: 5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
       es-module-lexer: 1.7.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -2856,7 +2856,7 @@ snapshots:
       fast-xml-parser: 5.2.3
       kleur: 4.1.5
 
-  '@astrojs/sitemap@3.4.1':
+  '@astrojs/sitemap@3.5.1':
     dependencies:
       sitemap: 8.0.0
       stream-replace-string: 2.0.0
@@ -3481,7 +3481,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.15.29
 
   '@types/ungap__structured-clone@1.2.0': {}
 
@@ -3729,11 +3729,11 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro@5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0):
+  astro@5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0):
     dependencies:
       '@astrojs/compiler': 2.12.2
-      '@astrojs/internal-helpers': 0.6.1
-      '@astrojs/markdown-remark': 6.3.3
+      '@astrojs/internal-helpers': 0.7.2
+      '@astrojs/markdown-remark': 6.3.6
       '@astrojs/telemetry': 3.3.0
       '@capsizecss/unpack': 2.4.0
       '@oslojs/encoding': 1.1.0
@@ -5090,11 +5090,11 @@ snapshots:
 
   normalize-path@3.0.0: {}
 
-  notion-astro-loader@0.4.0(astro@5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)):
+  notion-astro-loader@0.4.0(astro@5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)):
     dependencies:
       '@jsdevtools/rehype-toc': 3.0.2
       '@notionhq/client': 2.3.0
-      astro: 5.12.2(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
+      astro: 5.13.5(@types/node@22.15.29)(jiti@1.21.7)(rollup@4.41.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
       notion-rehype-k: 1.1.6
       rehype-katex: 6.0.3
       rehype-slug: 6.0.0
