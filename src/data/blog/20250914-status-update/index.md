@@ -1,8 +1,8 @@
 ---
 title: "Status Update - Infra above all"
 pubDate: 2025-09-15
-heroImage: aalborg.avif
-heroImageAlt: 
+heroImage: wedding.avif
+heroImageAlt: https://unsplash.com/photos/gold-wedding-band-on-white-textile-8vaQKYnawHw
 tags:
   - status
 ---
@@ -20,22 +20,22 @@ My proposed architecture was:
 - Podman + Docker compose file
 - Hetzner storing box for backup of the photos
 
-However I've gotten into a lot of issues with the availability of the immich server. The immich_server kept crashing and I didn't find a low effort solution to backup and restore. I used borgbackup for the backing up ( actually think it's a great tool) but I think I'd prefer to have a solution where the postgres database is a supabase instance and the photos were actually stored in a blob storage.
+However I've gotten into a lot of issues with the availability of the Immich server. The immich_server kept crashing and I didn't find a low effort solution to backup and restore. I used borgbackup for the backing up ( actually think it's a great tool) but I think I'd prefer to have a solution where the postgres database is a Supabase instance and the photos were actually stored in a blob storage.
 
 I think I'll be giving it another go in the future.
 
 ## Copyparty
 
-I've gotten to deploy it locally on my network, like jellyfin I want to safely make it available outside my network but need to find time to learn how cloudflare tunnels work. The idea to have an easy file server that I doesn't take much maintenance time. It's kinda in a limbo yet,
+I've gotten to deploy it locally on my network, like Jellyfin I want to safely make it available outside my network but need to find time to learn how Cloudflare tunnels work. The idea is to have an easy file server that doesn't take much maintenance time. It's kinda in a limbo yet,
 
 ## Readeck
 
-I've upgrade to version 0.20.0. Also took the opportunity to reduce my reading list to near 0. To make things a bit faster to read I also like to have the articles as audio. I've iterated a bit on the TTS solution to push upstream but since I rely a bit on AI it's not acceptable to merge following their requirements. As an alternative I' either using Eleven reader or if if I have some time use epub_to_audiobook to generate an audiobook version. I'm considering on creating a PR to enable m4b output as well.
+I've upgraded to version 0.20.0. Also took the opportunity to reduce my reading list to near 0. To make things a bit faster to read I also like to have the articles as audio. I've iterated a bit on the TTS solution to push upstream but since I rely a bit on AI it's not acceptable to merge following their requirements. As an alternative I'm either using Eleven reader or if I have some time use epub_to_audiobook to generate an audiobook version. I'm considering creating a PR to enable m4b output as well.
   
 ## TIL
 
 - CDK refactor: It didn't work as I expected but this seems like a good idea as at the moment it feels a bit messy doing big refactors of aws infra
-- Feature engineering: Yes I've been working for a while as a data engineer but the definition of what is feature engineering is a bit fuzzy. To me at moment it's all data transformations that are focused on outputting data for ML models. Some techniches are one hot, label, ordinal encoding. Good to see it on https://duckdb.org/2025/08/15/ml-data-preprocessing.html
+- Feature engineering: Yes I've been working for a while as a data engineer but the definition of what is feature engineering is a bit fuzzy. To me at moment it's all data transformations that are focused on outputting data for ML models. Some techniques are one hot, label, ordinal encoding. Good to see it on https://duckdb.org/2025/08/15/ml-data-preprocessing.html
 
 ## Next week
 
