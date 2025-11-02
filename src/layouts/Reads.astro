@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import { Image } from "astro:assets";
+import { ViewTransitions } from "astro:transitions";
 
 type Props = CollectionEntry<"reads">["data"];
 
@@ -10,6 +11,7 @@ const { title, _, pubDate, updatedDate, heroImage, heroImageAlt } = Astro.props;
 
 <html lang="en">
   <head>
+    <ViewTransitions />
     <style>
       main {
         width: calc(100% - 2em);

@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection, type InferEntrySchema } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
-import { ClientRouter } from "astro:transitions";
+import { ViewTransitions } from "astro:transitions";
 import { Image } from "astro:assets";
 
 const imageRandom = `/blog-placeholder-${
@@ -39,7 +39,7 @@ const posts = allPosts.sort(
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ClientRouter />
+    <ViewTransitions />
     <style>
       main {
         width: 960px;
