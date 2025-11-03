@@ -4,6 +4,7 @@ import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import { getCollection } from "astro:content";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { ViewTransitions } from "astro:transitions";
 
 const blogposts = await getCollection("blog");
 const database = (await getCollection("database")).map((post) => {
@@ -29,6 +30,7 @@ const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <ViewTransitions />
   </head>
   <Header />
   <body>
