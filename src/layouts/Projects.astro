@@ -1,0 +1,76 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import GitHubIcon from "../components/icons/GitHubIcon.astro";
+import projectsData from "../data/projects";
+
+const { title = "Projects" } = Astro.props;
+const projects = Astro.props.projects || projectsData;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={`List of side projects — ${title}`} />
+    <style>
+      main { max-width: 980px; margin: 0 auto; padding: 1rem; }
+      .title { text-align: center; margin: 1rem 0 2rem; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+      .card { padding: 1rem; border-radius: 10px; background: var(--card-bg, #fff); box-shadow: var(--box-shadow); border: 1px solid rgba(0,0,0,0.04); }
+      .card h3 { margin: 0 0 0.5rem 0; font-size: 1.05rem; }
+      .card p { margin: 0 0 0.5rem 0; color: rgb(var(--gray-dark)); }
+      .tags { margin-top: 0.5rem; display:flex; gap:0.5rem; flex-wrap:wrap; }
+      .tag { font-size: 0.8rem; color: rgb(var(--gray)); border: 1px solid rgba(0,0,0,0.05); padding: 0.15rem 0.5rem; border-radius: 999px; }
+      .card a { color: inherit; text-decoration: none; }
+      .actions { margin-top: 0.75rem; display:flex; gap:0.5rem; }
+      .btn { display:inline-flex; align-items:center; gap:0.4rem; padding:0.35rem 0.6rem; border-radius:6px; font-size:0.9rem; border:1px solid rgba(0,0,0,0.06); background:var(--card-btn-bg,transparent); color:inherit; text-decoration:none; }
+      .btn:hover { box-shadow: var(--box-shadow); }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="title">
+        <h1>{title}</h1>
+        <p>Small collection of side projects and experiments.</p>
+      </div>
+
+      {
+        projects && projects.length > 0 ? (
+          <section class="grid">
+            {projects.map((p) => (
+              <article class="card">
+                <a href={p.url} target="_blank" rel="noopener noreferrer">
+                  <h3>{p.name}</h3>
+                  {p.description && <p>{p.description}</p>}
+                </a>
+                {p.tags && (
+                  <div class="tags">
+                    {p.tags.map((t) => <div class="tag">{t}</div>)}
+                  </div>
+                )}
+
+                <div class="actions">
+                  {p.url && (
+                    <a class="btn" href={p.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${p.name} site`}>Site</a>
+                  )}
+                  {p.repo && (
+                    <a class="btn" href={p.repo} target="_blank" rel="noopener noreferrer" aria-label={`Open ${p.name} repository`} title="Repository">
+                      <GitHubIcon width={18} height={18} />
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </section>
+        ) : (
+          <section>
+            <slot />
+            <p>If you don't see projects here, add a `projects` array to the page frontmatter.</p>
+          </section>
+        )
+      }
+    </main>
+    <Footer />
+  </body>
+</html>
