@@ -164,12 +164,12 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:@astrojs/check@~0.9.4",
-        "npm:@astrojs/mdx@^4.3.4",
-        "npm:@astrojs/rss@4.0.12",
-        "npm:@astrojs/sitemap@3.5.1",
+        "npm:@astrojs/check@~0.9.5",
+        "npm:@astrojs/mdx@^4.3.11",
+        "npm:@astrojs/rss@4.0.13",
+        "npm:@astrojs/sitemap@3.6.0",
         "npm:@slidev/theme-default@0.25",
-        "npm:astro@^5.13.5",
+        "npm:astro@^5.15.9",
         "npm:notion-astro-loader@0.4",
         "npm:playwright-chromium@^1.53.0",
         "npm:remark-toc@9",
