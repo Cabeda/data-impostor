@@ -35,6 +35,13 @@ export const projects: Project[] = [
     repo: "https://github.com/Cabeda/ChristmasSorter#",
     tags: ["game", "demo"],
   },
+  {
+    name: "audio-gen.cabeda.dev",
+    url: "https://audio-gen.cabeda.dev/",
+    description: "Audiobook app — text-to-speech pipeline and UI using Kokoro TTS.",
+    repo: "https://github.com/Cabeda/audiobook-generator",
+    tags: ["audio", "tts", "demo"],
+  },
 ];
 
 export default projects;
