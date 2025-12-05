@@ -5,69 +5,167 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection, render } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
-import Reads from "../../layouts/Reads.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
 
-const posts = (await getCollection("reads")).sort(
+const allPosts = (await getCollection("reads")).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const ITEMS_PER_PAGE = 20;
+
+// Render all posts with their content
+const renderedPosts = await Promise.all(
+  allPosts.map(async (post) => {
+    const { Content } = await render(post);
+    return {
+      post,
+      Content,
+    };
+  })
 );
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={SITE_TITLE + " - Reads"} description={"Reading feed and notes from " + SITE_DESCRIPTION} />
     <ViewTransitions />
     <style>
       main {
-        width: 960px;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem 1rem;
       }
 
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul {
-        width: 100%;
-        margin-bottom: 1rem;
+      .reads-header {
+        margin-bottom: 3rem;
         text-align: center;
       }
 
-      .title {
-        margin: 0;
+      .reads-header h1 {
+        margin-bottom: 0.5rem;
         color: rgb(var(--black));
-        line-height: 1;
       }
-      .date {
-        margin: 0;
+
+      .reads-header p {
         color: rgb(var(--gray));
+        font-size: 1.1rem;
       }
-      ul li a:hover h4,
-      ul li a:hover .date {
-        color: rgb(var(--accent));
+
+      .reads-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
       }
-      ul a:hover img {
-        box-shadow: var(--box-shadow);
+
+      .read-card {
+        background: white;
+        border: 1px solid rgb(var(--gray-light));
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(var(--gray), 0.1);
+        opacity: 1;
+        animation: fadeIn 0.5s ease-in;
       }
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.5em;
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-        ul li {
-          width: 100%;
-          text-align: center;
-          margin-bottom: 0;
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .read-card:hover {
+        box-shadow: var(--box-shadow);
+        transform: translateY(-2px);
+      }
+
+      .read-date {
+        display: inline-block;
+        color: rgb(var(--gray));
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        background: rgb(var(--gray-light));
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+      }
+
+      .read-content {
+        color: rgb(var(--gray-dark));
+      }
+
+      .read-content :global(h5) {
+        margin: 0.75rem 0;
+        font-size: 1.1rem;
+        line-height: 1.4;
+      }
+
+      .read-content :global(a) {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .read-content :global(a:hover) {
+        color: var(--accent-dark);
+        text-decoration: underline;
+      }
+
+      .read-content :global(p) {
+        margin: 0.5rem 0;
+        line-height: 1.6;
+      }
+
+      .loading-container {
+        text-align: center;
+        padding: 2rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .loading-container.visible {
+        opacity: 1;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgb(var(--gray-light));
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      .end-message {
+        text-align: center;
+        padding: 2rem;
+        color: rgb(var(--gray));
+        font-style: italic;
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding: 1rem 0.5rem;
         }
 
-        ul li:first-child .title {
-          font-size: 1.563em;
+        .read-card {
+          padding: 1rem;
+        }
+
+        .reads-header h1 {
+          font-size: 2rem;
         }
       }
     </style>
@@ -75,25 +173,101 @@ const posts = (await getCollection("reads")).sort(
   <body>
     <Header />
     <main>
-      <section>
-        <ul>
-          {
-            await Promise.all(
-              posts.map(async (post) => {
-                const { Content } = await render(post);
-                return (
-                  <li>
-                    <Reads {...post.data}>
-                      <Content />
-                    </Reads>
-                  </li>
-                );
-              })
-            )
-          }
-        </ul>
-      </section>
+      <div class="reads-header">
+        <h1>Reading Feed</h1>
+        <p>Articles I've read with my notes and highlights</p>
+      </div>
+
+      <div class="reads-container" id="reads-container">
+        {renderedPosts.map(({ post, Content }, index) => (
+          <article 
+            class="read-card" 
+            data-index={index}
+            style={index >= ITEMS_PER_PAGE ? "display: none;" : ""}
+          >
+            <div class="read-date">
+              <FormattedDate date={post.data.pubDate} />
+            </div>
+            <div class="read-content">
+              <Content />
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="loading-container" id="loading-indicator">
+        <div class="loading-spinner"></div>
+      </div>
+
+      <div class="end-message" id="end-message" style="display: none;">
+        🎉 You've reached the end of the reading feed!
+      </div>
     </main>
     <Footer />
+
+    <script define:vars={{ itemsPerPage: ITEMS_PER_PAGE, totalPosts: renderedPosts.length }}>
+      let currentIndex = itemsPerPage;
+      let isLoading = false;
+      let hasMore = currentIndex < totalPosts;
+
+      const container = document.getElementById('reads-container');
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const endMessage = document.getElementById('end-message');
+      const allCards = Array.from(document.querySelectorAll('.read-card'));
+
+      function loadMorePosts() {
+        if (isLoading || !hasMore) return;
+
+        isLoading = true;
+        loadingIndicator.classList.add('visible');
+
+        // Simulate a slight delay for smoother UX
+        setTimeout(() => {
+          const endIndex = Math.min(currentIndex + itemsPerPage, totalPosts);
+          
+          for (let i = currentIndex; i < endIndex; i++) {
+            const card = allCards[i];
+            if (card) {
+              card.style.display = '';
+              card.style.animationDelay = `${(i - currentIndex) * 0.05}s`;
+            }
+          }
+
+          currentIndex = endIndex;
+          hasMore = currentIndex < totalPosts;
+          
+          loadingIndicator.classList.remove('visible');
+          isLoading = false;
+
+          if (!hasMore) {
+            loadingIndicator.style.display = 'none';
+            endMessage.style.display = 'block';
+            observer.disconnect();
+          }
+        }, 300);
+      }
+
+      // Intersection Observer for infinite scroll
+      const observerOptions = {
+        root: null,
+        rootMargin: '200px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && hasMore && !isLoading) {
+            loadMorePosts();
+          }
+        });
+      }, observerOptions);
+
+      if (hasMore) {
+        observer.observe(loadingIndicator);
+      } else {
+        loadingIndicator.style.display = 'none';
+        endMessage.style.display = 'block';
+      }
+    </script>
   </body>
 </html>
