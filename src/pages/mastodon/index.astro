@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const posts = (await getCollection('mastodon')).sort(
+  (a, b) => new Date(b.data.created_at).valueOf() - new Date(a.data.created_at).valueOf()
+);
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title="Mastodon Posts" description="Posts from Mastodon" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <h1>Mastodon Posts</h1>
+        <ul class="posts-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/mastodon/${post.id}`}>
+                <div class="post-preview">
+                  <time datetime={post.data.created_at}>
+                    {new Date(post.data.created_at).toLocaleDateString()}
+                  </time>
+                  <div class="content" set:html={post.data.content.substring(0, 200) + '...'} />
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    width: 720px;
+    max-width: calc(100% - 2em);
+    margin: auto;
+    padding: 3em 1em;
+  }
+  
+  h1 {
+    margin-bottom: 2em;
+  }
+  
+  .posts-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .posts-list a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .post-preview {
+    padding: 1rem;
+    border: 1px solid rgb(var(--gray-light));
+    border-radius: 8px;
+    transition: border-color 0.2s;
+  }
+  
+  .post-preview:hover {
+    border-color: rgb(var(--accent));
+  }
+  
+  time {
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+</style>
