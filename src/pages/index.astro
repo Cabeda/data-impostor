@@ -22,14 +22,28 @@ const database = (await getCollection("database")).map((post) => {
     },
   };
 });
-const allPosts = [...blogposts, ...database];
+const mastodonPosts = (await getCollection("mastodon")).map((post) => ({
+  ...post,
+  data: {
+    ...post.data,
+    title: post.data.content.replace(/<[^>]*>/g, '').substring(0, 60) + '...',
+    pubDate: new Date(post.data.created_at),
+    description: post.data.content.replace(/<[^>]*>/g, '').substring(0, 150),
+  },
+  collection: 'mastodon' as const,
+}));
 
-const posts = allPosts
+const allPosts = [...blogposts, ...database, ...mastodonPosts];
+
+const latestPosts = allPosts
   .sort(
     (a, b) =>
       new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
   )
-  .slice(0, 5);
+  .slice(0, 8);
+
+const featuredPost = latestPosts[0];
+const recentPosts = latestPosts.slice(1);
 ---
 
 <!doctype html>
@@ -37,35 +51,233 @@ const posts = allPosts
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <ViewTransitions />
+    <style>
+      main {
+        width: 960px;
+        max-width: calc(100% - 2em);
+        margin: auto;
+        padding: 2em 1em;
+      }
+      
+      .hero {
+        margin-bottom: 3rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+      
+      .hero-intro {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        color: rgb(var(--gray-dark));
+        margin-bottom: 2rem;
+      }
+      
+      .featured-post {
+        background: linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-dark)) 100%);
+        border-radius: 12px;
+        padding: 2rem;
+        color: white;
+        margin-bottom: 3rem;
+        transition: transform 0.2s;
+      }
+      
+      .featured-post:hover {
+        transform: translateY(-4px);
+      }
+      
+      .featured-post a {
+        color: white;
+        text-decoration: none;
+      }
+      
+      .featured-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+      }
+      
+      .featured-post h2 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .featured-post time {
+        opacity: 0.9;
+        font-size: 0.9rem;
+      }
+      
+      .featured-post .description {
+        margin-top: 1rem;
+        opacity: 0.95;
+        line-height: 1.6;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      
+      .post-card {
+        background: white;
+        border: 1px solid rgb(var(--gray-light));
+        border-radius: 8px;
+        padding: 1.5rem;
+        transition: all 0.2s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .post-card:hover {
+        border-color: rgb(var(--accent));
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+      }
+      
+      .post-card a {
+        text-decoration: none;
+        color: inherit;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .post-type {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      
+      .post-type.blog {
+        background: rgb(var(--accent) / 0.1);
+        color: rgb(var(--accent));
+      }
+      
+      .post-type.mastodon {
+        background: #6364FF20;
+        color: #6364FF;
+      }
+      
+      .post-card h3 {
+        font-size: 1.125rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+      }
+      
+      .post-card time {
+        color: rgb(var(--gray));
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+      }
+      
+      .post-card .description {
+        color: rgb(var(--gray-dark));
+        font-size: 0.9rem;
+        line-height: 1.5;
+        flex: 1;
+      }
+      
+      .cta {
+        text-align: center;
+        margin-top: 2rem;
+      }
+      
+      .cta a {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: rgb(var(--accent));
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+      
+      .cta a:hover {
+        background: rgb(var(--accent-dark));
+      }
+      
+      @media (max-width: 720px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+        
+        .posts-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
     <Header title={SITE_TITLE} />
     <main>
-      <h1>Hey fellow datanaut! 🧑‍🚀</h1>
-      <p>
-        Welcome to my data impostor blog. I'm a data engineer and here I write a
-        bit about data engineering, my latest readings and whatever comes to my
-        mind. The way I see the world there are a couple of truly geniuses among
-        us. For the rest of us we struggle to get a hold of how the world works
-        and the more we learn, the more we know that we know nothing. So here is
-        a public space for me to share my learnings, what I'm struggling with
-        and how (hopefully) I overcome it.
-      </p>
-      <br />
-      <h3>Latest</h3>
-      <main>
-        <ul>
-          {
-            posts.map((post) => (
-              <a href={`/blog/${post.id}/`}>
-                <h4 class="title">
-                  <FormattedDate date={post.data.pubDate} /> - {post.data.title}
-                </h4>
-              </a>
-            ))
-          }
-        </ul>
-      </main>
+      <div class="hero">
+        <h1>Hey fellow datanaut! 🧑🚀</h1>
+        <p class="hero-intro">
+          Welcome to my data impostor blog. I'm a data engineer sharing insights on data engineering, 
+          latest readings, and thoughts on navigating the ever-evolving tech landscape.
+        </p>
+      </div>
+
+      {featuredPost && (
+        <div class="featured-post">
+          <a href={featuredPost.collection === 'mastodon' ? `/mastodon/${featuredPost.id}` : `/blog/${featuredPost.id}/`}>
+            <span class="featured-badge">✨ Latest</span>
+            <h2>{featuredPost.data.title}</h2>
+            <time datetime={featuredPost.data.pubDate.toISOString()}>
+              <FormattedDate date={featuredPost.data.pubDate} />
+            </time>
+            {featuredPost.data.description && (
+              <p class="description">{featuredPost.data.description}</p>
+            )}
+          </a>
+        </div>
+      )}
+
+      <h2 class="section-title">Recent Activity</h2>
+      <div class="posts-grid">
+        {recentPosts.map((post) => (
+          <div class="post-card">
+            <a href={post.collection === 'mastodon' ? `/mastodon/${post.id}` : `/blog/${post.id}/`}>
+              <span class={`post-type ${post.collection === 'mastodon' ? 'mastodon' : 'blog'}`}>
+                {post.collection === 'mastodon' ? '🐘 Mastodon' : '📝 Blog'}
+              </span>
+              <h3>{post.data.title}</h3>
+              <time datetime={post.data.pubDate.toISOString()}>
+                <FormattedDate date={post.data.pubDate} />
+              </time>
+              {post.data.description && (
+                <p class="description">{post.data.description}</p>
+              )}
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <div class="cta">
+        <a href="/blog">View All Posts →</a>
+      </div>
     </main>
     <Footer />
   </body>
