@@ -22,13 +22,24 @@ const database = (await getCollection("database")).map((post) => {
     },
   };
 });
+
+function decodeHtml(html) {
+  return html
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ');
+}
+
 const mastodonPosts = (await getCollection("mastodon")).map((post) => ({
   ...post,
   data: {
     ...post.data,
-    title: post.data.content.replace(/<[^>]*>/g, '').substring(0, 60) + '...',
+    title: decodeHtml(post.data.content.replace(/<[^>]*>/g, '')).substring(0, 60) + '...',
     pubDate: new Date(post.data.created_at),
-    description: post.data.content.replace(/<[^>]*>/g, '').substring(0, 150),
+    description: decodeHtml(post.data.content.replace(/<[^>]*>/g, '')).substring(0, 150),
   },
   collection: 'mastodon' as const,
 }));
@@ -138,7 +149,7 @@ const recentPosts = latestPosts.slice(1);
         background: white;
         border: 1px solid rgb(var(--gray-light));
         border-radius: 8px;
-        padding: 1.5rem;
+        overflow: hidden;
         transition: all 0.2s;
         height: 100%;
         display: flex;
@@ -154,6 +165,20 @@ const recentPosts = latestPosts.slice(1);
       .post-card a {
         text-decoration: none;
         color: inherit;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .post-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: linear-gradient(135deg, rgb(var(--gray-light)) 0%, rgb(var(--gray)) 100%);
+      }
+      
+      .post-content {
+        padding: 1.5rem;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -260,16 +285,24 @@ const recentPosts = latestPosts.slice(1);
         {recentPosts.map((post) => (
           <div class="post-card">
             <a href={post.collection === 'mastodon' ? `/mastodon/${post.id}` : `/blog/${post.id}/`}>
-              <span class={`post-type ${post.collection === 'mastodon' ? 'mastodon' : 'blog'}`}>
-                {post.collection === 'mastodon' ? '🐘 Mastodon' : '📝 Blog'}
-              </span>
-              <h3>{post.data.title}</h3>
-              <time datetime={post.data.pubDate.toISOString()}>
-                <FormattedDate date={post.data.pubDate} />
-              </time>
-              {post.data.description && (
-                <p class="description">{post.data.description}</p>
+              {post.data.heroImage && (
+                <img src={post.data.heroImage.src} alt={post.data.title} class="post-image" />
               )}
+              {post.collection === 'mastodon' && post.data.images && post.data.images[0] && (
+                <img src={post.data.images[0].url} alt="" class="post-image" />
+              )}
+              <div class="post-content">
+                <span class={`post-type ${post.collection === 'mastodon' ? 'mastodon' : 'blog'}`}>
+                  {post.collection === 'mastodon' ? '🐘 Mastodon' : '📝 Blog'}
+                </span>
+                <h3>{post.data.title}</h3>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  <FormattedDate date={post.data.pubDate} />
+                </time>
+                {post.data.description && (
+                  <p class="description">{post.data.description}</p>
+                )}
+              </div>
             </a>
           </div>
         ))}
