@@ -11,12 +11,19 @@ import RssIcon from "./icons/RssIcon.astro";
     <h2><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">
       <HeaderLink href="/blog">Blog</HeaderLink>
+      <HeaderLink href="/mastodon">Mastodon</HeaderLink>
       <HeaderLink href="/projects">Projects</HeaderLink>
       <HeaderLink href="/talks">Talks</HeaderLink>
       <HeaderLink href="/reads">Reads</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
     </div>
-    <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel">Menu</button>
+    <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
     <div id="navPanel" class="nav-panel" aria-hidden="true">
       <div class="nav-panel-inner">
         <div class="panel-header">
@@ -24,6 +31,7 @@ import RssIcon from "./icons/RssIcon.astro";
         </div>
         <nav class="panel-links">
           <HeaderLink href="/blog">Blog</HeaderLink>
+          <HeaderLink href="/mastodon">Mastodon</HeaderLink>
           <HeaderLink href="/projects">Projects</HeaderLink>
           <HeaderLink href="/talks">Talks</HeaderLink>
           <HeaderLink href="/reads">Reads</HeaderLink>
@@ -107,10 +115,19 @@ import RssIcon from "./icons/RssIcon.astro";
   .menu-button {
     display: none;
     background: transparent;
-    border: 1px solid rgba(0,0,0,0.08);
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
+    border: none;
+    padding: 0.5rem;
     cursor: pointer;
+    color: rgb(var(--black));
+    transition: opacity 0.2s;
+  }
+  
+  .menu-button:hover {
+    opacity: 0.7;
+  }
+  
+  .menu-button:active {
+    opacity: 0.5;
   }
 
   .nav-panel {

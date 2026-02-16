@@ -1,0 +1,125 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import MastodonComments from '../../components/MastodonComments.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('mastodon');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={`Post by ${post.data.account.display_name}`} description={post.data.content.substring(0, 160)} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article>
+        <div class="post-header">
+          <img src={post.data.account.avatar} alt={post.data.account.display_name} class="avatar" />
+          <div>
+            <strong>{post.data.account.display_name}</strong>
+            <div class="username">@{post.data.account.username}</div>
+          </div>
+        </div>
+        <time datetime={post.data.created_at}>
+          {new Date(post.data.created_at).toLocaleString()}
+        </time>
+        <div class="content" set:html={post.data.content} />
+        {post.data.images && post.data.images.length > 0 && (
+          <div class="images">
+            {post.data.images.map((img) => (
+              <img src={img.url} alt={img.description || ''} />
+            ))}
+          </div>
+        )}
+        <p class="view-original">
+          <a href={post.data.url} target="_blank" rel="noopener">View original on Mastodon →</a>
+        </p>
+        <MastodonComments mastodonUrl={post.data.url} buildTime={new Date()} />
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    width: 720px;
+    max-width: calc(100% - 2em);
+    margin: auto;
+    padding: 3em 1em;
+  }
+  
+  article {
+    padding: 2rem;
+    border: 1px solid rgb(var(--gray-light));
+    border-radius: 12px;
+  }
+  
+  .post-header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+  }
+  
+  .username {
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+  }
+  
+  time {
+    display: block;
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .content {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .images img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .view-original {
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 1px solid rgb(var(--gray-light));
+  }
+  
+  .view-original a {
+    color: rgb(var(--accent));
+    text-decoration: none;
+  }
+  
+  .view-original a:hover {
+    text-decoration: underline;
+  }
+</style>

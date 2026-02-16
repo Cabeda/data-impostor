@@ -5,6 +5,7 @@ import {
     notionPageSchema,
     transformedPropertySchema,
 } from "notion-astro-loader/schemas";
+import { mastodonLoader } from "./loaders/mastodon.js";
 
 const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.md', base: "./src/data/blog" }),
@@ -15,7 +16,8 @@ const blog = defineCollection({
         updatedDate: z.coerce.date().optional(),
         tags: z.array(z.string()).optional(),
         heroImage: image().optional(),
-        heroImageAlt: z.string().optional()
+        heroImageAlt: z.string().optional(),
+        mastodonUrl: z.string().url().optional()
     }),
 });
 const reads = defineCollection({
@@ -55,4 +57,12 @@ const database = defineCollection({
     }),
 });
 
-export const collections = { blog, reads, talks, database }
+const mastodon = defineCollection({
+    loader: mastodonLoader({
+        instance: import.meta.env.MASTODON_INSTANCE || 'mastodon.social',
+        userId: import.meta.env.MASTODON_USER_ID || '107151811153023138',
+        limit: 40
+    })
+});
+
+export const collections = { blog, reads, talks, database, mastodon }

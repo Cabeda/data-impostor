@@ -1,0 +1,158 @@
+---
+import { MastodonClient } from '../lib/mastodon';
+
+interface Props {
+  mastodonUrl: string;
+  buildTime?: Date;
+}
+
+const { mastodonUrl, buildTime = new Date() } = Astro.props;
+
+const client = new MastodonClient('mastodon.social', '');
+const postId = client.extractPostIdFromUrl(mastodonUrl);
+
+let replies: any[] = [];
+if (postId) {
+  try {
+    replies = await client.fetchPostReplies(postId);
+  } catch (error) {
+    console.error('Failed to fetch replies:', error);
+  }
+}
+---
+
+<div class="mastodon-comments" data-post-id={postId} data-build-time={buildTime.toISOString()}>
+  <div class="comments-list">
+    {replies.length === 0 ? (
+      <p class="no-comments">No comments yet. <a href={mastodonUrl} target="_blank" rel="noopener">Join the conversation on Mastodon</a></p>
+    ) : (
+      replies.map(reply => (
+        <div class="comment" data-id={reply.id}>
+          <div class="comment-header">
+            <img src={reply.account.avatar} alt={reply.account.display_name} class="avatar" />
+            <div class="comment-meta">
+              <strong>{reply.account.display_name}</strong>
+              <span class="username">@{reply.account.username}</span>
+              <time datetime={reply.created_at}>{new Date(reply.created_at).toLocaleDateString()}</time>
+            </div>
+          </div>
+          <div class="comment-content" set:html={reply.content} />
+        </div>
+      ))
+    )}
+  </div>
+  <p class="view-on-mastodon">
+    <a href={mastodonUrl} target="_blank" rel="noopener">View on Mastodon →</a>
+  </p>
+</div>
+
+<script>
+  const REFRESH_THRESHOLD = 24 * 60 * 60 * 1000; // 24 hours
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.mastodon-comments');
+    if (!container) return;
+
+    const postId = container.getAttribute('data-post-id');
+    const buildTime = new Date(container.getAttribute('data-build-time') || '');
+    const now = new Date();
+
+    if (now.getTime() - buildTime.getTime() > REFRESH_THRESHOLD && postId) {
+      fetch(`https://mastodon.social/api/v1/statuses/${postId}/context`)
+        .then(res => res.json())
+        .then(data => {
+          const replies = data.descendants || [];
+          const list = container.querySelector('.comments-list');
+          if (!list) return;
+
+          if (replies.length === 0) return;
+
+          list.innerHTML = replies.map((reply: any) => `
+            <div class="comment" data-id="${reply.id}">
+              <div class="comment-header">
+                <img src="${reply.account.avatar}" alt="${reply.account.display_name}" class="avatar" />
+                <div class="comment-meta">
+                  <strong>${reply.account.display_name}</strong>
+                  <span class="username">@${reply.account.username}</span>
+                  <time datetime="${reply.created_at}">${new Date(reply.created_at).toLocaleDateString()}</time>
+                </div>
+              </div>
+              <div class="comment-content">${reply.content}</div>
+            </div>
+          `).join('');
+        })
+        .catch(err => console.error('Failed to refresh comments:', err));
+    }
+  });
+</script>
+
+<style>
+  .mastodon-comments {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(var(--gray-light));
+  }
+
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .comment {
+    padding: 1rem;
+    background: rgb(var(--gray-light) / 0.1);
+    border-radius: 8px;
+  }
+
+  .comment-header {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+
+  .comment-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .username {
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+  }
+
+  time {
+    color: rgb(var(--gray));
+    font-size: 0.85rem;
+  }
+
+  .comment-content {
+    margin-left: 60px;
+  }
+
+  .no-comments {
+    color: rgb(var(--gray));
+    font-style: italic;
+  }
+
+  .view-on-mastodon {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .view-on-mastodon a {
+    color: rgb(var(--accent));
+    text-decoration: none;
+  }
+
+  .view-on-mastodon a:hover {
+    text-decoration: underline;
+  }
+</style>
