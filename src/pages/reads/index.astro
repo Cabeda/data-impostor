@@ -4,7 +4,7 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection, render } from "astro:content";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import FormattedDate from "../../components/FormattedDate.astro";
 
 const allPosts = (await getCollection("reads")).sort(
@@ -29,7 +29,7 @@ const renderedPosts = await Promise.all(
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE + " - Reads"} description={"Reading feed and notes from " + SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <ClientRouter />
     <style>
       main {
         max-width: 900px;

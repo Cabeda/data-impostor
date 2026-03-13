@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 const blogposts = await getCollection("blog");
 const database = (await getCollection("database")).map((post) => {
@@ -61,7 +61,7 @@ const recentPosts = latestPosts.slice(1);
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <ClientRouter />
     <style>
       main {
         width: 960px;
