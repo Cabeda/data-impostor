@@ -6,7 +6,7 @@ import GitHubIcon from "./icons/GitHubIcon.astro";
 import RssIcon from "./icons/RssIcon.astro";
 ---
 
-<header>
+<header transition:name="site-header" transition:persist>
   <nav>
     <h2><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">

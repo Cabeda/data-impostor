@@ -58,3 +58,23 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- Apple-style back navigation detection -->
+<script is:inline>
+  (() => {
+    let navDirection = 'forward';
+    document.addEventListener('astro:before-preparation', (e) => {
+      navDirection = e.direction === 'back' ? 'back' : 'forward';
+    });
+    document.addEventListener('astro:before-swap', () => {
+      if (navDirection === 'back') {
+        document.documentElement.classList.add('back-transition');
+      } else {
+        document.documentElement.classList.remove('back-transition');
+      }
+    });
+    document.addEventListener('astro:after-swap', () => {
+      document.documentElement.classList.remove('back-transition');
+    });
+  })();
+</script>
