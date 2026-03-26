@@ -1,4 +1,5 @@
 {
+  "installCommand": "corepack enable pnpm && pnpm install --frozen-lockfile",
   "headers": [
     {
       "source": "/service-worker.js",
