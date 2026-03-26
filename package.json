@@ -15,12 +15,12 @@
     "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.7",
-    "@astrojs/mdx": "^5.0.0",
-    "@astrojs/rss": "4.0.17",
-    "@astrojs/sitemap": "3.7.1",
+    "@astrojs/check": "^0.9.8",
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/rss": "4.0.18",
+    "@astrojs/sitemap": "3.7.2",
     "@slidev/theme-default": "^0.25.0",
-    "astro": "^6.0.4",
+    "astro": "^6.1.1",
     "notion-astro-loader": "^0.4.0",
     "remark-toc": "^9.0.0",
     "sharp": "^0.34.2",
@@ -29,5 +29,6 @@
   },
   "devDependencies": {
     "playwright-chromium": "^1.53.0"
-  }
+  },
+  "packageManager": "pnpm@10.0.0"
 }
