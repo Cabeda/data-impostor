@@ -2,3 +2,8 @@ packages:
   - "."
 allowBuilds:
   esbuild: true
+  playwright-chromium: true
+  sharp: true
+minimumReleaseAgeExclude:
+  - '@astrojs/mdx@7.0.1'
+  - astro@7.0.5
