@@ -1,10 +1,5 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { notionLoader } from "notion-astro-loader";
-import {
-    notionPageSchema,
-    transformedPropertySchema,
-} from "notion-astro-loader/schemas";
 import { mastodonLoader } from "./loaders/mastodon.js";
 
 const blog = defineCollection({
@@ -37,26 +32,6 @@ const talks = defineCollection({
     }),
 });
 
-const database = defineCollection({
-    loader: notionLoader({
-        auth: import.meta.env.NOTION_TOKEN,
-        database_id: import.meta.env.NOTION_DATABASE_ID,
-        filter: {
-            property: "Published",
-            checkbox: { equals: true },
-        },
-    }),
-    schema: notionPageSchema({
-        properties: z.object({
-            "Name": transformedPropertySchema.title,
-            pubDate: transformedPropertySchema.created_time.pipe(z.coerce.date()),
-            description: transformedPropertySchema.rich_text.optional(),
-            tags: z.array(z.string()).optional(),
-            heroImageAlt: z.string().optional()
-        })
-    }),
-});
-
 const mastodon = defineCollection({
     loader: mastodonLoader({
         instance: import.meta.env.MASTODON_INSTANCE || 'mastodon.social',
@@ -65,4 +40,4 @@ const mastodon = defineCollection({
     })
 });
 
-export const collections = { blog, reads, talks, database, mastodon }
+export const collections = { blog, reads, talks, mastodon }

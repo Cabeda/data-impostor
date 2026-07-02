@@ -62,7 +62,6 @@ This repository is a personal blog and slide site maintained by José Cabeda (da
 - **Content layout:** Content lives under `src/data/` (blog posts, reads, slides) and pages/layouts are in `src/pages/` and `src/layouts/`. Re-usable UI lives in `src/components/`.
 - **Markdown & MDX:** `@astrojs/mdx` and `remark-toc` are used to author and render Markdown/MDX content and generate table-of-contents entries where appropriate.
 - **Image processing:** `sharp` is an image processing dependency used by the build for image resizing/optimization (Astro or other build scripts may leverage it).
-- **Notion integration:** `notion-astro-loader` is present to optionally load content from Notion into the site; confirm configuration before running any Notion imports.
 - **Slides & themes:** Slide content uses `@slidev/theme-default` and `slidev-theme-academic` for slide rendering and theming.
 - **TypeScript:** `typescript` is listed as a dependency; the project uses TypeScript in scripts and site components.
 - **Testing / browser automation:** `playwright-chromium` is a dev dependency useful for screenshotting or automated checks. Installing Playwright may require additional setup steps (browsers download) if you plan to run tests.
@@ -89,12 +88,11 @@ pnpm run dev
 Notes about secrets and deployment:
 
 - The site includes `vercel.json` and is compatible with Vercel deployments. Do not check secrets into the repo — use environment variables configured in your deployment platform.
-- If you add integrations (Notion, external APIs), keep tokens out of source and document required env vars in a `.env.example` (do not commit real secrets).
+- If you add integrations (external APIs), keep tokens out of source and document required env vars in a `.env.example` (do not commit real secrets).
 
 Dependency quick reference (from `package.json`):
 
 - astro, @astrojs/mdx, @astrojs/rss, @astrojs/sitemap — core site rendering and feeds.
-- notion-astro-loader — optional Notion content loader.
 - remark-toc — Markdown table-of-contents.
 - sharp — image processing in build pipeline.
 - @slidev/theme-default, slidev-theme-academic — slide rendering themes.
