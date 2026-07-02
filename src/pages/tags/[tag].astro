@@ -21,13 +21,11 @@ const { tag } = Astro.params;
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <ClientRouter />
   </head>
+  <body>
     <Header />
-  
-    <body>
-      <main>
-        <p>Posts tagged with {tag}</p>
-      </main>
-      <Footer />
-    </body>
+    <main>
+      <p>Posts tagged with {tag}</p>
+    </main>
+    <Footer />
   </body>
 </html>
