@@ -205,12 +205,11 @@ const renderedPosts = await Promise.all(
     </main>
     <Footer />
 
-    <script define:vars={{ itemsPerPage: ITEMS_PER_PAGE, totalPosts: renderedPosts.length }}>
+    <script is:inline define:vars={{ itemsPerPage: ITEMS_PER_PAGE, totalPosts: renderedPosts.length }}>
       let currentIndex = itemsPerPage;
       let isLoading = false;
       let hasMore = currentIndex < totalPosts;
 
-      const container = document.getElementById('reads-container');
       const loadingIndicator = document.getElementById('loading-indicator');
       const endMessage = document.getElementById('end-message');
       const allCards = Array.from(document.querySelectorAll('.read-card'));

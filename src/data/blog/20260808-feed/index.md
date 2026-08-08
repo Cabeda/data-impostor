@@ -1,8 +1,9 @@
 ---
 title: "Taking control of my feed"
 pubDate: 2026-08-08
+description: "How I keep up with the industry through RSS, a curated feed and a read-it-later app without drowning in the feed era."
 heroImage: reading.jpg
-heroImageAlt: https://unsplash.com/photos/open-book-lot-Oaqk7qqNh_c
+heroImageAlt: "An open book lying on a surface, awaiting a reader"
 tags:
   - status
 ---

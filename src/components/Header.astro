@@ -211,9 +211,9 @@ import RssIcon from "./icons/RssIcon.astro";
 
 <script>
   (() => {
-    const debounce = (fn, wait = 100) => {
-      let t;
-      return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+    const debounce = (fn: (...args: unknown[]) => void, wait = 100) => {
+      let t: ReturnType<typeof setTimeout> | undefined;
+      return (...args: unknown[]) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
     };
 
     function checkOverflow() {
@@ -233,7 +233,7 @@ import RssIcon from "./icons/RssIcon.astro";
       }
     }
 
-    function togglePanel(open) {
+    function togglePanel(open: boolean) {
       const panel = document.getElementById('navPanel');
       const toggle = document.getElementById('menuToggle');
       if (!panel || !toggle) return;
