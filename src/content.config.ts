@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import { mastodonLoader } from "./loaders/mastodon.js";
 
@@ -12,7 +13,7 @@ const blog = defineCollection({
         tags: z.array(z.string()).optional(),
         heroImage: image().optional(),
         heroImageAlt: z.string().optional(),
-        mastodonUrl: z.string().url().optional()
+        mastodonUrl: z.url().optional()
     }),
 });
 const reads = defineCollection({

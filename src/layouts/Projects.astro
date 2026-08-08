@@ -3,10 +3,10 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import GitHubIcon from "../components/icons/GitHubIcon.astro";
-import projectsData from "../data/projects";
+import projectsData, { type Project } from "../data/projects";
 
 const { title = "Projects" } = Astro.props;
-const projects = Astro.props.projects || projectsData;
+const projects: Project[] = Astro.props.projects || projectsData;
 ---
 
 <html lang="en">
@@ -38,7 +38,7 @@ const projects = Astro.props.projects || projectsData;
       {
         projects && projects.length > 0 ? (
           <section class="grid">
-            {projects.map((p) => (
+            {projects.map((p: Project) => (
               <article class="card">
                 <a href={p.url} target="_blank" rel="noopener noreferrer">
                   <h3>{p.name}</h3>
@@ -46,7 +46,7 @@ const projects = Astro.props.projects || projectsData;
                 </a>
                 {p.tags && (
                   <div class="tags">
-                    {p.tags.map((t) => <div class="tag">{t}</div>)}
+                    {p.tags.map((t: string) => <div class="tag">{t}</div>)}
                   </div>
                 )}
 

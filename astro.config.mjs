@@ -8,6 +8,10 @@ import remarkToc from 'remark-toc';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://cabeda.dev',
+	session: false,
+	experimental: {
+		incrementalBuild: true,
+	},
 	integrations: [mdx(
 		{
 			syntaxHighlight: 'shiki',

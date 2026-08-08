@@ -42,16 +42,16 @@ export function mastodonLoader(options: MastodonLoaderOptions): Loader {
           rendered: {
             html: post.content
           },
-          digest: generateDigest(post)
+          digest: generateDigest({ ...post })
         });
       }
       
       logger.info(`Loaded ${posts.length} posts`);
     },
-    schema: async () => z.object({
+    schema: z.object({
       content: z.string(),
       created_at: z.string(),
-      url: z.string().url(),
+      url: z.url(),
       account: z.object({
         username: z.string(),
         display_name: z.string(),

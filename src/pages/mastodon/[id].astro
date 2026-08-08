@@ -37,7 +37,7 @@ const { post } = Astro.props;
         <div class="content" set:html={post.data.content} />
         {post.data.images && post.data.images.length > 0 && (
           <div class="images">
-            {post.data.images.map((img) => (
+            {post.data.images.map((img: { url: string; description?: string }) => (
               <img src={img.url} alt={img.description || ''} />
             ))}
           </div>
