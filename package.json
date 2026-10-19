@@ -10,17 +10,18 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "build:timings": "astro build --timings",
     "preview": "astro preview",
     "astro": "astro",
     "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/mdx": "^8.1.0",
     "@astrojs/rss": "4.0.19",
-    "@astrojs/sitemap": "3.7.3",
+    "@astrojs/sitemap": "3.7.4",
     "@slidev/theme-default": "^0.25.0",
-    "astro": "^7.2.0",
+    "astro": "^7.4.0",
     "remark-toc": "^9.0.0",
     "sharp": "^0.34.2",
     "slidev-theme-academic": "^2.1.0",
@@ -29,5 +30,8 @@
   "devDependencies": {
     "playwright-chromium": "^1.53.0"
   },
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22.22.0"
+  }
 }
