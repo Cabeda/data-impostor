@@ -165,11 +165,11 @@
     "packageJson": {
       "dependencies": [
         "npm:@astrojs/check@~0.9.10",
-        "npm:@astrojs/mdx@^7.0.5",
+        "npm:@astrojs/mdx@^8.1.0",
         "npm:@astrojs/rss@4.0.19",
-        "npm:@astrojs/sitemap@3.7.3",
+        "npm:@astrojs/sitemap@3.7.4",
         "npm:@slidev/theme-default@0.25",
-        "npm:astro@^7.2.0",
+        "npm:astro@^7.4.0",
         "npm:playwright-chromium@^1.53.0",
         "npm:remark-toc@9",
         "npm:sharp@~0.34.2",
