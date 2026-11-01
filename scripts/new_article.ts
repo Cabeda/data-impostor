@@ -1,23 +1,7 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-run
 
 import { join } from "https://deno.land/std/path/mod.ts";
-
-// Utility to create a slug from a title
-const createSlug = (title: string): string => {
-    return title
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-');
-};
-
-// Get current date in YYYY-MM-DD format
-const getCurrentDate = (): string => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}${month}${day}`;
-};
+import { postIdentity } from "../src/lib/content-intake.ts";
 
 // Function to prompt user for input
 const prompt = async (question: string, defaultValue: string = ''): Promise<string> => {
@@ -56,10 +40,10 @@ const main = async () => {
             Deno.exit(1);
         }
 
-        // Generate slug and date
-        const date = getCurrentDate();
-        const slug = createSlug(title);
-        const folderName = `${date}-${slug}`;
+        // Generate the entry id and date from the intake module: the folder name
+        // is the URL, so the date and the slug come from one place.
+        const identity = postIdentity("blog", { date: new Date(), title });
+        const folderName = identity.entryId;
 
         // Define the blog directory path
         const projectRoot = Deno.cwd();
@@ -101,7 +85,7 @@ const main = async () => {
 
         let content = `---
 title: "${title}"
-pubDate: ${date}
+pubDate: ${identity.pubDate}
 heroImage: 
 heroImageAlt:
 `;

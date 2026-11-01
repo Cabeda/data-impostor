@@ -1,6 +1,7 @@
 import { parseArgs } from "jsr:@std/cli";
 import { ensureDir } from "jsr:@std/fs";
 import * as log from "jsr:@std/log"; // new import
+import { postIdentity, renderReadsEntry } from "../src/lib/content-intake.ts";
 
 
 interface Highlight {
@@ -147,27 +148,8 @@ async function delete_bookmarks(bookmarks: Bookmark[]): Promise<void> {
 }
 
 
-function generateArticleMarkdown(bookmark: Bookmark): string {
-    const { title, authors, url, summary } = bookmark;
-    const authorText = authors && authors.length ? ` by ${authors.join(", ")}` : "";
-    // Create header with title
-    let markdown = `##### [${title}${authorText}](${url})`;
-    // Append highlights if available as bullet points
-    if (bookmark.highlights && bookmark.highlights.length) {
-        markdown += "\n\n";
-        for (const highlight of bookmark.highlights) {
-            markdown += `- ${highlight.text}\n`;
-        }
-    }
-    return markdown;
-}
-
 async function convertToMarkdown(bookmarks: Bookmark[]): Promise<string> {
-    const markdownEntries = await Promise.all(
-        bookmarks.map((bookmark) => {
-            return generateArticleMarkdown(bookmark);
-        })
-    );
+    const markdownEntries = bookmarks.map((bookmark) => renderReadsEntry(bookmark));
     return markdownEntries.join("\n");
 }
 
@@ -189,17 +171,14 @@ function calculateTotalTimes(bookmarks: Bookmark[]): string {
 
 async function writeToFile(markdown: string) {
     try {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        const formattedDate = `${yyyy}${mm}${dd}`;
-
-        const dirPath = `src/data/reads/${yyyy}`;
-        const filePath = `${dirPath}/${formattedDate}.md`;
+        const identity = postIdentity("reads", { date: new Date() });
+        const dirPath = identity.path.slice(0, identity.path.lastIndexOf("/"));
 
         await ensureDir(dirPath);
-        await Deno.writeTextFile(filePath, `---\npubDate: ${yyyy}-${mm}-${dd}\n---\n\n${markdown}`);
+        await Deno.writeTextFile(
+            identity.path,
+            `---\npubDate: ${identity.pubDate}\n---\n\n${markdown}`,
+        );
     } catch (error: any) {
         log.error(error.message);
         throw new Error(error);
