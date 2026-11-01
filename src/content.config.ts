@@ -5,8 +5,9 @@ import { mastodonLoader } from "./loaders/mastodon.js";
 import { identityGlob } from "./lib/identity-loader.ts";
 
 const blog = defineCollection({
-    // .md and .mdx both ship; @astrojs/mdx is configured and the Pyscript demo uses it.
-    loader: identityGlob({ collection: "blog", pattern: '**/[^_]*.{md,mdx}', base: "./src/data/blog" }),
+    // .mdx stays out until the Pyscript demo renders: its terminal needs worker
+    // mode, which needs cross-origin isolation the deployment does not set.
+    loader: identityGlob({ collection: "blog", pattern: '**/[^_]*.md', base: "./src/data/blog" }),
     schema: ({ image }) => z.object({
         title: z.string(),
         description: z.string().optional(),
