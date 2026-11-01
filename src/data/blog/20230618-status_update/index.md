@@ -1,6 +1,6 @@
 ---
 title: "POS, readings and rambles | Readings"
-pubDate: "2023-06-13"
+pubDate: 2023-06-18
 ---
 
 ![N222](./n222.avif)

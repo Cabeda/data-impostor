@@ -1,6 +1,6 @@
 ---
 title: "Talk, blogging & rust | Readings"
-pubDate: "2022-12-06"
+pubDate: 2022-12-04
 ---
 
 ![Vigo ligths, https://unsplash.com/photos/xwRTz_OX2Oc](./vigo_lights.avif)

@@ -13,21 +13,23 @@
     "build:timings": "astro build --timings",
     "preview": "astro preview",
     "astro": "astro",
+    "test": "node --test \"src/lib/**/*.test.ts\"",
+    "check": "astro check",
     "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/mdx": "^8.1.0",
+    "@astrojs/mdx": "^8.1.2",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.4",
     "@slidev/theme-default": "^0.25.0",
-    "astro": "^7.4.0",
+    "astro": "^7.4.4",
     "remark-toc": "^9.0.0",
     "sharp": "^0.34.2",
     "slidev-theme-academic": "^2.1.0",
     "typescript": "^6.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
     "playwright-chromium": "^1.53.0"
   },
   "packageManager": "pnpm@11.9.0",

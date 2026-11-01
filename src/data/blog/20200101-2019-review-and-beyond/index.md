@@ -1,6 +1,6 @@
 ---
 title: '2019 Review and Beyond'
-pubDate: '2020-01-02'
+pubDate: 2020-01-01
 ---
 
 ![Budapest Christmas market](./budapest.jpg)

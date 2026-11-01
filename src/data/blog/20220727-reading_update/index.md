@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-pubDate: "2022-08-10"
+pubDate: 2022-07-27
 ---
 
 ![Photo by Pedro Menezes on Unsplash](./matosinhos.jpeg)

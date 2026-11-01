@@ -1,6 +1,6 @@
 ---
 title: "Reading Update"
-pubDate: "2022-02-07"
+pubDate: 2022-02-10
 ---
 
 ![Photo by Giammarco on Unsplash](./malta.jpeg)

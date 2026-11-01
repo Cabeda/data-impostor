@@ -2,9 +2,12 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import { mastodonLoader } from "./loaders/mastodon.js";
+import { identityGlob } from "./lib/identity-loader.ts";
 
 const blog = defineCollection({
-    loader: glob({ pattern: '**/[^_]*.md', base: "./src/data/blog" }),
+    // .mdx stays out until the Pyscript demo renders: its terminal needs worker
+    // mode, which needs cross-origin isolation the deployment does not set.
+    loader: identityGlob({ collection: "blog", pattern: '**/[^_]*.md', base: "./src/data/blog" }),
     schema: ({ image }) => z.object({
         title: z.string(),
         description: z.string().optional(),
@@ -18,7 +21,7 @@ const blog = defineCollection({
 });
 const reads = defineCollection({
     // Load data from Markdown files on disk
-    loader: glob({ pattern: "**/*.md", base: "./src/data/reads" }),
+    loader: identityGlob({ collection: "reads", pattern: "**/*.md", base: "./src/data/reads" }),
     schema: z.object({
         pubDate: z.coerce.date(),
     }),
