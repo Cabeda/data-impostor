@@ -1,6 +1,6 @@
 ---
 title: 'Building Quizzer'
-pubDate: '2019-05-26'
+pubDate: 2019-05-27
 ---
 
 A JSON-based quiz shuffler.

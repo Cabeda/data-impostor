@@ -1,6 +1,6 @@
 ---
 title: "Lots of ideas, little time | Readings"
-pubDate: "2023-04-12"
+pubDate: 2023-04-01
 ---
 
 ![https://unsplash.com/@victorbrd](./easter.avif)

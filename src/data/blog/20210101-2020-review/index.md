@@ -1,6 +1,6 @@
 ---
 title: "2020 review and beyond"
-pubDate: "2021-01-03"
+pubDate: 2021-01-01
 ---
 
 ![Pena's palace balcony](./sintra.jpg)
