@@ -23,7 +23,12 @@ const { hasChapters = true, solid = false } = Astro.props;
         aria-controls="reader-contents-sheet"
         aria-label="Contents"
       >
-        <span class="contents-icon" aria-hidden="true">☰</span>
+        <span class="contents-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 6c-2-1.4-4.8-1.4-7 0v12c2.2-1.4 5-1.4 7 0 2-1.4 4.8-1.4 7 0V6c-2.2-1.4-5-1.4-7 0Z"></path>
+            <path d="M12 6v12"></path>
+          </svg>
+        </span>
         <span class="contents-label" data-chapter-label>Contents</span>
       </button>
     )
@@ -117,7 +122,7 @@ const { hasChapters = true, solid = false } = Astro.props;
     cursor: pointer;
   }
   .reader-header[data-solid="true"] .reader-contents { background: transparent; }
-  .contents-icon { font-size: 12px; line-height: 1; }
+  .contents-icon { display: inline-flex; align-items: center; line-height: 1; }
   .contents-label {
     overflow: hidden;
     text-overflow: ellipsis;
