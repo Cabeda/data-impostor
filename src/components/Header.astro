@@ -4,17 +4,13 @@ import { SITE_TITLE } from "../consts";
 import MastodonIcon from "./icons/MastodonIcon.astro";
 import GitHubIcon from "./icons/GitHubIcon.astro";
 import RssIcon from "./icons/RssIcon.astro";
-import BookMark from "./BookMark.astro";
 import ReaderSettings from "./ReaderSettings.astro";
 ---
 
 <header transition:name="site-header" transition:persist>
   <nav>
     <h2>
-      <a href="/" aria-label="Data Impostor home">
-        <BookMark />
-        <span>{SITE_TITLE}</span>
-      </a>
+      <a href="/" aria-label="Data Impostor home">{SITE_TITLE}</a>
     </h2>
     <div class="internal-links">
       <HeaderLink href="/blog">Blog</HeaderLink>
@@ -101,7 +97,6 @@ import ReaderSettings from "./ReaderSettings.astro";
   h2 a.active {
     text-decoration: none;
   }
-  h2 a :global(.book-mark) { opacity: 0.75; }
   nav {
     display: flex;
     align-items: center;

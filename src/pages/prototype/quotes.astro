@@ -1,7 +1,8 @@
 ---
 /*
- * PROTOTYPE — marginal quotes in the reading diary.
- * Three treatments of the same day, switchable with ?variant=A|B|C.
+ * PROTOTYPE — marginal notes in the reading diary.
+ * The quote is the primary content; the personal comment is the note.
+ * Switch with ?variant=A|B|C.
  */
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
@@ -14,19 +15,19 @@ const article = {
 
 const rows = [
   {
-    note: "The domain-context point is the one I keep coming back to. Durable teams outperform brilliant individuals who lack context.",
     quote:
       "High judgment individuals can wander across a company doing remarkable things, but at some point they do get hemmed in by lack of domain context.",
+    note: "The domain-context point is the one I keep coming back to. Durable teams outperform brilliant individuals who lack context.",
   },
   {
-    note: "This is the shift I feel at work: the harness writes the first pass, and the job moves up a level.",
     quote:
       "Pretty much every PR is written by harnesses now, at least in the first pass.",
+    note: "This is the shift I feel at work: the harness writes the first pass, and the job moves up a level.",
   },
   {
-    note: "Worth remembering: the tools changed, but the judgment did not.",
     quote:
       "The good news is that this means the things that were most valuable to speed up engineering two years ago are still the things that are most valuable to speed them up today.",
+    note: "Worth remembering: the tools changed, but the judgment did not.",
   },
 ];
 ---
@@ -35,8 +36,8 @@ const rows = [
 <html lang="en" data-proto-variant="A">
   <head>
     <BaseHead
-      title="Prototype · marginal quotes"
-      description="Three ways to show article highlights as marginalia in the reading diary."
+      title="Prototype · marginal notes"
+      description="Three ways to keep the quote primary and the personal note in the margin."
     />
     <meta name="robots" content="noindex" />
     <style is:global>
@@ -87,63 +88,22 @@ const rows = [
       }
       .day-head a { color: var(--ink); text-decoration: none; }
       .day-head a:hover { color: var(--accent); }
-      .note {
-        font-family: var(--font-read);
-        font-size: var(--read-size);
-        line-height: var(--read-leading);
-        color: var(--ink);
-      }
-      .quote-text {
+
+      .quote {
+        margin: 0;
         font-family: var(--font-read);
         font-style: italic;
-        color: var(--muted);
+        color: var(--ink);
       }
-
-      /* A · margin */
-      .v-a .margin-row {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 240px;
-        gap: 38px;
-        align-items: start;
-        padding: 18px 0;
-      }
-      .v-a .margin-quote {
-        margin: 2px 0 0;
-        padding-top: 12px;
-        border-top: 1px solid var(--accent);
-        font-size: calc(var(--read-size) - 4px);
-        line-height: 1.5;
-      }
-      .v-a .margin-quote::before {
-        content: "“";
-        display: block;
-        margin-bottom: -8px;
+      .quote .mark {
+        color: var(--accent);
         font-family: var(--font-serif);
-        font-size: 34px;
-        line-height: 1;
-        color: var(--accent);
+        font-size: 1.6em;
+        line-height: 0;
+        vertical-align: -0.25em;
+        margin-right: 2px;
       }
-      .v-a .margin-quote cite {
-        display: block;
-        margin-top: 8px;
-        font-family: var(--font-mono);
-        font-size: 9px;
-        font-style: normal;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-
-      /* B · pull */
-      .v-b .pull-row { padding: 18px 0; }
-      .v-b .pull-quote {
-        margin: 22px 0;
-        padding: 4px 0 4px 22px;
-        border-left: 2px solid var(--accent);
-        font-size: 1.35em;
-        line-height: 1.3;
-      }
-      .v-b .pull-quote cite {
+      .quote-source {
         display: block;
         margin-top: 10px;
         font-family: var(--font-mono);
@@ -153,27 +113,81 @@ const rows = [
         text-transform: uppercase;
         color: var(--accent);
       }
+      .note {
+        margin: 0;
+        font-family: var(--font-read);
+        font-size: calc(var(--read-size) - 4px);
+        line-height: 1.55;
+        color: var(--muted);
+      }
+      .note-label {
+        display: block;
+        margin-bottom: 5px;
+        font-family: var(--font-mono);
+        font-size: 8px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
 
-      /* C · rail */
+      /* A · quote in the column, note in the margin */
+      .v-a .margin-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 240px;
+        gap: 38px;
+        align-items: start;
+        padding: 18px 0;
+      }
+      .v-a .margin-quote {
+        font-size: 1.12em;
+        line-height: 1.45;
+      }
+      .v-a .margin-note {
+        margin-top: 2px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+
+      /* B · quote as the block, note as a small caption */
+      .v-b .pull-row { padding: 18px 0; }
+      .v-b .pull-quote {
+        padding: 4px 0 4px 22px;
+        border-left: 2px solid var(--accent);
+        font-size: 1.45em;
+        line-height: 1.3;
+      }
+      .v-b .pull-note {
+        margin: 14px 0 0 24px;
+        padding-left: 12px;
+        border-left: 1px solid var(--line);
+      }
+
+      /* C · quotes in the text, notes in a sticky rail */
       .v-c .rail-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 280px;
+        grid-template-columns: minmax(0, 1fr) 300px;
         gap: 46px;
         align-items: start;
       }
-      .v-c .rail-copy { max-width: 56ch; }
-      .v-c .rail-copy p { position: relative; }
+      .v-c .rail-copy { max-width: 58ch; }
+      .v-c .quote {
+        padding: 18px 0;
+        font-size: 1.08em;
+        line-height: 1.5;
+      }
+      .v-c .quote + .quote { border-top: 1px solid var(--line); }
       .v-c .marker {
         display: inline-grid;
         place-items: center;
         width: 17px;
         height: 17px;
-        margin-left: 3px;
+        margin-left: 4px;
         border-radius: 50%;
         background: var(--accent-soft);
         color: var(--accent);
         font-family: var(--font-mono);
         font-size: 9px;
+        font-style: normal;
         line-height: 1;
         vertical-align: super;
         text-decoration: none;
@@ -201,9 +215,8 @@ const rows = [
         color: var(--muted);
         text-decoration: none;
         font-family: var(--font-read);
-        font-style: italic;
-        font-size: calc(var(--read-size) - 5px);
-        line-height: 1.4;
+        font-size: calc(var(--read-size) - 6px);
+        line-height: 1.45;
       }
       .v-c .rail li a:hover,
       .v-c .rail li a.is-active {
@@ -212,7 +225,6 @@ const rows = [
       }
       .v-c .rail .n {
         font-family: var(--font-mono);
-        font-style: normal;
         font-size: 9px;
         color: var(--accent);
       }
@@ -221,13 +233,13 @@ const rows = [
         .proto-page { padding: 28px 20px 100px; }
         .v-a .margin-row {
           grid-template-columns: minmax(0, 1fr);
-          gap: 10px;
+          gap: 12px;
         }
-        .v-a .margin-quote {
-          margin-left: 20px;
+        .v-a .margin-note {
+          margin-left: 22px;
           padding-left: 12px;
           border-top: 0;
-          border-left: 2px solid var(--accent);
+          border-left: 1px solid var(--line);
         }
         .v-c .rail-layout {
           grid-template-columns: minmax(0, 1fr);
@@ -237,10 +249,7 @@ const rows = [
           position: static;
           order: -1;
         }
-        .v-c .rail ol {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr);
-        }
+        .v-c .rail ol { display: grid; grid-template-columns: minmax(0, 1fr); }
       }
     </style>
   </head>
@@ -248,11 +257,12 @@ const rows = [
     <Header />
     <main class="proto-page">
       <header class="proto-head">
-        <p class="kicker">Prototype · marginal quotes</p>
-        <h1>How should a highlight sit next to a note?</h1>
+        <p class="kicker">Prototype · marginal notes</p>
+        <h1>The quote leads. Your note sits beside it.</h1>
         <p>
-          The same diary day, three ways. A and B put the quote in the flow; C keeps
-          a sticky index of highlights beside the notes.
+          The highlight is the important thing. The personal note is commentary.
+          A puts the note in the margin; B keeps it as a caption; C collects all
+          notes in a sticky rail.
         </p>
       </header>
 
@@ -264,11 +274,14 @@ const rows = [
         {
           rows.map((row) => (
             <div class="margin-row">
-              <p class="note">{row.note}</p>
-              <blockquote class="margin-quote quote-text">
-                {row.quote}
-                <cite>{article.source}</cite>
+              <blockquote class="quote margin-quote">
+                <span class="mark">“</span>{row.quote}
+                <cite class="quote-source">{article.source}</cite>
               </blockquote>
+              <p class="note margin-note">
+                <span class="note-label">My note</span>
+                {row.note}
+              </p>
             </div>
           ))
         }
@@ -282,11 +295,14 @@ const rows = [
         {
           rows.map((row) => (
             <div class="pull-row">
-              <p class="note">{row.note}</p>
-              <blockquote class="pull-quote quote-text">
-                {row.quote}
-                <cite>{article.source}</cite>
+              <blockquote class="quote pull-quote">
+                <span class="mark">“</span>{row.quote}
+                <cite class="quote-source">{article.source}</cite>
               </blockquote>
+              <p class="note pull-note">
+                <span class="note-label">My note</span>
+                {row.note}
+              </p>
             </div>
           ))
         }
@@ -301,24 +317,25 @@ const rows = [
           <div class="rail-copy">
             {
               rows.map((row, index) => (
-                <p class="note">
-                  {row.note}{" "}
-                  <a class="marker" href={`#quote-${index + 1}`}>
+                <blockquote class="quote">
+                  <span class="mark">“</span>{row.quote}
+                  <a class="marker" href={`#note-${index + 1}`}>
                     {index + 1}
                   </a>
-                </p>
+                  <cite class="quote-source">{article.source}</cite>
+                </blockquote>
               ))
             }
           </div>
-          <aside class="rail" aria-label="Highlights">
-            <p class="kicker">Highlights</p>
+          <aside class="rail" aria-label="My notes">
+            <p class="kicker">My notes</p>
             <ol>
               {
                 rows.map((row, index) => (
                   <li>
-                    <a href={`#quote-${index + 1}`} id={`quote-${index + 1}`}>
+                    <a href={`#note-${index + 1}`} id={`note-${index + 1}`}>
                       <span class="n">{String(index + 1).padStart(2, "0")}</span>
-                      <span>{row.quote}</span>
+                      <span>{row.note}</span>
                     </a>
                   </li>
                 ))
@@ -332,8 +349,8 @@ const rows = [
     <PrototypeBar
       variants={[
         { key: "A", label: "Margin" },
-        { key: "B", label: "Pull" },
-        { key: "C", label: "Rail" },
+        { key: "B", label: "Caption" },
+        { key: "C", label: "Notes rail" },
       ]}
     />
   </body>

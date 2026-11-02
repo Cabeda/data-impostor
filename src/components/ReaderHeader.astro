@@ -1,5 +1,4 @@
 ---
-import BookMark from "./BookMark.astro";
 import ReaderSettings from "./ReaderSettings.astro";
 
 interface Props {
@@ -11,7 +10,6 @@ const { hasChapters = true, solid = false } = Astro.props;
 
 <header class="reader-header" data-reader-header data-solid={solid ? "true" : "false"}>
   <a class="reader-brand" href="/" aria-label="Data Impostor home">
-    <BookMark />
     <span>Data Impostor</span>
   </a>
 
@@ -101,7 +99,6 @@ const { hasChapters = true, solid = false } = Astro.props;
     text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
   }
   .reader-header[data-solid="true"] .reader-brand { text-shadow: none; }
-  .reader-brand :global(.book-mark) { opacity: 0.9; }
 
   .reader-contents {
     display: inline-flex;
