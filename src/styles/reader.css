@@ -445,8 +445,14 @@ html[data-listen="on"] .reader-dock { display: flex; }
   .chapter-meta { display: none; }
 }
 @media (max-width: 720px) {
-  .reader-hero { min-height: 58vh; }
+  .reader-hero.has-image { min-height: 58vh; }
+  .reader-hero:not(.has-image) {
+    min-height: auto;
+    padding: 48px 0 32px;
+  }
   .reader-hero-inner { padding: 92px 20px 30px; }
+  .reader-hero.has-image .reader-hero-inner { padding: 92px 20px 30px; }
+  .reader-hero:not(.has-image) .reader-hero-inner { padding: 0 20px; }
   .reader-hero h1 { font-size: 40px; }
   .reader-dek { font-size: 16px; margin-bottom: 20px; }
   .chapter-inner { padding: 0 10px; }
