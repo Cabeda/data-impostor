@@ -24,7 +24,7 @@ import RssIcon from "./icons/RssIcon.astro";
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
-    <div id="navPanel" class="nav-panel" aria-hidden="true">
+    <div id="navPanel" class="nav-panel" aria-hidden="true" inert>
       <div class="nav-panel-inner">
         <div class="panel-header">
           <button id="panelClose" class="panel-close" aria-label="Close menu">×</button>
@@ -227,7 +227,9 @@ import RssIcon from "./icons/RssIcon.astro";
       if (isOverflowing) {
         nav.classList.add('collapsed');
         toggle.setAttribute('aria-expanded', 'false');
-        document.getElementById('navPanel')?.setAttribute('aria-hidden', 'true');
+        const hiddenPanel = document.getElementById('navPanel');
+        hiddenPanel?.setAttribute('aria-hidden', 'true');
+        if (hiddenPanel) hiddenPanel.inert = true;
       } else {
         nav.classList.remove('collapsed');
       }
@@ -239,6 +241,7 @@ import RssIcon from "./icons/RssIcon.astro";
       if (!panel || !toggle) return;
       if (open) {
         panel.classList.add('open');
+        panel.inert = false;
         panel.setAttribute('aria-hidden', 'false');
         toggle.setAttribute('aria-expanded', 'true');
         // prevent body scroll while menu is open
@@ -246,6 +249,7 @@ import RssIcon from "./icons/RssIcon.astro";
       } else {
         panel.classList.remove('open');
         panel.setAttribute('aria-hidden', 'true');
+        panel.inert = true;
         toggle.setAttribute('aria-expanded', 'false');
         try { document.body.style.overflow = ''; } catch (e) {}
       }

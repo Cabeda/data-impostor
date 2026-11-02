@@ -220,15 +220,16 @@ export function checkEntryDate(
 
 /**
  * The body of a reads entry. The reads page styles these exact shapes
- * (`##### title` then `- highlight` bullets), so the markup lives here, next to
- * the identity, instead of inside the script that happens to call it.
+ * (`## title` then `- highlight` bullets), so the markup lives here, next to
+ * the identity, instead of inside the script that happens to call it. The
+ * heading is `h2`: the entry title sits under the reads page's only `h1`.
  */
 export function renderReadsEntry(bookmark: ReadsBookmark): string {
   const authors =
     bookmark.authors && bookmark.authors.length > 0
       ? ` by ${bookmark.authors.join(", ")}`
       : "";
-  let markdown = `##### [${bookmark.title}${authors}](${bookmark.url})`;
+  let markdown = `## [${bookmark.title}${authors}](${bookmark.url})`;
   if (bookmark.highlights && bookmark.highlights.length > 0) {
     markdown += "\n\n";
     for (const highlight of bookmark.highlights) {

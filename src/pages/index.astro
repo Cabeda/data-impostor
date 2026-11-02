@@ -6,26 +6,19 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import { ClientRouter } from "astro:transitions";
+import { Image } from "astro:assets";
+import MastodonIcon from "../components/icons/MastodonIcon.astro";
+import { previewText } from "../lib/mastodon-preview.ts";
 
 const blogposts = await getCollection("blog");
-
-function decodeHtml(html: string) {
-  return html
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&nbsp;/g, ' ');
-}
 
 const mastodonPosts = (await getCollection("mastodon")).map((post) => ({
   ...post,
   data: {
     ...post.data,
-    title: decodeHtml(post.data.content.replace(/<[^>]*>/g, '')).substring(0, 60) + '...',
+    title: previewText(post.data.content, 60),
     pubDate: new Date(post.data.created_at),
-    description: decodeHtml(post.data.content.replace(/<[^>]*>/g, '')).substring(0, 150),
+    description: previewText(post.data.content, 150),
   },
   collection: 'mastodon' as const,
 }));
@@ -41,6 +34,8 @@ const latestPosts = allPosts
 
 const featuredPost = latestPosts[0];
 const recentPosts = latestPosts.slice(1);
+// The LCP image is the first card with a local hero, not necessarily card 0.
+const lcpIndex = recentPosts.findIndex((post) => post.data.heroImage);
 ---
 
 <!doctype html>
@@ -186,8 +181,11 @@ const recentPosts = latestPosts.slice(1);
       }
       
       .post-type.mastodon {
-        background: #6364FF20;
-        color: #6364FF;
+        background: #6364ff1f;
+        color: #2b2bbd;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
       }
       
       .post-card h3 {
@@ -268,18 +266,36 @@ const recentPosts = latestPosts.slice(1);
 
       <h2 class="section-title">Recent Activity</h2>
       <div class="posts-grid">
-        {recentPosts.map((post) => (
+        {recentPosts.map((post, index) => (
           <div class="post-card">
             <a href={post.collection === 'mastodon' ? `/mastodon/${post.id}` : `/blog/${post.id}/`}>
               {post.data.heroImage && (
-                <img src={post.data.heroImage.src} alt={post.data.title} class="post-image" />
+                <Image
+                  src={post.data.heroImage}
+                  alt={post.data.title}
+                  class="post-image"
+                  widths={[320, 640]}
+                  sizes="(max-width: 720px) 90vw, 302px"
+                  format="avif"
+                  fetchpriority={index === lcpIndex ? "high" : undefined}
+                  loading={index === lcpIndex ? "eager" : "lazy"}
+                />
               )}
-              {post.collection === 'mastodon' && post.data.images && post.data.images[0] && (
-                <img src={post.data.images[0].url} alt="" class="post-image" />
+              {post.collection === 'mastodon' && post.data.images?.[0] && (
+                <img
+                  src={post.data.images[0].url}
+                  alt={post.data.images[0].description || ""}
+                  class="post-image"
+                  width="640"
+                  height="360"
+                  loading="lazy"
+                  decoding="async"
+                  referrerpolicy="no-referrer"
+                />
               )}
               <div class="post-content">
                 <span class={`post-type ${post.collection === 'mastodon' ? 'mastodon' : 'blog'}`}>
-                  {post.collection === 'mastodon' ? '🐘 Mastodon' : '📝 Blog'}
+                  {post.collection === 'mastodon' ? <><MastodonIcon width={12} height={12} /> Mastodon</> : '📝 Blog'}
                 </span>
                 <h3>{post.data.title}</h3>
                 <time datetime={post.data.pubDate.toISOString()}>

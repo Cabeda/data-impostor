@@ -201,7 +201,7 @@ describe("renderReadsEntry", () => {
   it("renders the title link the reads page styles", () => {
     assert.equal(
       renderReadsEntry({ title: "A Book", url: "https://example.com/a" }),
-      "##### [A Book](https://example.com/a)",
+      "## [A Book](https://example.com/a)",
     );
   });
 
@@ -212,7 +212,7 @@ describe("renderReadsEntry", () => {
         url: "https://example.com/a",
         authors: ["Ada", "Grace"],
       }),
-      "##### [A Book by Ada, Grace](https://example.com/a)",
+      "## [A Book by Ada, Grace](https://example.com/a)",
     );
   });
 
@@ -223,14 +223,14 @@ describe("renderReadsEntry", () => {
         url: "https://example.com/a",
         highlights: [{ text: "first" }, { text: "second" }],
       }),
-      "##### [A Book](https://example.com/a)\n\n- first\n- second\n",
+      "## [A Book](https://example.com/a)\n\n- first\n- second\n",
     );
   });
 
   it("leaves no trailing bullets when there are no highlights", () => {
     assert.equal(
       renderReadsEntry({ title: "A Book", url: "https://example.com/a", highlights: [] }),
-      "##### [A Book](https://example.com/a)",
+      "## [A Book](https://example.com/a)",
     );
   });
 });
