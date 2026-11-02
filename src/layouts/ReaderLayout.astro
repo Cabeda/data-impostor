@@ -1,0 +1,226 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getImage } from "astro:assets";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import ReaderHeader from "../components/ReaderHeader.astro";
+import MastodonComments from "../components/MastodonComments.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import PostCover from "../components/PostCover.astro";
+import { ClientRouter } from "astro:transitions";
+import "../styles/reader.css";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  headings: Heading[];
+}
+
+const { post, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, mastodonUrl } =
+  post.data;
+
+const chapters = headings.filter((heading) => heading.depth === 2);
+const hasChapters = chapters.length > 0;
+const words = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
+const readMin = Math.max(1, Math.round(words / 220));
+const dateLabel = pubDate.toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+const pad = (value: number) => String(value).padStart(2, "0");
+const ogImage = heroImage
+  ? import.meta.env.DEV
+    ? heroImage.src
+    : (await getImage({ src: heroImage, width: 1200, height: 630, fit: "cover", format: "jpeg" })).src
+  : undefined;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={ogImage} />
+    <ClientRouter />
+  </head>
+
+  <body class="reader-page">
+    <!--
+      Reader contract (one seam):
+      #post-content h2 is the chapter source; [data-chapter-link] are jump
+      links, [data-chapter-label] is the current label, [data-contents-toggle]
+      opens the sheet, [data-listen-toggle] toggles audio, and [data-audio-*]
+      are the dock's controls. Keep this list in sync with reader-audio.ts and
+      reader-shell.ts.
+    -->
+    <ReaderHeader hasChapters={hasChapters} solid={!heroImage} />
+
+    <section class:list={["reader-hero", heroImage && "has-image"]}>
+      {heroImage && <PostCover image={heroImage} alt={heroImageAlt || ""} />}
+      <div class="reader-hero-inner">
+        <p class="reader-kicker">
+          <time datetime={pubDate.toISOString()}>{dateLabel}</time>
+          <span>·</span>
+          <span>{readMin} min read</span>
+          {updatedDate && (
+            <>
+              <span>·</span>
+              <span>Updated <FormattedDate date={updatedDate} /></span>
+            </>
+          )}
+        </p>
+        <h1>{title}</h1>
+        {description && <p class="reader-dek">{description}</p>}
+        <p class="reader-byline">José Cabeda</p>
+      </div>
+    </section>
+
+    {
+      hasChapters && (
+        <div class="chapter-bar" data-chapter-bar>
+          <div class="chapter-inner">
+            <nav class="chapter-track" aria-label="Chapters">
+              {chapters.map((heading, index) => (
+                <a href={`#${heading.slug}`} data-chapter-link={index}>
+                  <span class="chapter-num">{pad(index + 1)}</span>
+                  <span>{heading.text}</span>
+                </a>
+              ))}
+            </nav>
+            <div class="chapter-meta">
+              <span>{readMin} min read</span>
+              <span data-minutes-left></span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    <main class="reader-main">
+      <article id="post-content" class="post-body" data-read-minutes={readMin}>
+        <slot />
+      </article>
+
+      <footer class="reader-end">
+        <a class="chip" href="/blog">More notes →</a>
+      </footer>
+
+      {
+        mastodonUrl && (
+          <section class="reader-comments">
+            <h2>Comments</h2>
+            <MastodonComments mastodonUrl={mastodonUrl} buildTime={new Date()} />
+          </section>
+        )
+      }
+    </main>
+
+    <div class="reader-dock" data-audio-dock aria-label="Audio player">
+      <button class="dock-btn" data-chapter="prev" type="button" aria-label="Previous chapter">‹</button>
+      <button class="dock-play" data-audio-toggle type="button" aria-label="Play or pause">
+        <span data-audio-icon>▶</span>
+      </button>
+      <button class="dock-btn" data-chapter="next" type="button" aria-label="Next chapter">›</button>
+      <button
+        class="dock-btn"
+        data-audio-locate
+        type="button"
+        aria-label="Jump to the sentence being read"
+        title="Jump to the sentence being read"
+        hidden
+      >⌖</button>
+      <div class="dock-copy">
+        <span data-audio-status>Not listening</span>
+        <span class="dock-sub" data-audio-chapter></span>
+      </div>
+      <div class="dock-track"><i data-audio-progress></i></div>
+      <select data-rate aria-label="Playback speed">
+        <option value="0.8">0.8×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.25">1.25×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+
+    {
+      hasChapters && (
+        <div class="contents-sheet" id="reader-contents-sheet" data-contents-sheet aria-hidden="true">
+          <div class="contents-scrim" data-contents-close />
+          <aside class="contents-panel" role="dialog" aria-modal="true" aria-label="Contents">
+            <header class="contents-head">
+              <div>
+                <p class="kicker">Contents</p>
+                <p class="contents-title">{title}</p>
+              </div>
+              <button class="contents-close" data-contents-close type="button" aria-label="Close contents">×</button>
+            </header>
+            <nav class="contents-list">
+              {chapters.map((heading, index) => (
+                <a href={`#${heading.slug}`} data-chapter-link={index}>
+                  <span class="chapter-num">{pad(index + 1)}</span>
+                  <span>{heading.text}</span>
+                </a>
+              ))}
+            </nav>
+            <footer class="contents-foot">
+              <span>{readMin} min read</span>
+              <span data-minutes-left></span>
+            </footer>
+          </aside>
+        </div>
+      )
+    }
+
+    <Footer />
+
+    <script>
+      import { initReaderShell } from "../scripts/reader-shell";
+      initReaderShell();
+    </script>
+
+    <script>
+      (() => {
+        const w = window as unknown as { __diReaderAudioBoot?: boolean };
+        if (w.__diReaderAudioBoot) return;
+        w.__diReaderAudioBoot = true;
+
+        let audioPromise: Promise<{
+          toggleListen: () => void;
+          refresh: () => void;
+        }> | undefined;
+
+        function loadAudio() {
+          audioPromise ??= import("../scripts/reader-audio").then((module) =>
+            module.initReaderAudio(),
+          );
+          return audioPromise;
+        }
+
+        function startIfListening() {
+          if (document.documentElement.dataset.listen !== "on") return;
+          if (!document.getElementById("post-content")) return;
+          loadAudio();
+        }
+
+        document.addEventListener("click", (event) => {
+          const target = event.target as HTMLElement;
+          if (!target.closest("[data-listen-toggle]")) return;
+          event.preventDefault();
+          loadAudio().then((api) => api.toggleListen());
+        });
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(startIfListening, { timeout: 1500 });
+        } else {
+          setTimeout(startIfListening, 400);
+        }
+        document.addEventListener("astro:page-load", startIfListening);
+      })();
+    </script>
+  </body>
+</html>

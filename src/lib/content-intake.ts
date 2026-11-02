@@ -238,3 +238,15 @@ export function renderReadsEntry(bookmark: ReadsBookmark): string {
   }
   return markdown;
 }
+
+/**
+ * The title of a reads entry, recovered from the rendered reads-entry Markdown.
+ * This is the inverse of `renderReadsEntry`, so it lives here, next to the
+ * entry's identity, rather than in any page that happens to display it.
+ */
+export function readTitleFromBody(body: string | null | undefined): string {
+  const heading = body?.split("\n").find((line) => line.trim().startsWith("#"));
+  if (!heading) return "Reading notes";
+  const title = heading.replace(/^#+\s*/, "").replace(/\[([^\]]+)\]\([^)]+\)/, "$1").trim();
+  return title || "Reading notes";
+}

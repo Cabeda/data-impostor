@@ -2,6 +2,14 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
+import {
+  DEFAULT_READER_PREFS,
+  FACES,
+  READER_PREFS_KEY,
+  SIZES,
+  THEMES,
+  THEME_COLORS,
+} from "../lib/reader-prefs";
 
 interface Props {
   title: string;
@@ -22,6 +30,46 @@ const ogImage = new URL(image, Astro.url);
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 <meta name="fediverse:creator" content="@jecabeda@mastodon.social" />
+<meta name="theme-color" content="#fbf8f1" />
+
+<!-- Apply reader preferences and the first-visit book intro before paint. -->
+<script
+  is:inline
+  define:vars={{ prefsKey: READER_PREFS_KEY, themes: THEMES, sizes: SIZES, faces: FACES, defaults: DEFAULT_READER_PREFS, themeColors: THEME_COLORS }}
+>
+  (() => {
+    const root = document.documentElement;
+    const colors = themeColors || {};
+    try {
+      const raw = localStorage.getItem(prefsKey);
+      const prefs = raw ? JSON.parse(raw) : null;
+      if (prefs && themes.includes(prefs.theme)) {
+        root.dataset.theme = prefs.theme;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta && colors[prefs.theme]) meta.setAttribute("content", colors[prefs.theme]);
+      }
+      if (prefs && sizes.includes(prefs.size)) root.dataset.size = prefs.size;
+      if (prefs && faces.includes(prefs.face)) root.dataset.face = prefs.face;
+      if (prefs && prefs.listen === true) root.dataset.listen = "on";
+    } catch {}
+
+    try {
+      const seen = localStorage.getItem("di:book-intro") === "1";
+      const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      root.dataset.bookIntro = reduce ? "none" : seen ? "subtle" : "full";
+      if (!seen) {
+        window.setTimeout(() => {
+          try {
+            localStorage.setItem("di:book-intro", "1");
+          } catch {}
+          root.dataset.bookIntro = "subtle";
+        }, 1900);
+      }
+    } catch {
+      root.dataset.bookIntro = "subtle";
+    }
+  })();
+</script>
 
 <!-- Font preloads -->
 <link

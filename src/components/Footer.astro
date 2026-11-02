@@ -22,22 +22,23 @@ import RssIcon from './icons/RssIcon.astro';
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
+		padding: 2em 1em 3em 1em;
+		background: var(--bg);
+		border-top: 1px solid var(--line);
+		color: var(--muted);
 		text-align: center;
 	}
 	.social-links {
 		display: flex;
 		justify-content: center;
 		gap: 1em;
-		margin-top: 1em;
+		margin-top: 0;
 	}
 	.social-links a {
 		text-decoration: none;
-		color: rgb(var(--gray));
+		color: var(--muted);
 	}
 	.social-links a:hover {
-		color: rgb(var(--gray-dark));
+		color: var(--ink);
 	}
 </style>

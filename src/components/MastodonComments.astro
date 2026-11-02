@@ -48,8 +48,9 @@ if (postId) {
 
 <script>
   const REFRESH_THRESHOLD = 24 * 60 * 60 * 1000; // 24 hours
+  const w = window as unknown as { __diMastodonComments?: boolean };
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function refreshMastodonComments() {
     const container = document.querySelector('.mastodon-comments');
     if (!container) return;
 
@@ -83,7 +84,13 @@ if (postId) {
         })
         .catch(err => console.error('Failed to refresh comments:', err));
     }
-  });
+  }
+
+  if (!w.__diMastodonComments) {
+    w.__diMastodonComments = true;
+    document.addEventListener('astro:page-load', refreshMastodonComments);
+  }
+  refreshMastodonComments();
 </script>
 
 <style>
@@ -148,7 +155,7 @@ if (postId) {
   }
 
   .view-on-mastodon a {
-    color: rgb(var(--accent));
+    color: var(--accent);
     text-decoration: none;
   }
 

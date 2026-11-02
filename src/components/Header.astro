@@ -4,11 +4,14 @@ import { SITE_TITLE } from "../consts";
 import MastodonIcon from "./icons/MastodonIcon.astro";
 import GitHubIcon from "./icons/GitHubIcon.astro";
 import RssIcon from "./icons/RssIcon.astro";
+import ReaderSettings from "./ReaderSettings.astro";
 ---
 
 <header transition:name="site-header" transition:persist>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2>
+      <a href="/" aria-label="Data Impostor home">{SITE_TITLE}</a>
+    </h2>
     <div class="internal-links">
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/mastodon">Mastodon</HeaderLink>
@@ -17,13 +20,6 @@ import RssIcon from "./icons/RssIcon.astro";
       <HeaderLink href="/reads">Reads</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
     </div>
-    <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel" aria-label="Menu">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
     <div id="navPanel" class="nav-panel" aria-hidden="true" inert>
       <div class="nav-panel-inner">
         <div class="panel-header">
@@ -50,19 +46,29 @@ import RssIcon from "./icons/RssIcon.astro";
         </div>
       </div>
     </div>
-    <div class="social-links">
-      <a href="https://mastodon.social/@jecabeda" target="_blank">
-        <span class="sr-only">Follow me on Mastodon</span>
-        <MastodonIcon width={32} height={32} />
-      </a>
-      <a href="https://github.com/cabeda" target="_blank">
-        <span class="sr-only">Go to my GitHub repo</span>
-        <GitHubIcon width={32} height={32} />
-      </a>
-      <a href="https://cabeda.dev/rss.xml" target="_blank">
-        <span class="sr-only">Go to my RSS feed</span>
-        <RssIcon width={30} height={32} />
-      </a>
+    <div class="header-tools">
+      <ReaderSettings />
+      <div class="social-links">
+        <a href="https://mastodon.social/@jecabeda" target="_blank">
+          <span class="sr-only">Follow me on Mastodon</span>
+          <MastodonIcon width={32} height={32} />
+        </a>
+        <a href="https://github.com/cabeda" target="_blank">
+          <span class="sr-only">Go to my GitHub repo</span>
+          <GitHubIcon width={32} height={32} />
+        </a>
+        <a href="https://cabeda.dev/rss.xml" target="_blank">
+          <span class="sr-only">Go to my RSS feed</span>
+          <RssIcon width={30} height={32} />
+        </a>
+      </div>
+      <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </nav>
 </header>
@@ -71,14 +77,20 @@ import RssIcon from "./icons/RssIcon.astro";
   header {
     margin: 0;
     padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
     position: relative;
     z-index: 100;
   }
   h2 {
     margin: 0;
     font-size: 1em;
+  }
+  h2 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   h2 a,
@@ -92,6 +104,13 @@ import RssIcon from "./icons/RssIcon.astro";
     gap: 1rem;
   }
 
+  .header-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+
   .internal-links {
     display: flex;
     gap: 0.25rem;
@@ -103,7 +122,7 @@ import RssIcon from "./icons/RssIcon.astro";
 
   nav a {
     padding: 1em 0.5em;
-    color: var(--black);
+    color: var(--ink);
     border-bottom: 4px solid transparent;
     text-decoration: none;
   }
@@ -206,6 +225,7 @@ import RssIcon from "./icons/RssIcon.astro";
     .social-links { display: none; }
     .internal-links { display: none; }
     .menu-button { display: inline-flex; }
+    .header-tools { gap: 0.65rem; }
   }
 </style>
 

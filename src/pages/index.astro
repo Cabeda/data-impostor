@@ -1,319 +1,328 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
 import { ClientRouter } from "astro:transitions";
-import { Image } from "astro:assets";
-import MastodonIcon from "../components/icons/MastodonIcon.astro";
-import { previewText } from "../lib/mastodon-preview.ts";
+import { latestContents } from "../lib/home-shelf.ts";
 
 const blogposts = await getCollection("blog");
+const reads = await getCollection("reads");
+const mastodon = await getCollection("mastodon");
 
-const mastodonPosts = (await getCollection("mastodon")).map((post) => ({
-  ...post,
-  data: {
-    ...post.data,
-    title: previewText(post.data.content, 60),
-    pubDate: new Date(post.data.created_at),
-    description: previewText(post.data.content, 150),
-  },
-  collection: 'mastodon' as const,
-}));
-
-const allPosts = [...blogposts, ...mastodonPosts];
-
-const latestPosts = allPosts
-  .sort(
-    (a, b) =>
-      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-  )
-  .slice(0, 8);
-
-const featuredPost = latestPosts[0];
-const recentPosts = latestPosts.slice(1);
-// The LCP image is the first card with a local hero, not necessarily card 0.
-const lcpIndex = recentPosts.findIndex((post) => post.data.heroImage);
+const latestPost = [...blogposts].sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+)[0];
+const startHref = "/blog";
+const contents = latestContents(blogposts, reads, mastodon);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ClientRouter />
+    <BaseHead
+      title={SITE_TITLE}
+      description={SITE_DESCRIPTION}
+      image={latestPost?.data.heroImage?.src}
+    />
+    <link rel="preload" href="/fonts/la-belle-aurore.woff2" as="font" type="font/woff2" crossorigin />
     <style>
-      main {
-        width: 960px;
-        max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 2em 1em;
+      @font-face {
+        font-family: "Diary Ink";
+        src: url("/fonts/la-belle-aurore.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
       }
-      
-      .hero {
-        margin-bottom: 3rem;
+    </style>
+    <ClientRouter />
+    <style is:global>
+      @font-face {
+        font-family: "Diary Ink";
+        src: url("/fonts/la-belle-aurore.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
       }
-      
-      .hero h1 {
-        font-size: 2.5rem;
+      body.home-page {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+      }
+      .home-main {
+        flex: 1;
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 28px 32px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+        gap: clamp(36px, 6vw, 88px);
+        align-items: center;
+      }
+
+      .home-copy {
+        font-size: var(--read-size);
+        overflow: visible;
+      }
+      .home-title {
+        margin: 0.08em 0 0.12em;
+        padding-top: 0.1em;
+        font-family: "Diary Ink", var(--font-serif);
+        font-size: clamp(54px, 6.4vw, 92px);
+        font-weight: 400;
         line-height: 1.2;
-        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+        overflow: visible;
       }
-      
-      .hero-intro {
-        font-size: 1.125rem;
-        line-height: 1.6;
-        color: rgb(var(--gray-dark));
-        margin-bottom: 2rem;
+      .home-title .ink {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: visible;
       }
-      
-      .featured-post {
-        background: linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-dark)) 100%);
-        border-radius: 12px;
-        padding: 2rem;
-        color: white;
-        margin-bottom: 3rem;
-        transition: transform 0.2s;
+      .home-title .ink-char {
+        display: inline-block;
+        opacity: 0;
+        animation: ink-char 140ms ease-out forwards;
+        animation-delay: calc(var(--i) * 105ms + 180ms);
       }
-      
-      .featured-post:hover {
+      @keyframes ink-char {
+        from { opacity: 0; transform: translateY(2px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .home-title .ink-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 0.72em;
+        margin-left: 0.04em;
+        vertical-align: -0.06em;
+        background: var(--accent);
+        opacity: 0;
+        animation: ink-cursor 1s steps(1) infinite;
+        animation-delay: calc(11 * 105ms + 180ms + 140ms);
+      }
+      @keyframes ink-cursor {
+        0%, 55% { opacity: 1; }
+        56%, 100% { opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .home-title .ink-char { opacity: 1; animation: none; transform: none; }
+        .home-title .ink-cursor { display: none; }
+      }
+      .ornament {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 24px 0;
+        color: var(--accent);
+      }
+      .ornament .rule {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+      .ornament .diamond {
+        width: 7px;
+        height: 7px;
+        transform: rotate(45deg);
+        background: var(--accent);
+      }
+      .home-lede {
+        max-width: 42ch;
+        margin: 0;
+        font-family: var(--font-read);
+        font-size: 1.08em;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+      .home-lede a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent-soft);
+      }
+      .home-ctas {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin: 22px 0 0;
+      }
+
+      .home-contents {
+        align-self: start;
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+        font-size: var(--read-size);
+      }
+      .home-contents-list {
+        list-style: none;
+        margin: 8px 0 0;
+        padding: 0;
+      }
+      .home-contents-list li {
+        border-bottom: 1px solid var(--line);
+      }
+      .home-contents-list a {
+        display: block;
+        padding: 14px 0;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .contents-line {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .contents-num {
+        flex: 0 0 auto;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+      }
+      .contents-title {
+        font-family: var(--font-read);
+        font-size: 0.95em;
+        line-height: 1.25;
+        transition: color 140ms ease;
+      }
+      .home-contents-list a:hover .contents-title { color: var(--accent); }
+      .contents-dots {
+        flex: 1;
+        min-width: 18px;
+        margin: 0 2px;
+        border-bottom: 1px dotted var(--line);
         transform: translateY(-4px);
       }
-      
-      .featured-post a {
-        color: white;
-        text-decoration: none;
+      .contents-date {
+        flex: 0 0 auto;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--muted);
       }
-      
-      .featured-badge {
-        display: inline-block;
-        background: rgba(255,255,255,0.2);
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-      }
-      
-      .featured-post h2 {
-        font-size: 1.75rem;
-        margin-bottom: 0.5rem;
-      }
-      
-      .featured-post time {
-        opacity: 0.9;
-        font-size: 0.9rem;
-      }
-      
-      .featured-post .description {
-        margin-top: 1rem;
-        opacity: 0.95;
-        line-height: 1.6;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      
-      .posts-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-      
-      .post-card {
-        background: white;
-        border: 1px solid rgb(var(--gray-light));
-        border-radius: 8px;
-        overflow: hidden;
-        transition: all 0.2s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .post-card:hover {
-        border-color: rgb(var(--accent));
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transform: translateY(-2px);
-      }
-      
-      .post-card a {
-        text-decoration: none;
-        color: inherit;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .post-image {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        background: linear-gradient(135deg, rgb(var(--gray-light)) 0%, rgb(var(--gray)) 100%);
-      }
-      
-      .post-content {
-        padding: 1.5rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .post-type {
-        display: inline-block;
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        margin-bottom: 0.75rem;
-        font-weight: 600;
+      .contents-kind {
+        margin: 5px 0 0 30px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
+        color: var(--accent);
       }
-      
-      .post-type.blog {
-        background: rgb(var(--accent) / 0.1);
-        color: rgb(var(--accent));
+      @keyframes home-reveal {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: none; }
       }
-      
-      .post-type.mastodon {
-        background: #6364ff1f;
-        color: #2b2bbd;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
+      html[data-book-intro="full"] .home-copy,
+      html[data-book-intro="full"] .home-contents {
+        animation: home-reveal 700ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
       }
-      
-      .post-card h3 {
-        font-size: 1.125rem;
-        margin-bottom: 0.5rem;
-        line-height: 1.4;
+      html[data-book-intro="full"] .home-contents {
+        animation-delay: 90ms;
       }
-      
-      .post-card time {
-        color: rgb(var(--gray));
-        font-size: 0.875rem;
-        margin-bottom: 0.75rem;
-      }
-      
-      .post-card .description {
-        color: rgb(var(--gray-dark));
-        font-size: 0.9rem;
-        line-height: 1.5;
-        flex: 1;
-      }
-      
-      .cta {
-        text-align: center;
-        margin-top: 2rem;
-      }
-      
-      .cta a {
-        display: inline-block;
-        padding: 0.75rem 1.5rem;
-        background: rgb(var(--accent));
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: background 0.2s;
-      }
-      
-      .cta a:hover {
-        background: rgb(var(--accent-dark));
-      }
-      
-      @media (max-width: 720px) {
-        .hero h1 {
-          font-size: 2rem;
+
+      @media (max-width: 900px) {
+        .home-main {
+          padding: 22px 22px 14px;
+          justify-content: flex-start;
         }
-        
-        .posts-grid {
-          grid-template-columns: 1fr;
+        .home-hero {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 26px;
         }
+        .home-title {
+          font-size: clamp(46px, 13vw, 62px);
+        }
+        .home-lede {
+          font-size: 1em;
+          line-height: 1.5;
+        }
+        .home-ctas {
+          margin: 16px 0 0;
+        }
+        .home-contents {
+          padding-top: 14px;
+        }
+        .contents-title {
+          font-size: 0.85em;
+        }
+        .contents-kind {
+          margin-left: 26px;
+        }
+      }
+      @media (max-width: 820px) and (max-height: 720px) {
+        .home-main { padding: 12px 18px; }
+        .home-hero { gap: 16px; }
+        .home-title { font-size: 42px; }
+        .home-lede { font-size: 0.95em; line-height: 1.45; }
+        .home-ctas { margin: 12px 0 0; }
+        .home-contents-list a { padding: 10px 0; }
+        .contents-title { font-size: 0.8em; }
+        .contents-kind { display: none; }
       }
     </style>
   </head>
-  <body>
-    <Header title={SITE_TITLE} />
-    <main>
-      <div class="hero">
-        <h1>Hey fellow datanaut! 🧑🚀</h1>
-        <p class="hero-intro">
-          Welcome to my data impostor blog. I'm a data engineer sharing insights on data engineering, 
-          latest readings, and thoughts on navigating the ever-evolving tech landscape.
-        </p>
-      </div>
 
-      {featuredPost && (
-        <div class="featured-post">
-          <a href={featuredPost.collection === 'mastodon' ? `/mastodon/${featuredPost.id}` : `/blog/${featuredPost.id}/`}>
-            <span class="featured-badge">✨ Latest</span>
-            <h2>{featuredPost.data.title}</h2>
-            <time datetime={featuredPost.data.pubDate.toISOString()}>
-              <FormattedDate date={featuredPost.data.pubDate} />
-            </time>
-            {featuredPost.data.description && (
-              <p class="description">{featuredPost.data.description}</p>
-            )}
-          </a>
-        </div>
-      )}
-
-      <h2 class="section-title">Recent Activity</h2>
-      <div class="posts-grid">
-        {recentPosts.map((post, index) => (
-          <div class="post-card">
-            <a href={post.collection === 'mastodon' ? `/mastodon/${post.id}` : `/blog/${post.id}/`}>
-              {post.data.heroImage && (
-                <Image
-                  src={post.data.heroImage}
-                  alt={post.data.title}
-                  class="post-image"
-                  widths={[320, 640]}
-                  sizes="(max-width: 720px) 90vw, 302px"
-                  format="avif"
-                  fetchpriority={index === lcpIndex ? "high" : undefined}
-                  loading={index === lcpIndex ? "eager" : "lazy"}
-                />
-              )}
-              {post.collection === 'mastodon' && post.data.images?.[0] && (
-                <img
-                  src={post.data.images[0].url}
-                  alt={post.data.images[0].description || ""}
-                  class="post-image"
-                  width="640"
-                  height="360"
-                  loading="lazy"
-                  decoding="async"
-                  referrerpolicy="no-referrer"
-                />
-              )}
-              <div class="post-content">
-                <span class={`post-type ${post.collection === 'mastodon' ? 'mastodon' : 'blog'}`}>
-                  {post.collection === 'mastodon' ? <><MastodonIcon width={12} height={12} /> Mastodon</> : '📝 Blog'}
-                </span>
-                <h3>{post.data.title}</h3>
-                <time datetime={post.data.pubDate.toISOString()}>
-                  <FormattedDate date={post.data.pubDate} />
-                </time>
-                {post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
-              </div>
-            </a>
+  <body class="home-page">
+    <Header />
+    <main class="home-main">
+      <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-copy">
+          <h1 id="home-title" class="home-title">
+            <span class="ink">
+              {
+                Array.from("José Cabeda").map((char, i) => (
+                  <span class="ink-char" style={`--i:${i}`}>{char === " " ? "\u00A0" : char}</span>
+                ))
+              }
+              <span class="ink-cursor" aria-hidden="true"></span>
+            </span>
+          </h1>
+          <div class="ornament" aria-hidden="true">
+            <span class="rule"></span>
+            <span class="diamond"></span>
+            <span class="rule"></span>
           </div>
-        ))}
-      </div>
+          <p class="home-lede">
+            A nerd, reader and fan of francesinhas. Oh, and data engineer.
+          </p>
+          <div class="home-ctas">
+            <a class="btn btn-primary" href={startHref}>
+              Start reading <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-quiet" href="/about">About me</a>
+          </div>
+        </div>
 
-      <div class="cta">
-        <a href="/blog">View All Posts →</a>
-      </div>
+        <aside class="home-contents" aria-label="Recently">
+          <p class="kicker">Contents</p>
+          <ol class="home-contents-list">
+            {
+              contents.map((item, index) => (
+                <li>
+                  <a href={item.href}>
+                    <div class="contents-line">
+                      <span class="contents-num">{String(index + 1).padStart(2, "0")}</span>
+                      <span class="contents-title">{item.title}</span>
+                      <span class="contents-dots" aria-hidden="true"></span>
+                      <span class="contents-date">
+                        <FormattedDate date={item.date} />
+                      </span>
+                    </div>
+                    <p class="contents-kind">{item.kind}</p>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </aside>
+      </section>
     </main>
-    <Footer />
   </body>
 </html>
