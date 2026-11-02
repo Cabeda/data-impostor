@@ -4,11 +4,18 @@ import { SITE_TITLE } from "../consts";
 import MastodonIcon from "./icons/MastodonIcon.astro";
 import GitHubIcon from "./icons/GitHubIcon.astro";
 import RssIcon from "./icons/RssIcon.astro";
+import BookMark from "./BookMark.astro";
+import ReaderSettings from "./ReaderSettings.astro";
 ---
 
 <header transition:name="site-header" transition:persist>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2>
+      <a href="/" aria-label="Data Impostor home">
+        <BookMark />
+        <span>{SITE_TITLE}</span>
+      </a>
+    </h2>
     <div class="internal-links">
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/mastodon">Mastodon</HeaderLink>
@@ -50,6 +57,7 @@ import RssIcon from "./icons/RssIcon.astro";
         </div>
       </div>
     </div>
+    <ReaderSettings />
     <div class="social-links">
       <a href="https://mastodon.social/@jecabeda" target="_blank">
         <span class="sr-only">Follow me on Mastodon</span>
@@ -71,8 +79,9 @@ import RssIcon from "./icons/RssIcon.astro";
   header {
     margin: 0;
     padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
     position: relative;
     z-index: 100;
   }
@@ -80,11 +89,17 @@ import RssIcon from "./icons/RssIcon.astro";
     margin: 0;
     font-size: 1em;
   }
+  h2 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   h2 a,
   h2 a.active {
     text-decoration: none;
   }
+  h2 a :global(.book-mark) { opacity: 0.75; }
   nav {
     display: flex;
     align-items: center;
@@ -103,7 +118,7 @@ import RssIcon from "./icons/RssIcon.astro";
 
   nav a {
     padding: 1em 0.5em;
-    color: var(--black);
+    color: var(--ink);
     border-bottom: 4px solid transparent;
     text-decoration: none;
   }

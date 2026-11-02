@@ -16,7 +16,7 @@ const projects: Project[] = Astro.props.projects || projectsData;
       main { max-width: 980px; margin: 0 auto; padding: 1rem; }
       .title { text-align: center; margin: 1rem 0 2rem; }
       .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-      .card { padding: 1rem; border-radius: 10px; background: var(--card-bg, #fff); box-shadow: var(--box-shadow); border: 1px solid rgba(0,0,0,0.04); }
+      .card { padding: 1rem; border-radius: 10px; background: var(--surface); box-shadow: var(--box-shadow); border: 1px solid var(--line); }
       .card h3 { margin: 0 0 0.5rem 0; font-size: 1.05rem; }
       .card p { margin: 0 0 0.5rem 0; color: rgb(var(--gray-dark)); }
       .tags { margin-top: 0.5rem; display:flex; gap:0.5rem; flex-wrap:wrap; }

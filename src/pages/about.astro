@@ -1,18 +1,101 @@
 ---
-import Layout from "../layouts/BlogPost.astro";
-import aboutImage from "../../public/original.jpeg";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE } from "../consts";
+import { ClientRouter } from "astro:transitions";
 ---
 
-<Layout
-  title="About Me"
-  description="A bit about myself"
-  pubDate={new Date("Dec 22 2023")}
-  heroImage={aboutImage}
-  body=""
->
-  <p>
-    Hi! I'm José Cabeda a data engineer focused on improving data systems and
-    educating on how to use them. I also do a lot of planning and read as much
-    as I can.
-  </p>
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`About · ${SITE_TITLE}`}
+      description="José Cabeda is a data engineer in Portugal. He writes about data systems, reading, and the life around them."
+    />
+    <ClientRouter />
+    <style>
+      .about {
+        width: 100%;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 64px 24px 96px;
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: 56px;
+        align-items: start;
+      }
+      .portrait {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        border-radius: 4px;
+        box-shadow: var(--box-shadow);
+        filter: saturate(0.9);
+      }
+      .about-copy h1 {
+        margin: 0.1em 0 0.3em;
+        font-size: clamp(38px, 4.4vw, 56px);
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+      .about-copy p {
+        max-width: 58ch;
+        color: var(--muted);
+        font-family: var(--font-serif);
+        font-size: 19px;
+        line-height: 1.65;
+      }
+      .about-copy p:first-of-type {
+        color: var(--ink);
+        font-size: 21px;
+      }
+      .about-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+      @media (max-width: 760px) {
+        .about {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 26px;
+          padding: 32px 20px 64px;
+        }
+        .portrait {
+          width: 160px;
+          aspect-ratio: 4 / 5;
+        }
+        .about-copy p,
+        .about-copy p:first-of-type {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="about">
+      <img class="portrait" src="/original.jpeg" alt="José Cabeda" width="300" height="375" loading="lazy" />
+      <div class="about-copy">
+        <p class="kicker">About</p>
+        <h1>I'm José.</h1>
+        <p>
+          A data engineer in Portugal, focused on making data systems easier to
+          understand, operate, and trust. I also read a lot, plan more than I should,
+          and write here to remember what I learned.
+        </p>
+        <p>
+          This site is my notebook: technical notes, weekly reflections, reading
+          notes, and the occasional personal memory. No feed, no algorithm, no rush.
+        </p>
+        <div class="about-links">
+          <a class="btn btn-primary" href="/blog">Read the notebook</a>
+          <a class="btn" href="/reads">What I'm reading</a>
+          <a class="btn" href="/mastodon">Activity</a>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

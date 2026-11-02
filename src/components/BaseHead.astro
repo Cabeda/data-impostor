@@ -22,6 +22,38 @@ const ogImage = new URL(image, Astro.url);
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 <meta name="fediverse:creator" content="@jecabeda@mastodon.social" />
+<meta name="theme-color" content="#fbf8f1" />
+
+<!-- Apply reader preferences and the first-visit book intro before paint. -->
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    try {
+      const raw = localStorage.getItem("di:reader-prefs");
+      const prefs = raw ? JSON.parse(raw) : null;
+      if (prefs && ["paper", "sepia", "night"].includes(prefs.theme)) root.dataset.theme = prefs.theme;
+      if (prefs && ["s", "m", "l"].includes(prefs.size)) root.dataset.size = prefs.size;
+      if (prefs && ["serif", "sans"].includes(prefs.face)) root.dataset.face = prefs.face;
+      if (prefs && prefs.listen === true) root.dataset.listen = "on";
+    } catch {}
+
+    try {
+      const seen = localStorage.getItem("di:book-intro") === "1";
+      const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      root.dataset.bookIntro = reduce ? "none" : seen ? "subtle" : "full";
+      if (!seen) {
+        window.setTimeout(() => {
+          try {
+            localStorage.setItem("di:book-intro", "1");
+          } catch {}
+          root.dataset.bookIntro = "subtle";
+        }, 1900);
+      }
+    } catch {
+      root.dataset.bookIntro = "subtle";
+    }
+  })();
+</script>
 
 <!-- Font preloads -->
 <link

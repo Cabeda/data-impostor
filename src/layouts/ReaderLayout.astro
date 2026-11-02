@@ -1,0 +1,349 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import ReaderHeader from "../components/ReaderHeader.astro";
+import MastodonComments from "../components/MastodonComments.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import "../styles/reader.css";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  headings: Heading[];
+}
+
+const { post, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, mastodonUrl } =
+  post.data;
+
+const chapters = headings.filter((heading) => heading.depth === 2);
+const hasChapters = chapters.length > 0;
+const words = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
+const readMin = Math.max(1, Math.round(words / 220));
+const dateLabel = pubDate.toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+const pad = (value: number) => String(value).padStart(2, "0");
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={heroImage?.src} />
+  </head>
+
+  <body class="reader-page">
+    <ReaderHeader hasChapters={hasChapters} solid={!heroImage} />
+
+    <section class:list={["reader-hero", heroImage && "has-image"]}>
+      {
+        heroImage &&
+          (import.meta.env.DEV ? (
+            <img
+              src={heroImage.src}
+              alt={heroImageAlt || ""}
+              width={1600}
+              height={900}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          ) : (
+            <Image
+              src={heroImage}
+              alt={heroImageAlt || ""}
+              width={1600}
+              height={900}
+              fit="cover"
+              format="avif"
+              loading="eager"
+              fetchpriority="high"
+            />
+          ))
+      }
+      <div class="reader-hero-inner">
+        <p class="reader-kicker">
+          <time datetime={pubDate.toISOString()}>{dateLabel}</time>
+          <span>·</span>
+          <span>{readMin} min read</span>
+          {updatedDate && (
+            <>
+              <span>·</span>
+              <span>Updated <FormattedDate date={updatedDate} /></span>
+            </>
+          )}
+        </p>
+        <h1>{title}</h1>
+        {description && <p class="reader-dek">{description}</p>}
+        <p class="reader-byline">José Cabeda</p>
+      </div>
+    </section>
+
+    {
+      hasChapters && (
+        <div class="chapter-bar" data-chapter-bar>
+          <div class="chapter-inner">
+            <nav class="chapter-track" aria-label="Chapters">
+              {chapters.map((heading, index) => (
+                <a href={`#${heading.slug}`} data-chapter-link={index}>
+                  <span class="chapter-num">{pad(index + 1)}</span>
+                  <span>{heading.text}</span>
+                </a>
+              ))}
+            </nav>
+            <div class="chapter-meta">
+              <span>{readMin} min read</span>
+              <span data-minutes-left></span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    <main class="reader-main">
+      <article id="post-content" class="post-body" data-read-minutes={readMin}>
+        <slot />
+      </article>
+
+      <footer class="reader-end">
+        <p>End of this piece. The next one is never far away.</p>
+        <a class="chip" href="/blog">More notes →</a>
+      </footer>
+
+      {
+        mastodonUrl && (
+          <section class="reader-comments">
+            <h2>Comments</h2>
+            <MastodonComments mastodonUrl={mastodonUrl} buildTime={new Date()} />
+          </section>
+        )
+      }
+    </main>
+
+    <div class="reader-dock" data-audio-dock aria-label="Audio player">
+      <button class="dock-btn" data-chapter="prev" type="button" aria-label="Previous chapter">‹</button>
+      <button class="dock-play" data-audio-toggle type="button" aria-label="Play or pause">
+        <span data-audio-icon>▶</span>
+      </button>
+      <button class="dock-btn" data-chapter="next" type="button" aria-label="Next chapter">›</button>
+      <button
+        class="dock-btn"
+        data-audio-locate
+        type="button"
+        aria-label="Jump to the sentence being read"
+        title="Jump to the sentence being read"
+        hidden
+      >⌖</button>
+      <div class="dock-copy">
+        <span data-audio-status>Not listening</span>
+        <span class="dock-sub" data-audio-chapter></span>
+      </div>
+      <div class="dock-track"><i data-audio-progress></i></div>
+      <select data-rate aria-label="Playback speed">
+        <option value="0.8">0.8×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.25">1.25×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+
+    {
+      hasChapters && (
+        <div class="contents-sheet" id="reader-contents-sheet" data-contents-sheet aria-hidden="true">
+          <div class="contents-scrim" data-contents-close />
+          <aside class="contents-panel" role="dialog" aria-modal="true" aria-label="Contents">
+            <header class="contents-head">
+              <div>
+                <p class="kicker">Contents</p>
+                <p class="contents-title">{title}</p>
+              </div>
+              <button class="contents-close" data-contents-close type="button" aria-label="Close contents">×</button>
+            </header>
+            <nav class="contents-list">
+              {chapters.map((heading, index) => (
+                <a href={`#${heading.slug}`} data-chapter-link={index}>
+                  <span class="chapter-num">{pad(index + 1)}</span>
+                  <span>{heading.text}</span>
+                </a>
+              ))}
+            </nav>
+            <footer class="contents-foot">
+              <span>{readMin} min read</span>
+              <span data-minutes-left></span>
+            </footer>
+          </aside>
+        </div>
+      )
+    }
+
+    <Footer />
+
+    <script>
+      (() => {
+        const header = document.querySelector<HTMLElement>("[data-reader-header]");
+        const hero = document.querySelector<HTMLElement>(".reader-hero");
+        const sheet = document.querySelector<HTMLElement>("[data-contents-sheet]");
+        const contentsToggle = document.querySelector<HTMLElement>("[data-contents-toggle]");
+        const track = document.querySelector<HTMLElement>(".chapter-track");
+        const article = document.getElementById("post-content");
+        if (!article) return;
+
+        const headings = Array.from(article.querySelectorAll<HTMLElement>("h2"));
+        const links = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter-link]"));
+        const labels = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter-label]"));
+        const progressBars = Array.from(document.querySelectorAll<HTMLElement>("[data-progress]"));
+        const minutesLeft = Array.from(document.querySelectorAll<HTMLElement>("[data-minutes-left]"));
+        const readMin = Number(article.dataset.readMinutes || 1);
+        const hasHero = !!hero?.classList.contains("has-image");
+        let currentChapter = -1;
+        let lastStripChapter = -1;
+
+        function scrollProgress() {
+          const rect = article!.getBoundingClientRect();
+          const total = Math.max(1, rect.height - window.innerHeight * 0.45);
+          return Math.min(1, Math.max(0, (window.innerHeight * 0.35 - rect.top) / total));
+        }
+
+        function updateHeader() {
+          if (!header) return;
+          const solid = !hasHero || !hero || window.scrollY > hero.offsetHeight - 80;
+          header.dataset.solid = String(solid);
+        }
+
+        function centerStrip() {
+          if (!track || currentChapter === lastStripChapter) return;
+          lastStripChapter = currentChapter;
+          const active = track.querySelector<HTMLElement>(".is-current");
+          if (!active) return;
+          const trackRect = track.getBoundingClientRect();
+          const activeRect = active.getBoundingClientRect();
+          const target =
+            track.scrollLeft +
+            (activeRect.left - trackRect.left) -
+            (trackRect.width - activeRect.width) / 2;
+          track.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+        }
+
+        function onScroll() {
+          const progress = scrollProgress();
+          progressBars.forEach((bar) => {
+            bar.style.width = `${(progress * 100).toFixed(1)}%`;
+          });
+          minutesLeft.forEach((el) => {
+            el.textContent = `${Math.max(1, Math.ceil(readMin * (1 - progress)))} min left`;
+          });
+
+          let index = 0;
+          const line = window.innerHeight * 0.35;
+          headings.forEach((heading, i) => {
+            if (heading.getBoundingClientRect().top < line) index = i;
+          });
+          currentChapter = index;
+
+          labels.forEach((el) => {
+            el.textContent = `${String(index + 1).padStart(2, "0")} · ${headings[index]?.textContent ?? ""}`;
+          });
+          links.forEach((el) => {
+            el.classList.toggle("is-current", Number(el.dataset.chapterLink) === index);
+          });
+          centerStrip();
+          updateHeader();
+        }
+
+        let ticking = false;
+        const requestScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            onScroll();
+            ticking = false;
+          });
+        };
+        window.addEventListener("scroll", requestScroll, { passive: true });
+        window.addEventListener("resize", requestScroll);
+
+        let lastFocus: HTMLElement | null = null;
+        function openSheet() {
+          if (!sheet) return;
+          lastFocus = document.activeElement as HTMLElement;
+          sheet.classList.add("is-open");
+          sheet.setAttribute("aria-hidden", "false");
+          contentsToggle?.setAttribute("aria-expanded", "true");
+          document.body.style.overflow = "hidden";
+          sheet.querySelector<HTMLElement>(".contents-close")?.focus();
+        }
+        function closeSheet() {
+          if (!sheet?.classList.contains("is-open")) return;
+          sheet.classList.remove("is-open");
+          sheet.setAttribute("aria-hidden", "true");
+          contentsToggle?.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+          lastFocus?.focus?.();
+        }
+        function toggleSheet() {
+          if (sheet?.classList.contains("is-open")) closeSheet();
+          else openSheet();
+        }
+
+        document.addEventListener("click", (event) => {
+          const target = event.target as HTMLElement;
+          if (target.closest("[data-contents-close]")) return closeSheet();
+          if (target.closest("[data-contents-toggle]")) return toggleSheet();
+          if (target.closest("[data-chapter-link]")) closeSheet();
+        });
+
+        document.addEventListener("keydown", (event) => {
+          const tag = (event.target as HTMLElement)?.tagName;
+          if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+          if (event.key === "Escape") return closeSheet();
+          if (event.key.toLowerCase() === "c" && (event.target as HTMLElement)?.isContentEditable !== true) {
+            toggleSheet();
+          }
+        });
+
+        onScroll();
+        requestAnimationFrame(onScroll);
+      })();
+    </script>
+
+    <script>
+      (() => {
+        let audioPromise: Promise<{ toggleListen: () => void }> | undefined;
+
+        function loadAudio() {
+          audioPromise ??= import("../scripts/reader-audio").then((module) =>
+            module.initReaderAudio(),
+          );
+          return audioPromise;
+        }
+
+        document.addEventListener("click", (event) => {
+          const target = event.target as HTMLElement;
+          if (!target.closest("[data-listen-toggle]")) return;
+          event.preventDefault();
+          loadAudio().then((api) => api.toggleListen());
+        });
+
+        if (document.documentElement.dataset.listen === "on") {
+          const start = () => {
+            loadAudio();
+          };
+          if ("requestIdleCallback" in window) {
+            window.requestIdleCallback(start, { timeout: 1500 });
+          } else {
+            setTimeout(start, 400);
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

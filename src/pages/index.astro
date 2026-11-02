@@ -1,319 +1,520 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
 import { ClientRouter } from "astro:transitions";
 import { Image } from "astro:assets";
-import MastodonIcon from "../components/icons/MastodonIcon.astro";
 import { previewText } from "../lib/mastodon-preview.ts";
 
-const blogposts = await getCollection("blog");
+const blogposts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+const latestPost = blogposts[0];
 
-const mastodonPosts = (await getCollection("mastodon")).map((post) => ({
-  ...post,
-  data: {
-    ...post.data,
-    title: previewText(post.data.content, 60),
-    pubDate: new Date(post.data.created_at),
-    description: previewText(post.data.content, 150),
-  },
-  collection: 'mastodon' as const,
-}));
+const reads = (await getCollection("reads")).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+const latestRead = reads[0];
+const readHeading = latestRead?.body
+  ?.split("\n")
+  .find((line) => line.trim().startsWith("#"));
+const readTitle = readHeading
+  ? readHeading
+      .replace(/^#+\s*/, "")
+      .replace(/\[([^\]]+)\]\([^)]+\)/, "$1")
+      .trim()
+  : "Reading notes";
 
-const allPosts = [...blogposts, ...mastodonPosts];
-
-const latestPosts = allPosts
-  .sort(
-    (a, b) =>
-      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-  )
-  .slice(0, 8);
-
-const featuredPost = latestPosts[0];
-const recentPosts = latestPosts.slice(1);
-// The LCP image is the first card with a local hero, not necessarily card 0.
-const lcpIndex = recentPosts.findIndex((post) => post.data.heroImage);
+const mastodon = (await getCollection("mastodon")).sort(
+  (a, b) => new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime(),
+);
+const latestMastodon = mastodon[0];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={SITE_TITLE}
+      description={SITE_DESCRIPTION}
+      image={latestPost.data.heroImage?.src}
+    />
     <ClientRouter />
-    <style>
-      main {
-        width: 960px;
-        max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 2em 1em;
+    <style is:global>
+      body.home-page {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
       }
-      
-      .hero {
-        margin-bottom: 3rem;
+      .home-main {
+        flex: 1;
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 24px 32px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
-      
-      .hero h1 {
-        font-size: 2.5rem;
-        line-height: 1.2;
-        margin-bottom: 1rem;
+      .home-hero {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: clamp(32px, 5vw, 72px);
+        align-items: center;
       }
-      
-      .hero-intro {
-        font-size: 1.125rem;
-        line-height: 1.6;
-        color: rgb(var(--gray-dark));
-        margin-bottom: 2rem;
+      .home-book-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
       }
-      
-      .featured-post {
-        background: linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-dark)) 100%);
-        border-radius: 12px;
-        padding: 2rem;
-        color: white;
-        margin-bottom: 3rem;
-        transition: transform 0.2s;
-      }
-      
-      .featured-post:hover {
-        transform: translateY(-4px);
-      }
-      
-      .featured-post a {
-        color: white;
+      .home-book {
+        position: relative;
+        display: block;
+        width: min(300px, 100%);
+        aspect-ratio: 2 / 3;
+        perspective: 1200px;
+        color: #fff;
         text-decoration: none;
       }
-      
-      .featured-badge {
-        display: inline-block;
-        background: rgba(255,255,255,0.2);
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
+      .book-pages {
+        position: absolute;
+        inset: 6px -7px 6px 10px;
+        border-radius: 2px 8px 8px 2px;
+        background: linear-gradient(90deg, #ddd2bf 0%, #fffdf8 8%, #f7f1e5 92%, #d9cdb9 100%);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        transform-origin: left center;
       }
-      
-      .featured-post h2 {
-        font-size: 1.75rem;
-        margin-bottom: 0.5rem;
+      .book-cover {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        overflow: hidden;
+        border-radius: 3px 9px 9px 3px;
+        background: #1a1714;
+        transform-origin: left center;
+        box-shadow:
+          0 24px 60px rgba(30, 20, 10, 0.28),
+          0 3px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 700ms cubic-bezier(0.22, 0.8, 0.2, 1), box-shadow 700ms;
       }
-      
-      .featured-post time {
-        opacity: 0.9;
-        font-size: 0.9rem;
+      .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.74;
+        border-radius: 0;
       }
-      
-      .featured-post .description {
-        margin-top: 1rem;
-        opacity: 0.95;
-        line-height: 1.6;
+      .book-cover::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.82));
       }
-      
-      .section-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+      .book-spine {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 3;
+        width: 9px;
+        border-radius: 3px 0 0 3px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.5),
+          rgba(255, 255, 255, 0.16),
+          rgba(0, 0, 0, 0.2)
+        );
+      }
+      .book-title {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        z-index: 4;
+        font-family: var(--font-serif);
+        font-size: 24px;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+      }
+      .book-fallback {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: flex;
+        align-items: flex-end;
+        padding: 18px;
+        background:
+          radial-gradient(circle at 20% 10%, var(--accent-soft), transparent 60%),
+          var(--surface-2);
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-size: 24px;
+        line-height: 1.05;
+      }
+      .home-book:hover .book-cover {
+        transform: rotateY(-10deg);
+        box-shadow: 0 30px 70px rgba(30, 20, 10, 0.36);
+      }
+      .book-caption {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-      }
-      
-      .posts-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-      
-      .post-card {
-        background: white;
-        border: 1px solid rgb(var(--gray-light));
-        border-radius: 8px;
-        overflow: hidden;
-        transition: all 0.2s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .post-card:hover {
-        border-color: rgb(var(--accent));
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transform: translateY(-2px);
-      }
-      
-      .post-card a {
-        text-decoration: none;
-        color: inherit;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .post-image {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        background: linear-gradient(135deg, rgb(var(--gray-light)) 0%, rgb(var(--gray)) 100%);
-      }
-      
-      .post-content {
-        padding: 1.5rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .post-type {
-        display: inline-block;
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        margin-bottom: 0.75rem;
-        font-weight: 600;
+        gap: 8px;
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
+        color: var(--muted);
       }
-      
-      .post-type.blog {
-        background: rgb(var(--accent) / 0.1);
-        color: rgb(var(--accent));
+      .book-caption strong {
+        color: var(--accent);
+        font-weight: 400;
       }
-      
-      .post-type.mastodon {
-        background: #6364ff1f;
-        color: #2b2bbd;
+
+      .home-copy h1 {
+        margin: 0.1em 0 0.3em;
+        font-size: clamp(40px, 4.6vw, 64px);
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+      .home-lede {
+        max-width: 52ch;
+        margin: 0;
+        font-family: var(--font-serif);
+        font-size: 18px;
+        line-height: 1.55;
+        color: var(--muted);
+      }
+      .home-lede a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent-soft);
+      }
+      .home-ctas {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin: 22px 0 18px;
+      }
+      .btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.35rem;
-      }
-      
-      .post-card h3 {
-        font-size: 1.125rem;
-        margin-bottom: 0.5rem;
-        line-height: 1.4;
-      }
-      
-      .post-card time {
-        color: rgb(var(--gray));
-        font-size: 0.875rem;
-        margin-bottom: 0.75rem;
-      }
-      
-      .post-card .description {
-        color: rgb(var(--gray-dark));
-        font-size: 0.9rem;
-        line-height: 1.5;
-        flex: 1;
-      }
-      
-      .cta {
-        text-align: center;
-        margin-top: 2rem;
-      }
-      
-      .cta a {
-        display: inline-block;
-        padding: 0.75rem 1.5rem;
-        background: rgb(var(--accent));
-        color: white;
+        gap: 8px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 11px 18px;
+        color: var(--ink);
         text-decoration: none;
-        border-radius: 8px;
+        font-size: 13px;
         font-weight: 600;
-        transition: background 0.2s;
+        line-height: 1;
       }
-      
-      .cta a:hover {
-        background: rgb(var(--accent-dark));
+      .btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
       }
-      
-      @media (max-width: 720px) {
-        .hero h1 {
-          font-size: 2rem;
+      .btn-primary {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--accent-dark);
+        color: #fff;
+      }
+      .btn-quiet {
+        border-color: transparent;
+        padding-left: 6px;
+        padding-right: 6px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+      .home-links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 12px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .home-links a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .home-links a:hover {
+        color: var(--accent);
+      }
+      .home-links span {
+        color: var(--line);
+      }
+
+      .home-recent {
+        margin-top: clamp(20px, 4vh, 40px);
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+      }
+      .recent-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 10px;
+      }
+      .recent-item {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .recent-kind {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .recent-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 13px;
+        line-height: 1.35;
+      }
+      .recent-date {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--muted);
+      }
+      .recent-item:hover .recent-title {
+        color: var(--accent);
+      }
+
+      @keyframes home-book-open {
+        0% { transform: rotateY(0deg); }
+        35% {
+          transform: rotateY(-24deg) translateX(2px);
+          box-shadow: 0 34px 80px rgba(30, 20, 10, 0.42);
         }
-        
-        .posts-grid {
-          grid-template-columns: 1fr;
+        72% { transform: rotateY(-5deg); }
+        100% { transform: rotateY(0deg); }
+      }
+      @keyframes home-pages-fan {
+        0% { transform: none; }
+        35% { transform: translateX(-5px) rotateY(9deg); }
+        100% { transform: none; }
+      }
+      html[data-book-intro="full"] .book-cover {
+        animation: home-book-open 1600ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+      }
+      html[data-book-intro="full"] .book-pages {
+        animation: home-pages-fan 1600ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+      }
+
+      :root[data-theme="night"] .book-pages { filter: brightness(0.45); }
+
+      @media (max-width: 820px) {
+        .home-main {
+          padding: 18px 20px 14px;
+          justify-content: flex-start;
         }
+        .home-hero {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 20px;
+        }
+        .home-book-col {
+          align-items: flex-start;
+          gap: 10px;
+        }
+        .home-book {
+          width: 132px;
+        }
+        .book-title {
+          left: 12px;
+          right: 12px;
+          bottom: 12px;
+          font-size: 14px;
+        }
+        .book-fallback {
+          padding: 12px;
+          font-size: 14px;
+        }
+        .home-copy h1 {
+          font-size: 36px;
+          margin-top: 0;
+        }
+        .home-lede {
+          font-size: 15.5px;
+          line-height: 1.5;
+        }
+        .home-ctas {
+          margin: 16px 0 12px;
+        }
+        .btn {
+          padding: 10px 14px;
+          font-size: 12px;
+        }
+        .home-recent {
+          margin-top: 18px;
+          padding-top: 10px;
+        }
+        .recent-row {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 7px;
+          margin-top: 8px;
+        }
+        .recent-item {
+          flex-direction: row;
+          align-items: baseline;
+          gap: 8px;
+        }
+        .recent-kind {
+          flex: 0 0 54px;
+        }
+        .recent-title {
+          flex: 1;
+          font-size: 12px;
+        }
+        .recent-date {
+          flex: 0 0 auto;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html[data-book-intro="full"] .book-cover,
+        html[data-book-intro="full"] .book-pages {
+          animation: none !important;
+        }
+      }
+      @media (max-width: 820px) and (max-height: 720px) {
+        .home-main { padding: 10px 18px; }
+        .home-book { width: 104px; }
+        .home-book-col { gap: 6px; }
+        .home-copy h1 { font-size: 30px; }
+        .home-lede { font-size: 14px; line-height: 1.45; }
+        .home-ctas { margin: 10px 0 8px; }
+        .home-recent { margin-top: 10px; padding-top: 8px; }
+        .recent-row { gap: 4px; margin-top: 6px; }
+        .recent-title { font-size: 11px; }
       }
     </style>
   </head>
-  <body>
-    <Header title={SITE_TITLE} />
-    <main>
-      <div class="hero">
-        <h1>Hey fellow datanaut! 🧑🚀</h1>
-        <p class="hero-intro">
-          Welcome to my data impostor blog. I'm a data engineer sharing insights on data engineering, 
-          latest readings, and thoughts on navigating the ever-evolving tech landscape.
-        </p>
-      </div>
 
-      {featuredPost && (
-        <div class="featured-post">
-          <a href={featuredPost.collection === 'mastodon' ? `/mastodon/${featuredPost.id}` : `/blog/${featuredPost.id}/`}>
-            <span class="featured-badge">✨ Latest</span>
-            <h2>{featuredPost.data.title}</h2>
-            <time datetime={featuredPost.data.pubDate.toISOString()}>
-              <FormattedDate date={featuredPost.data.pubDate} />
-            </time>
-            {featuredPost.data.description && (
-              <p class="description">{featuredPost.data.description}</p>
-            )}
+  <body class="home-page">
+    <Header />
+    <main class="home-main">
+      <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-book-col">
+          <a
+            class="home-book"
+            href={`/blog/${latestPost.id}/`}
+            aria-label={`Start reading: ${latestPost.data.title}`}
+          >
+            <span class="book-pages" aria-hidden="true"></span>
+            <span class="book-cover">
+              {
+                latestPost.data.heroImage ? (
+                  import.meta.env.DEV ? (
+                    <img
+                      src={latestPost.data.heroImage.src}
+                      alt=""
+                      width={600}
+                      height={900}
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
+                    />
+                  ) : (
+                    <Image
+                      src={latestPost.data.heroImage}
+                      alt=""
+                      width={600}
+                      height={900}
+                      fit="cover"
+                      format="avif"
+                      loading="eager"
+                      fetchpriority="high"
+                    />
+                  )
+                ) : (
+                  <span class="book-fallback">Data Impostor</span>
+                )
+              }
+              <span class="book-title">{latestPost.data.title}</span>
+            </span>
+            <span class="book-spine" aria-hidden="true"></span>
           </a>
+          <p class="book-caption">
+            <strong>Latest</strong>
+            <span>·</span>
+            <FormattedDate date={latestPost.data.pubDate} />
+          </p>
         </div>
-      )}
 
-      <h2 class="section-title">Recent Activity</h2>
-      <div class="posts-grid">
-        {recentPosts.map((post, index) => (
-          <div class="post-card">
-            <a href={post.collection === 'mastodon' ? `/mastodon/${post.id}` : `/blog/${post.id}/`}>
-              {post.data.heroImage && (
-                <Image
-                  src={post.data.heroImage}
-                  alt={post.data.title}
-                  class="post-image"
-                  widths={[320, 640]}
-                  sizes="(max-width: 720px) 90vw, 302px"
-                  format="avif"
-                  fetchpriority={index === lcpIndex ? "high" : undefined}
-                  loading={index === lcpIndex ? "eager" : "lazy"}
-                />
-              )}
-              {post.collection === 'mastodon' && post.data.images?.[0] && (
-                <img
-                  src={post.data.images[0].url}
-                  alt={post.data.images[0].description || ""}
-                  class="post-image"
-                  width="640"
-                  height="360"
-                  loading="lazy"
-                  decoding="async"
-                  referrerpolicy="no-referrer"
-                />
-              )}
-              <div class="post-content">
-                <span class={`post-type ${post.collection === 'mastodon' ? 'mastodon' : 'blog'}`}>
-                  {post.collection === 'mastodon' ? <><MastodonIcon width={12} height={12} /> Mastodon</> : '📝 Blog'}
-                </span>
-                <h3>{post.data.title}</h3>
-                <time datetime={post.data.pubDate.toISOString()}>
-                  <FormattedDate date={post.data.pubDate} />
-                </time>
-                {post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
-              </div>
+        <div class="home-copy">
+          <p class="kicker">Data engineer · Portugal</p>
+          <h1 id="home-title">I'm Cabeda.<br />Just another curious data engineer.</h1>
+          <p class="home-lede">
+            Notes on data systems, the tools I build, the books I read, and the life in
+            between. <a href="/about">More about me →</a>
+          </p>
+          <div class="home-ctas">
+            <a class="btn btn-primary" href={`/blog/${latestPost.id}/`}>
+              Start reading <span aria-hidden="true">→</span>
             </a>
+            <a class="btn" href="/about">About me</a>
+            <a class="btn btn-quiet" href="/mastodon">See activity</a>
           </div>
-        ))}
-      </div>
+          <nav class="home-links" aria-label="Sections">
+            <a href="/blog">Notebook</a>
+            <span>·</span>
+            <a href="/reads">Reading</a>
+            <span>·</span>
+            <a href="/projects">Projects</a>
+            <span>·</span>
+            <a href="/talks">Talks</a>
+            <span>·</span>
+            <a href="/rss.xml">RSS</a>
+          </nav>
+        </div>
+      </section>
 
-      <div class="cta">
-        <a href="/blog">View All Posts →</a>
-      </div>
+      <section class="home-recent" aria-label="Recently">
+        <p class="kicker">Recently</p>
+        <div class="recent-row">
+          <a class="recent-item" href={`/blog/${latestPost.id}/`}>
+            <span class="recent-kind">Writing</span>
+            <span class="recent-title">{latestPost.data.title}</span>
+            <span class="recent-date"><FormattedDate date={latestPost.data.pubDate} /></span>
+          </a>
+          {
+            latestRead && (
+              <a class="recent-item" href="/reads">
+                <span class="recent-kind">Reading</span>
+                <span class="recent-title">{readTitle}</span>
+                <span class="recent-date"><FormattedDate date={latestRead.data.pubDate} /></span>
+              </a>
+            )
+          }
+          {
+            latestMastodon && (
+              <a class="recent-item" href={`/mastodon/${latestMastodon.id}`}>
+                <span class="recent-kind">Activity</span>
+                <span class="recent-title">{previewText(latestMastodon.data.content, 78)}</span>
+                <span class="recent-date">
+                  <FormattedDate date={new Date(latestMastodon.data.created_at)} />
+                </span>
+              </a>
+            )
+          }
+        </div>
+      </section>
     </main>
-    <Footer />
   </body>
 </html>
