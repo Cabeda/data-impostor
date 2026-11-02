@@ -297,6 +297,13 @@ import ReaderSettings from "./ReaderSettings.astro";
         togglePanel(false);
       });
 
+      // close panel when a link inside it is clicked
+      if (panel) {
+        panel.addEventListener('click', (e) => {
+          const target = e.target;
+          if (target instanceof Element && target.closest('a')) togglePanel(false);
+        });
+      }
       // close button inside panel
       const closeBtn = document.getElementById('panelClose');
       if (closeBtn) closeBtn.addEventListener('click', () => togglePanel(false));

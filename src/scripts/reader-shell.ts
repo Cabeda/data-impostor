@@ -141,7 +141,11 @@ function onClick(event: MouseEvent) {
   if (target.closest("[data-contents-close]")) return closeSheet();
   if (target.closest("[data-contents-toggle]")) return toggleSheet();
   if (target.closest("[data-chapter-link]")) closeSheet();
-}
+  const menuLink = target.closest(".reader-menu a");
+  if (menuLink) {
+    const menu = menuLink.closest(".reader-menu");
+    if (menu) menu.removeAttribute("open");
+  }
 
 function onKeydown(event: KeyboardEvent) {
   const target = event.target as HTMLElement;
