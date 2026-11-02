@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   DEFAULT_READER_PREFS,
-  nextTheme,
   parseReaderPrefs,
   serializeReaderPrefs,
 } from "./reader-prefs.ts";
@@ -33,10 +32,4 @@ test("replaces invalid fields without dropping the rest", () => {
 test("round trips through storage", () => {
   const prefs = { theme: "sepia", size: "s", face: "sans", listen: false } as const;
   assert.deepEqual(parseReaderPrefs(serializeReaderPrefs(prefs)), prefs);
-});
-
-test("theme cycles in order", () => {
-  assert.equal(nextTheme("paper"), "sepia");
-  assert.equal(nextTheme("sepia"), "night");
-  assert.equal(nextTheme("night"), "paper");
 });

@@ -532,13 +532,17 @@ const years = [...new Set(months.map((month) => month.year))];
 
     <script is:inline define:vars={{ step: REVEAL_STEP }}>
       (() => {
-        const sections = Array.from(document.querySelectorAll("[data-month-index]"));
-        const links = Array.from(document.querySelectorAll("[data-index-month]"));
-        const note = document.querySelector("[data-older-note]");
-        const more = document.querySelector("[data-older-more]");
-        const sticky = document.querySelector("[data-diary-sticky]");
-        const stickyMonth = document.querySelector("[data-sticky-month]");
-        let visible = sections.filter((section) => !section.hidden).length;
+        const w = window;
+        if (w.__diDiary) return;
+        w.__diDiary = true;
+
+        let sections = [];
+        let links = [];
+        let note = null;
+        let more = null;
+        let sticky = null;
+        let stickyMonth = null;
+        let visible = 0;
         let active = -1;
 
         function updateCount() {
@@ -574,6 +578,19 @@ const years = [...new Set(months.map((month) => month.year))];
           setActive(index);
         }
 
+        function bind() {
+          sections = Array.from(document.querySelectorAll("[data-month-index]"));
+          links = Array.from(document.querySelectorAll("[data-index-month]"));
+          note = document.querySelector("[data-older-note]");
+          more = document.querySelector("[data-older-more]");
+          sticky = document.querySelector("[data-diary-sticky]");
+          stickyMonth = document.querySelector("[data-sticky-month]");
+          visible = sections.filter((section) => !section.hidden).length;
+          active = -1;
+          updateCount();
+          onScroll();
+        }
+
         let ticking = false;
         window.addEventListener(
           "scroll",
@@ -589,7 +606,8 @@ const years = [...new Set(months.map((month) => month.year))];
         );
 
         document.addEventListener("click", (event) => {
-          const link = event.target.closest("[data-index-month]");
+          const target = event.target;
+          const link = target.closest("[data-index-month]");
           if (link) {
             event.preventDefault();
             const index = Number(link.dataset.indexMonth);
@@ -598,7 +616,7 @@ const years = [...new Set(months.map((month) => month.year))];
             sticky?.removeAttribute("open");
             return;
           }
-          const older = event.target.closest("[data-older]");
+          const older = target.closest("[data-older]");
           if (older) {
             sections.slice(visible, visible + step).forEach((section) => {
               section.hidden = false;
@@ -608,8 +626,8 @@ const years = [...new Set(months.map((month) => month.year))];
           }
         });
 
-        updateCount();
-        onScroll();
+        document.addEventListener("astro:page-load", bind);
+        bind();
       })();
     </script>
   </body>

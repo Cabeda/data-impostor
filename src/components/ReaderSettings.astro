@@ -129,36 +129,28 @@ const { align = "right" } = Astro.props;
 </style>
 
 <script>
-  const KEY = "di:reader-prefs";
-  const DEFAULTS = { theme: "paper", size: "m", face: "serif", listen: false };
-  const THEMES = ["paper", "sepia", "night"];
-  const SIZES = ["s", "m", "l"];
-  const FACES = ["serif", "sans"];
+  import {
+    READER_PREFS_KEY,
+    parseReaderPrefs,
+    serializeReaderPrefs,
+    type ReaderPrefs,
+  } from "../lib/reader-prefs";
 
-  function read(): typeof DEFAULTS {
+  function read(): ReaderPrefs {
     try {
-      const raw = localStorage.getItem(KEY);
-      if (!raw) return { ...DEFAULTS };
-      const p = JSON.parse(raw) as Partial<typeof DEFAULTS> | null;
-      if (!p || typeof p !== "object") return { ...DEFAULTS };
-      return {
-        theme: THEMES.includes(p.theme as string) ? (p.theme as typeof DEFAULTS.theme) : DEFAULTS.theme,
-        size: SIZES.includes(p.size as string) ? (p.size as typeof DEFAULTS.size) : DEFAULTS.size,
-        face: FACES.includes(p.face as string) ? (p.face as typeof DEFAULTS.face) : DEFAULTS.face,
-        listen: typeof p.listen === "boolean" ? p.listen : DEFAULTS.listen,
-      };
+      return parseReaderPrefs(localStorage.getItem(READER_PREFS_KEY));
     } catch {
-      return { ...DEFAULTS };
+      return parseReaderPrefs(null);
     }
   }
 
-  function write(prefs: typeof DEFAULTS) {
+  function write(prefs: ReaderPrefs) {
     try {
-      localStorage.setItem(KEY, JSON.stringify(prefs));
+      localStorage.setItem(READER_PREFS_KEY, serializeReaderPrefs(prefs));
     } catch {}
   }
 
-  function apply(prefs: typeof DEFAULTS) {
+  function apply(prefs: ReaderPrefs) {
     const root = document.documentElement;
     root.dataset.theme = prefs.theme;
     root.dataset.size = prefs.size;
@@ -166,9 +158,10 @@ const { align = "right" } = Astro.props;
     if (prefs.listen) root.dataset.listen = "on";
     else delete root.dataset.listen;
 
-    const color =
-      prefs.theme === "night" ? "#000000" : prefs.theme === "sepia" ? "#f2e6d1" : "#fbf8f1";
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", color);
+    const color = getComputedStyle(root).getPropertyValue("--bg").trim();
+    if (color) {
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", color);
+    }
   }
 
   function sync() {
@@ -188,9 +181,9 @@ const { align = "right" } = Astro.props;
   function setPref(name: "theme" | "size" | "face", value: string) {
     const prefs = read();
     if (!value) return;
-    (prefs as Record<string, unknown>)[name] = value;
-    write(prefs);
-    apply(prefs);
+    const next = { ...prefs, [name]: value } as ReaderPrefs;
+    write(next);
+    apply(next);
     sync();
   }
 

@@ -2,6 +2,13 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
+import {
+  DEFAULT_READER_PREFS,
+  FACES,
+  READER_PREFS_KEY,
+  SIZES,
+  THEMES,
+} from "../lib/reader-prefs";
 
 interface Props {
   title: string;
@@ -25,15 +32,18 @@ const ogImage = new URL(image, Astro.url);
 <meta name="theme-color" content="#fbf8f1" />
 
 <!-- Apply reader preferences and the first-visit book intro before paint. -->
-<script is:inline>
+<script
+  is:inline
+  define:vars={{ prefsKey: READER_PREFS_KEY, themes: THEMES, sizes: SIZES, faces: FACES, defaults: DEFAULT_READER_PREFS }}
+>
   (() => {
     const root = document.documentElement;
     try {
-      const raw = localStorage.getItem("di:reader-prefs");
+      const raw = localStorage.getItem(prefsKey);
       const prefs = raw ? JSON.parse(raw) : null;
-      if (prefs && ["paper", "sepia", "night"].includes(prefs.theme)) root.dataset.theme = prefs.theme;
-      if (prefs && ["s", "m", "l"].includes(prefs.size)) root.dataset.size = prefs.size;
-      if (prefs && ["serif", "sans"].includes(prefs.face)) root.dataset.face = prefs.face;
+      if (prefs && themes.includes(prefs.theme)) root.dataset.theme = prefs.theme;
+      if (prefs && sizes.includes(prefs.size)) root.dataset.size = prefs.size;
+      if (prefs && faces.includes(prefs.face)) root.dataset.face = prefs.face;
       if (prefs && prefs.listen === true) root.dataset.listen = "on";
     } catch {}
 

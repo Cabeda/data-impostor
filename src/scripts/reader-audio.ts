@@ -54,11 +54,16 @@ function synth(): SpeechSynthesis | null {
 }
 
 function chapterOf(el: Element): number {
+  if (el.tagName === "H2") {
+    return Math.max(0, headings.indexOf(el as HTMLElement));
+  }
   let node: Element | null = el;
   while (node && node !== article) {
     let prev = node.previousElementSibling;
     while (prev) {
-      if (prev.tagName === "H2") return Number((prev as HTMLElement).dataset.chapter || 0);
+      if (prev.tagName === "H2") {
+        return Math.max(0, headings.indexOf(prev as HTMLElement));
+      }
       prev = prev.previousElementSibling;
     }
     node = node.parentElement;
@@ -66,11 +71,20 @@ function chapterOf(el: Element): number {
   return 0;
 }
 
+function unwrapSentences() {
+  if (!article) return;
+  article.querySelectorAll<HTMLElement>(".tts-sentence").forEach((span) => {
+    span.replaceWith(document.createTextNode(span.textContent || ""));
+  });
+  sentences = [];
+  current = null;
+}
+
 function prepareSentences() {
   if (!article || prepared) return;
   prepared = true;
 
-  const blocks = Array.from(article.querySelectorAll("p, li, blockquote"));
+  const blocks = Array.from(article.querySelectorAll("p, li, blockquote, h2, h3"));
   for (const block of blocks) {
     if (block.closest("pre, code, figure")) continue;
     const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
@@ -467,9 +481,6 @@ function refresh() {
   }
 
   headings = Array.from(article.querySelectorAll<HTMLElement>("h2"));
-  headings.forEach((heading, index) => {
-    heading.dataset.chapter = String(index);
-  });
 
   prepared = false;
   sentences = [];
@@ -477,6 +488,7 @@ function refresh() {
     current.classList.remove("is-speaking");
     current = null;
   }
+  unwrapSentences();
   state.speaking = false;
   state.paused = false;
   state.finished = false;

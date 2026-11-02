@@ -48,11 +48,3 @@ export function serializeReaderPrefs(prefs: ReaderPrefs): string {
   return JSON.stringify(prefs);
 }
 
-export function nextTheme(theme: Theme): Theme {
-  const i = THEMES.indexOf(theme);
-  return THEMES[(i + 1) % THEMES.length];
-}
-
-export function readerPrefsKey(): string {
-  return READER_PREFS_KEY;
-}
