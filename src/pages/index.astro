@@ -14,7 +14,7 @@ const mastodon = await getCollection("mastodon");
 const latestPost = [...blogposts].sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 )[0];
-const startHref = latestPost ? `/blog/${latestPost.id}/` : "/blog";
+const startHref = "/blog";
 const contents = latestContents(blogposts, reads, mastodon);
 ---
 
@@ -59,22 +59,26 @@ const contents = latestContents(blogposts, reads, mastodon);
 
       .home-copy {
         font-size: var(--read-size);
+        overflow: visible;
       }
       .home-title {
         margin: 0.08em 0 0.12em;
+        padding-top: 0.06em;
         font-family: "Diary Ink", var(--font-serif);
         font-size: clamp(54px, 6.4vw, 92px);
         font-weight: 400;
-        line-height: 0.95;
+        line-height: 1.15;
         letter-spacing: -0.01em;
         color: var(--ink);
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+        overflow: visible;
       }
       .home-title .ink {
         display: inline-block;
         white-space: nowrap;
+        overflow: visible;
         clip-path: inset(0 100% 0 0);
-        animation: ink-write 1900ms cubic-bezier(0.45, 0.05, 0.2, 1) 160ms forwards;
+        animation: ink-write 1900ms cubic-bezier(0.45, 0.05, 0.2, 1) forwards;
       }
       .home-title .ink::after {
         content: "";

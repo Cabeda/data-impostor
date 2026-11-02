@@ -39,13 +39,15 @@ test("latest contents selects the newest of each collection", () => {
     items.map((item) => [item.kind, item.title]),
     [
       ["Writing", "New post"],
+      ["Writing", "Old post"],
       ["Reading", "Second read"],
       ["Activity", "Newer toot"],
     ],
   );
   assert.equal(items[0].href, "/blog/new/");
-  assert.equal(items[1].href, "/reads");
-  assert.equal(items[2].href, "/mastodon/2");
+  assert.equal(items[1].href, "/blog/old/");
+  assert.equal(items[2].href, "/reads");
+  assert.equal(items[3].href, "/mastodon/2");
 });
 
 test("empty collections drop their row", () => {

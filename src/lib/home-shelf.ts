@@ -43,13 +43,16 @@ export function latestContents(
   blog: BlogLike[],
   reads: ReadLike[],
   mastodon: MastodonLike[],
+  writingLimit = 5,
 ): HomeItem[] {
   const items: HomeItem[] = [];
-  const post = newest(blog, (entry) => entry.data.pubDate.getTime());
+  const posts = [...blog]
+    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+    .slice(0, Math.max(1, writingLimit));
   const read = newest(reads, (entry) => entry.data.pubDate.getTime());
   const activity = newest(mastodon, (entry) => new Date(entry.data.created_at).getTime());
 
-  if (post) {
+  for (const post of posts) {
     items.push({
       kind: "Writing",
       href: `/blog/${post.id}/`,
