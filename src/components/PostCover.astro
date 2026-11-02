@@ -25,11 +25,14 @@ const { image, alt = "" } = Astro.props;
     <Image
       src={image}
       alt={alt}
+      width={1600}
+      height={900}
       widths={[800, 1200, 1600]}
       sizes="100vw"
       format="avif"
       loading="eager"
       fetchpriority="high"
+      layout="constrained"
     />
   )
 }
