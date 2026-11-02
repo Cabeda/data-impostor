@@ -38,10 +38,15 @@ const ogImage = new URL(image, Astro.url);
 >
   (() => {
     const root = document.documentElement;
+    const themeColors = { paper: "#fbf8f1", sepia: "#f2e6d1", night: "#000000" };
     try {
       const raw = localStorage.getItem(prefsKey);
       const prefs = raw ? JSON.parse(raw) : null;
-      if (prefs && themes.includes(prefs.theme)) root.dataset.theme = prefs.theme;
+      if (prefs && themes.includes(prefs.theme)) {
+        root.dataset.theme = prefs.theme;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", themeColors[prefs.theme] || "#fbf8f1");
+      }
       if (prefs && sizes.includes(prefs.size)) root.dataset.size = prefs.size;
       if (prefs && faces.includes(prefs.face)) root.dataset.face = prefs.face;
       if (prefs && prefs.listen === true) root.dataset.listen = "on";

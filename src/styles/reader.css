@@ -59,15 +59,14 @@ body.reader-page {
   color: var(--muted);
 }
 .reader-hero.has-image .reader-kicker { color: rgba(255, 255, 255, 0.82); }
-.reader-hero h1 {
-  max-width: 960px;
-  margin: 0 0 18px;
-  font-family: var(--font-serif);
-  font-size: clamp(42px, 6vw, 80px);
-  line-height: 0.99;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-  color: inherit;
+.reader-hero h1 .tts-sentence { background: transparent; }
+.reader-hero.has-image h1 .tts-sentence.is-speaking {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+.reader-hero:not(.has-image) h1 .tts-sentence.is-speaking {
+  background: var(--accent-soft);
+  border-radius: 4px;
 }
 .reader-dek {
   max-width: 620px;

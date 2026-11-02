@@ -1,3 +1,4 @@
+import { audioReducer, initialAudioPlayback } from "../lib/audio-state";
 import {
   READER_PREFS_KEY,
   parseReaderPrefs,
@@ -11,15 +12,36 @@ interface Sentence {
   chapter: number;
 }
 
+const playback = { ...initialAudioPlayback };
 const state = {
   listen: false,
-  speaking: false,
-  paused: false,
-  finished: false,
-  idx: 0,
   rate: 1,
   voice: null as SpeechSynthesisVoice | null,
   hasVoices: false,
+  get speaking() {
+    return playback.speaking;
+  },
+  set speaking(value: boolean) {
+    playback.speaking = value;
+  },
+  get paused() {
+    return playback.paused;
+  },
+  set paused(value: boolean) {
+    playback.paused = value;
+  },
+  get finished() {
+    return playback.finished;
+  },
+  set finished(value: boolean) {
+    playback.finished = value;
+  },
+  get idx() {
+    return playback.idx;
+  },
+  set idx(value: number) {
+    playback.idx = value;
+  },
 };
 
 let initialized = false;
@@ -83,6 +105,20 @@ function unwrapSentences() {
 function prepareSentences() {
   if (!article || prepared) return;
   prepared = true;
+
+  const titleElement = document.querySelector<HTMLElement>(".reader-hero h1");
+  if (titleElement) {
+    const titleText = titleElement.textContent?.trim();
+    if (titleText) {
+      const span = document.createElement("span");
+      span.className = "tts-sentence";
+      span.textContent = `${titleText}. `;
+      span.dataset.s = String(sentences.length);
+      titleElement.textContent = "";
+      titleElement.appendChild(span);
+      sentences.push({ el: span, text: `${titleText}.`, chapter: 0 });
+    }
+  }
 
   const blocks = Array.from(article.querySelectorAll("p, li, blockquote, h2, h3"));
   for (const block of blocks) {
@@ -196,8 +232,7 @@ function scheduleSim() {
   simTimer = setTimeout(() => {
     if (!state.speaking || state.paused) return;
     if (state.idx >= sentences.length - 1) {
-      state.speaking = false;
-      state.finished = true;
+      Object.assign(state, audioReducer(state, { type: "finish" }));
       updateUI();
       return;
     }
@@ -218,9 +253,7 @@ function speakFrom(index: number) {
     return;
   }
   if (index >= sentences.length) {
-    state.speaking = false;
-    state.paused = false;
-    state.finished = true;
+    Object.assign(state, audioReducer(state, { type: "finish" }));
     updateUI();
     return;
   }
@@ -249,7 +282,7 @@ function speakFrom(index: number) {
 }
 
 function seekTo(index: number) {
-  state.idx = index;
+  Object.assign(state, audioReducer(state, { type: "seek", idx: index }));
   if (!state.speaking) {
     highlight(index);
     updateUI();
@@ -276,9 +309,7 @@ function play(from?: number) {
   if (typeof from === "number") state.idx = from;
   else if (state.finished) state.idx = 0;
 
-  state.speaking = true;
-  state.paused = false;
-  state.finished = false;
+  Object.assign(state, audioReducer(state, { type: "play", from: typeof from === "number" ? from : undefined }));
 
   if (state.hasVoices) {
     synth()?.cancel();
@@ -291,9 +322,7 @@ function play(from?: number) {
 }
 
 function stop() {
-  state.speaking = false;
-  state.paused = false;
-  state.finished = false;
+  Object.assign(state, audioReducer(state, { type: "stop" }));
   synth()?.cancel();
   clearTimeout(simTimer);
   if (current) {
@@ -306,13 +335,13 @@ function stop() {
 function pause() {
   synth()?.pause();
   clearTimeout(simTimer);
-  state.paused = true;
+  Object.assign(state, audioReducer(state, { type: "pause" }));
   updateUI();
 }
 
 function resume() {
   synth()?.resume();
-  state.paused = false;
+  Object.assign(state, audioReducer(state, { type: "resume" }));
   updateUI();
   if (!state.hasVoices) scheduleSim();
 }
@@ -489,10 +518,7 @@ function refresh() {
     current = null;
   }
   unwrapSentences();
-  state.speaking = false;
-  state.paused = false;
-  state.finished = false;
-  state.idx = 0;
+  Object.assign(state, audioReducer(state, { type: "reset" }));
   synth()?.cancel();
   clearTimeout(simTimer);
 

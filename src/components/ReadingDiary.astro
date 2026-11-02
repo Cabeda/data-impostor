@@ -1,0 +1,549 @@
+---
+import type { ReadingDiary } from "../lib/reading-diary";
+
+interface Props {
+  months: ReadingDiary["months"];
+  years: number[];
+  noteCount: number;
+  mode: "latest" | "year";
+  currentYear?: number;
+}
+
+const { months, years, noteCount, mode, currentYear } = Astro.props;
+---
+
+<main class="diary">
+  <header class="diary-head">
+    <p class="kicker">Reading diary</p>
+    <h1>{mode === "year" ? `Reading · ${currentYear}` : "What I read, and what stayed with me."}</h1>
+    <p>
+      {
+        mode === "year"
+          ? `Notes from ${currentYear}. ${noteCount} entries.`
+          : `A running log of articles, papers, and books, with the notes I kept. ${noteCount} entries and counting. Highlights are the article's words; notes are mine.`
+      }
+    </p>
+  </header>
+
+  <details class="diary-sticky" data-diary-sticky>
+    <summary>
+      <span class="kicker">Jump to</span>
+      <span data-sticky-month>
+        {mode === "year" ? months[0]?.label : years.length ? `Browse ${years[0]}` : "Index"}
+      </span>
+      <span class="sticky-caret" aria-hidden="true">▾</span>
+    </summary>
+    <nav class="sticky-index" aria-label="Diary index">
+      {
+        mode === "year"
+          ? months.map((month) => (
+              <a href={`#${month.id}`} data-index-month={month.index}>
+                {month.shortLabel}
+              </a>
+            ))
+          : years.map((year) => (
+              <a href={`/reads/${year}/`} data-index-year={year}>
+                {year}
+              </a>
+            ))
+      }
+    </nav>
+  </details>
+
+  <div class="diary-layout">
+    <aside class="diary-rail" aria-label="Diary index">
+      <p class="kicker">Index</p>
+      <nav class="diary-index">
+        {
+          mode === "year"
+            ? months.map((month) => (
+                <div class="index-year-group">
+                  <a href={`#${month.id}`} data-index-month={month.index} class="index-month">
+                    <span class="index-month-name">{month.shortLabel}</span>
+                    <span class="index-count">{month.items.length}</span>
+                  </a>
+                </div>
+              ))
+            : years.map((year) => (
+                <div class="index-year-group">
+                  <a href={`/reads/${year}/`} data-index-year={year} class="index-month">
+                    <span class="index-month-name">{year}</span>
+                    <span class="index-count">
+                      {months
+                        .filter((m) => m.year === year)
+                        .reduce((n, m) => n + m.items.length, 0)}
+                    </span>
+                  </a>
+                </div>
+              ))
+        }
+      </nav>
+      {mode === "year" && (
+        <p class="rail-back">
+          <a href="/reads">← Back to the diary</a>
+        </p>
+      )}
+    </aside>
+
+    <div class="diary-log">
+      {
+        months.map((month, index) => (
+          <section
+            class="month-section"
+            id={month.id}
+            data-month-index={index}
+            data-month-label={month.label}
+          >
+            <header class="month-head">
+              <span class="diamond" aria-hidden="true"></span>
+              <h2>{month.label}</h2>
+              <span class="count">
+                {month.items.length} {month.items.length === 1 ? "note" : "notes"}
+              </span>
+              <span class="rule" aria-hidden="true"></span>
+            </header>
+
+            {month.items.map((item) => {
+              const ReadContent = item.Content as any;
+              const dayDate = item.data.pubDate;
+              const dayLabel = dayDate.toLocaleDateString("en-US", { weekday: "long" });
+              const dateLabel = dayDate.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+              });
+              return (
+                <article class="diary-day">
+                  <div class="day-date">
+                    <p class="day-weekday">{dayLabel}</p>
+                    <p class="day-full">{dateLabel}</p>
+                  </div>
+                  <div class="day-body">
+                    <ReadContent />
+                  </div>
+                </article>
+              );
+            })}
+          </section>
+        ))
+      }
+
+      {mode === "latest" && (
+        <div class="diary-browse">
+          {years.map((year) => (
+            <a class="btn" href={`/reads/${year}/`}>Browse {year} →</a>
+          ))}
+        </div>
+      )}
+
+      <div class="diary-end" aria-hidden="true">
+        <span class="diamond"></span>
+        <span class="rule"></span>
+        <span>End of the diary</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style is:global>
+  .diary {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 54px 24px 90px;
+    font-size: var(--read-size);
+  }
+  .diary-head {
+    margin-bottom: 42px;
+  }
+  .diary-head h1 {
+    margin: 0.12em 0 0.25em;
+    font-family: var(--font-read);
+    font-size: 2.6em;
+    line-height: 1.03;
+    letter-spacing: -0.03em;
+  }
+  .diary-head p {
+    max-width: 54ch;
+    margin: 0;
+    color: var(--muted);
+    font-family: var(--font-read);
+    font-size: 1em;
+    line-height: var(--read-leading);
+  }
+
+  .diary-layout {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+  }
+  .diary-rail {
+    position: sticky;
+    top: 92px;
+    max-height: calc(100vh - 130px);
+    overflow: auto;
+  }
+  .diary-index {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .index-year {
+    margin: 0 0 5px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .index-months {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+  .index-month {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .index-month:hover { color: var(--accent); }
+  .index-month.is-current {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .index-count { opacity: 0.7; }
+  .month-section { scroll-margin-top: 110px; }
+
+  .diary-sticky { display: none; }
+
+  .month-head {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0 6px;
+    padding-top: 8px;
+    background: var(--bg);
+  }
+  .month-head h2 {
+    margin: 0;
+    font-family: var(--font-read);
+    font-size: 1.15em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .month-head .count {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .month-head .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .diary-day {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 28px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .day-date {
+    text-align: right;
+    padding-top: 3px;
+  }
+  .day-weekday {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .day-full {
+    margin: 2px 0 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.2;
+  }
+
+  .day-body {
+    min-width: 0;
+    font-family: var(--font-read);
+    font-size: var(--read-size);
+    line-height: var(--read-leading);
+  }
+  .day-body :global(h2) {
+    margin: 0 0 0.6em;
+    font-family: var(--font-read);
+    font-size: 1.05em;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .day-body :global(h2:first-child) { margin-top: 0; }
+  .day-body :global(h2:not(:first-child)) {
+    margin-top: 1.6em;
+    padding-top: 1.2em;
+    border-top: 1px dotted var(--line);
+  }
+  .day-body :global(h2 a) {
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size 180ms ease, color 180ms ease;
+  }
+  .day-body :global(h2 a:hover) {
+    color: var(--accent);
+    background-size: 100% 1px;
+  }
+  .day-body :global(ul),
+  .day-body :global(ol) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .day-body :global(li) {
+    position: relative;
+    margin: 0;
+    padding: 1px 0 1px 15px;
+    border-left: 2px solid var(--accent);
+    color: var(--ink);
+    font-family: var(--font-read);
+    font-size: 1em;
+    font-style: italic;
+    line-height: 1.45;
+  }
+  .day-body :global(li)::before {
+    content: "“";
+    margin-right: 2px;
+    color: var(--accent);
+    font-family: var(--font-serif);
+    font-size: 1.15em;
+    line-height: 0;
+    vertical-align: -0.15em;
+  }
+  .day-body :global(blockquote) {
+    margin: 8px 0 0 15px;
+    padding: 3px 0 3px 11px;
+    border-left: 1px solid var(--line);
+    color: var(--muted);
+    font-family: var(--font-read);
+    font-size: calc(var(--read-size) - 4px);
+    font-style: normal;
+    line-height: 1.5;
+  }
+  .day-body :global(blockquote)::before {
+    content: "MY NOTE";
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+  .day-body :global(p) {
+    color: var(--muted);
+    font-family: var(--font-read);
+    font-size: 1em;
+    line-height: 1.65;
+  }
+  .day-body :global(a) { color: var(--accent); }
+  .day-body :global(a:hover) { color: var(--accent-dark); }
+
+  .rail-back {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .rail-back a { color: var(--muted); text-decoration: none; }
+  .rail-back a:hover { color: var(--accent); }
+
+  .diary-browse {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 34px 0 0;
+  }
+
+  .diary-end {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 46px;
+    color: var(--muted);
+  }
+  .diary-end .diamond {
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--accent);
+  }
+  .diary-end .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .diary-end span:last-child {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .diary-sticky {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .diary-layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+    .diary-rail { display: none; }
+    .month-head { top: 44px; }
+    .diary-sticky {
+      display: block;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      margin-bottom: 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+    .diary-sticky summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 0;
+      cursor: pointer;
+      list-style: none;
+    }
+    .diary-sticky summary::-webkit-details-marker { display: none; }
+    .diary-sticky [data-sticky-month] {
+      font-family: var(--font-serif);
+      font-size: 16px;
+    }
+    .sticky-caret {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .sticky-index {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 4px 0 16px;
+      max-height: 50vh;
+      overflow: auto;
+    }
+  }
+  @media (max-width: 720px) {
+    .diary {
+      padding: 32px 20px 64px;
+    }
+    .diary-head {
+      margin-bottom: 26px;
+    }
+    .diary-day {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      padding: 22px 0;
+    }
+    .day-date {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      text-align: left;
+      padding: 0;
+    }
+    .day-full {
+      font-size: 15px;
+    }
+    .day-body :global(h2) {
+      font-size: 1em;
+    }
+    .diary-sticky summary {
+      padding: 9px 0;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const w = window;
+    if (w.__diDiary) return;
+    w.__diDiary = true;
+    const links = Array.from(document.querySelectorAll("[data-index-month], [data-index-year]"));
+    const sections = Array.from(document.querySelectorAll("[data-month-index]"));
+    const sticky = document.querySelector("[data-diary-sticky]");
+    const stickyMonth = document.querySelector("[data-sticky-month]");
+    let active = -1;
+
+    function setActive(index) {
+      if (active === index) return;
+      active = index;
+      links.forEach((link) => {
+        link.classList.toggle("is-current", Number(link.dataset.indexMonth) === index);
+      });
+      const label = sections[index]?.dataset.monthLabel;
+      if (stickyMonth && label) stickyMonth.textContent = label;
+    }
+
+    function onScroll() {
+      const line = window.innerHeight * 0.35;
+      let index = 0;
+      sections.forEach((section, i) => {
+        if (section.getBoundingClientRect().top < line) index = i;
+      });
+      setActive(index);
+    }
+
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          onScroll();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      const monthLink = target.closest("[data-index-month]");
+      if (monthLink) {
+        event.preventDefault();
+        const index = Number(monthLink.dataset.indexMonth);
+        sections[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+        sticky?.removeAttribute("open");
+      }
+    });
+
+    onScroll();
+  })();
+</script>

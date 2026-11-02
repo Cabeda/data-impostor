@@ -1,4 +1,5 @@
 import { previewText } from "./mastodon-preview.ts";
+import { readTitleFromBody } from "./content-intake.ts";
 
 export type HomeKind = "Writing" | "Reading" | "Activity";
 
@@ -24,24 +25,13 @@ interface MastodonLike {
   data: { content: string; created_at: string };
 }
 
-export function readTitleFromBody(body: string | null | undefined): string {
-  const heading = body?.split("\n").find((line) => line.trim().startsWith("#"));
-  if (!heading) return "Reading notes";
-  const title = heading
-    .replace(/^#+\s*/, "")
-    .replace(/\[([^\]]+)\]\([^)]+\)/, "$1")
-    .trim();
-  return title || "Reading notes";
-}
-
-function newest<T extends { data: { pubDate: Date } }>(entries: T[]): T | undefined {
-  return [...entries].sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())[0];
-}
-
-function newestMastodon(entries: MastodonLike[]): MastodonLike | undefined {
-  return [...entries].sort(
-    (a, b) => new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime(),
-  )[0];
+function newest<T>(entries: T[], dateOf: (entry: T) => number): T | undefined {
+  if (entries.length === 0) return undefined;
+  let best = entries[0];
+  for (const entry of entries) {
+    if (dateOf(entry) > dateOf(best)) best = entry;
+  }
+  return best;
 }
 
 /**
@@ -55,9 +45,9 @@ export function latestContents(
   mastodon: MastodonLike[],
 ): HomeItem[] {
   const items: HomeItem[] = [];
-  const post = newest(blog);
-  const read = newest(reads);
-  const activity = newestMastodon(mastodon);
+  const post = newest(blog, (entry) => entry.data.pubDate.getTime());
+  const read = newest(reads, (entry) => entry.data.pubDate.getTime());
+  const activity = newest(mastodon, (entry) => new Date(entry.data.created_at).getTime());
 
   if (post) {
     items.push({
@@ -85,3 +75,5 @@ export function latestContents(
   }
   return items;
 }
+
+export { readTitleFromBody } from "./content-intake.ts";

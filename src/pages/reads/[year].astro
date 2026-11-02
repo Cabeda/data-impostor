@@ -1,0 +1,54 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection, render } from "astro:content";
+import { ClientRouter } from "astro:transitions";
+import ReadingDiary from "../../components/ReadingDiary.astro";
+import { groupReadingEntries } from "../../lib/reading-diary";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("reads");
+  const years = [...new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))];
+  return years.map((year) => ({ params: { year: String(year) } }));
+}
+
+const year = Number(Astro.params.year);
+const allPosts = (await getCollection("reads")).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+const yearPosts = allPosts.filter((post) => post.data.pubDate.getFullYear() === year);
+
+const rendered = await Promise.all(
+  yearPosts.map(async (post) => {
+    const { Content } = await render(post);
+    return { id: post.id, data: post.data, body: post.body, Content };
+  }),
+);
+
+const diary = groupReadingEntries(rendered);
+const years = [...new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Reading · ${year} · ${SITE_TITLE}`}
+      description={`Reading notes from ${year}. ${diary.noteCount} entries. ${SITE_DESCRIPTION}`}
+    />
+    <ClientRouter />
+  </head>
+  <body>
+    <Header />
+    <ReadingDiary
+      months={diary.months}
+      years={years}
+      noteCount={diary.noteCount}
+      mode="year"
+      currentYear={year}
+    />
+    <Footer />
+  </body>
+</html>

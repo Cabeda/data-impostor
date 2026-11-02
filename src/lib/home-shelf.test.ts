@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { latestContents, readTitleFromBody } from "./home-shelf.ts";
+import { latestContents } from "./home-shelf.ts";
+import { readTitleFromBody } from "./content-intake.ts";
 
 const post = (id: string, title: string, day: number) => ({
   id,
