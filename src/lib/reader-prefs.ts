@@ -15,6 +15,12 @@ export interface ReaderPrefs {
   listen: boolean;
 }
 
+export const THEME_COLORS: Record<Theme, string> = {
+  paper: "#fbf8f1",
+  sepia: "#f2e6d1",
+  night: "#000000",
+};
+
 export const DEFAULT_READER_PREFS: ReaderPrefs = {
   theme: "paper",
   size: "m",

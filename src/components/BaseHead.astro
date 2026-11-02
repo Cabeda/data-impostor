@@ -8,6 +8,7 @@ import {
   READER_PREFS_KEY,
   SIZES,
   THEMES,
+  THEME_COLORS,
 } from "../lib/reader-prefs";
 
 interface Props {
@@ -34,18 +35,18 @@ const ogImage = new URL(image, Astro.url);
 <!-- Apply reader preferences and the first-visit book intro before paint. -->
 <script
   is:inline
-  define:vars={{ prefsKey: READER_PREFS_KEY, themes: THEMES, sizes: SIZES, faces: FACES, defaults: DEFAULT_READER_PREFS }}
+  define:vars={{ prefsKey: READER_PREFS_KEY, themes: THEMES, sizes: SIZES, faces: FACES, defaults: DEFAULT_READER_PREFS, themeColors: THEME_COLORS }}
 >
   (() => {
     const root = document.documentElement;
-    const themeColors = { paper: "#fbf8f1", sepia: "#f2e6d1", night: "#000000" };
+    const colors = themeColors || {};
     try {
       const raw = localStorage.getItem(prefsKey);
       const prefs = raw ? JSON.parse(raw) : null;
       if (prefs && themes.includes(prefs.theme)) {
         root.dataset.theme = prefs.theme;
         const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute("content", themeColors[prefs.theme] || "#fbf8f1");
+        if (meta && colors[prefs.theme]) meta.setAttribute("content", colors[prefs.theme]);
       }
       if (prefs && sizes.includes(prefs.size)) root.dataset.size = prefs.size;
       if (prefs && faces.includes(prefs.face)) root.dataset.face = prefs.face;

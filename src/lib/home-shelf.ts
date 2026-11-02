@@ -43,12 +43,11 @@ export function latestContents(
   blog: BlogLike[],
   reads: ReadLike[],
   mastodon: MastodonLike[],
-  writingLimit = 5,
 ): HomeItem[] {
   const items: HomeItem[] = [];
   const posts = [...blog]
     .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-    .slice(0, Math.max(1, writingLimit));
+    .slice(0, 5);
   const read = newest(reads, (entry) => entry.data.pubDate.getTime());
   const activity = newest(mastodon, (entry) => new Date(entry.data.created_at).getTime());
 
@@ -78,5 +77,3 @@ export function latestContents(
   }
   return items;
 }
-
-export { readTitleFromBody } from "./content-intake.ts";

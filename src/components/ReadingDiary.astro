@@ -489,18 +489,21 @@ const { months, years, noteCount, mode, currentYear } = Astro.props;
   }
 </style>
 
-<script is:inline>
+<script>
+  import { chapterIndex } from "../lib/reader-chapters";
+
   (() => {
-    const w = window;
+    const w = window as unknown as { __diDiary?: boolean };
     if (w.__diDiary) return;
     w.__diDiary = true;
-    const links = Array.from(document.querySelectorAll("[data-index-month], [data-index-year]"));
-    const sections = Array.from(document.querySelectorAll("[data-month-index]"));
-    const sticky = document.querySelector("[data-diary-sticky]");
-    const stickyMonth = document.querySelector("[data-sticky-month]");
+
+    const links = Array.from(document.querySelectorAll<HTMLElement>("[data-index-month], [data-index-year]"));
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-month-index]"));
+    const sticky = document.querySelector<HTMLElement>("[data-diary-sticky]");
+    const stickyMonth = document.querySelector<HTMLElement>("[data-sticky-month]");
     let active = -1;
 
-    function setActive(index) {
+    function setActive(index: number) {
       if (active === index) return;
       active = index;
       links.forEach((link) => {
@@ -512,10 +515,10 @@ const { months, years, noteCount, mode, currentYear } = Astro.props;
 
     function onScroll() {
       const line = window.innerHeight * 0.35;
-      let index = 0;
-      sections.forEach((section, i) => {
-        if (section.getBoundingClientRect().top < line) index = i;
-      });
+      const index = chapterIndex(
+        sections.map((section) => section.getBoundingClientRect().top),
+        line,
+      );
       setActive(index);
     }
 
@@ -534,14 +537,18 @@ const { months, years, noteCount, mode, currentYear } = Astro.props;
     );
 
     document.addEventListener("click", (event) => {
-      const target = event.target;
-      const monthLink = target.closest("[data-index-month]");
+      const target = event.target as HTMLElement;
+      const monthLink = target.closest<HTMLElement>("[data-index-month]");
       if (monthLink) {
         event.preventDefault();
         const index = Number(monthLink.dataset.indexMonth);
         sections[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
         sticky?.removeAttribute("open");
       }
+    });
+
+    document.addEventListener("astro:page-load", () => {
+      active = -1;
     });
 
     onScroll();

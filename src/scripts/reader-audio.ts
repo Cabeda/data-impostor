@@ -1,4 +1,5 @@
 import { audioReducer, initialAudioPlayback } from "../lib/audio-state";
+import { chapterIndex } from "../lib/reader-chapters";
 import {
   READER_PREFS_KEY,
   parseReaderPrefs,
@@ -378,12 +379,10 @@ function toggleListen() {
 }
 
 function currentChapterFromScroll(): number {
-  let index = 0;
-  const line = window.innerHeight * 0.35;
-  headings.forEach((heading, i) => {
-    if (heading.getBoundingClientRect().top < line) index = i;
-  });
-  return index;
+  return chapterIndex(
+    headings.map((heading) => heading.getBoundingClientRect().top),
+    window.innerHeight * 0.35,
+  );
 }
 
 function startAtChapter(index: number) {

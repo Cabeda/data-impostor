@@ -9,14 +9,18 @@ body.reader-page {
 /* Hero ------------------------------------------------------------------- */
 .reader-hero {
   position: relative;
-  min-height: min(72vh, 680px);
+  min-height: auto;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
   background: var(--surface-2);
   color: var(--ink);
+  padding: 64px 0 48px;
 }
 .reader-hero.has-image {
+  min-height: min(72vh, 700px);
+  align-items: flex-end;
+  padding: 0;
   background: #000;
   color: #fff;
 }
@@ -40,12 +44,26 @@ body.reader-page {
     rgba(0, 0, 0, 0.84) 100%
   );
 }
+.reader-hero:not(.has-image)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 1px;
+  background: var(--line);
+}
 .reader-hero-inner {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1120px;
+  max-width: 720px;
   margin: 0 auto;
+  padding: 0 24px;
+}
+.reader-hero.has-image .reader-hero-inner {
+  max-width: 1120px;
   padding: 120px 32px 48px;
 }
 .reader-kicker {
