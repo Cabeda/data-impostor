@@ -6,6 +6,7 @@ import Footer from "../components/Footer.astro";
 import ReaderHeader from "../components/ReaderHeader.astro";
 import MastodonComments from "../components/MastodonComments.astro";
 import FormattedDate from "../components/FormattedDate.astro";
+import { ClientRouter } from "astro:transitions";
 import "../styles/reader.css";
 
 interface Heading {
@@ -38,6 +39,7 @@ const pad = (value: number) => String(value).padStart(2, "0");
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} image={heroImage?.src} />
+    <ClientRouter />
   </head>
 
   <body class="reader-page">
@@ -189,23 +191,44 @@ const pad = (value: number) => String(value).padStart(2, "0");
 
     <script>
       (() => {
-        const header = document.querySelector<HTMLElement>("[data-reader-header]");
-        const hero = document.querySelector<HTMLElement>(".reader-hero");
-        const sheet = document.querySelector<HTMLElement>("[data-contents-sheet]");
-        const contentsToggle = document.querySelector<HTMLElement>("[data-contents-toggle]");
-        const track = document.querySelector<HTMLElement>(".chapter-track");
-        const article = document.getElementById("post-content");
-        if (!article) return;
+        const w = window as unknown as { __diReaderShell?: boolean };
+        if (w.__diReaderShell) return;
+        w.__diReaderShell = true;
 
-        const headings = Array.from(article.querySelectorAll<HTMLElement>("h2"));
-        const links = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter-link]"));
-        const labels = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter-label]"));
-        const progressBars = Array.from(document.querySelectorAll<HTMLElement>("[data-progress]"));
-        const minutesLeft = Array.from(document.querySelectorAll<HTMLElement>("[data-minutes-left]"));
-        const readMin = Number(article.dataset.readMinutes || 1);
-        const hasHero = !!hero?.classList.contains("has-image");
+        let header: HTMLElement | null = null;
+        let hero: HTMLElement | null = null;
+        let sheet: HTMLElement | null = null;
+        let contentsToggle: HTMLElement | null = null;
+        let track: HTMLElement | null = null;
+        let article: HTMLElement | null = null;
+        let headings: HTMLElement[] = [];
+        let links: HTMLElement[] = [];
+        let labels: HTMLElement[] = [];
+        let progressBars: HTMLElement[] = [];
+        let minutesLeft: HTMLElement[] = [];
+        let readMin = 1;
+        let hasHero = false;
         let currentChapter = -1;
         let lastStripChapter = -1;
+
+        function rebind() {
+          header = document.querySelector<HTMLElement>("[data-reader-header]");
+          hero = document.querySelector<HTMLElement>(".reader-hero");
+          sheet = document.querySelector<HTMLElement>("[data-contents-sheet]");
+          contentsToggle = document.querySelector<HTMLElement>("[data-contents-toggle]");
+          track = document.querySelector<HTMLElement>(".chapter-track");
+          article = document.getElementById("post-content");
+          headings = article
+            ? Array.from(article.querySelectorAll<HTMLElement>("h2"))
+            : [];
+          links = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter-link]"));
+          labels = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter-label]"));
+          progressBars = Array.from(document.querySelectorAll<HTMLElement>("[data-progress]"));
+          minutesLeft = Array.from(document.querySelectorAll<HTMLElement>("[data-minutes-left]"));
+          readMin = Number(article?.dataset.readMinutes || 1);
+          hasHero = !!hero?.classList.contains("has-image");
+        }
+        rebind();
 
         function scrollProgress() {
           const rect = article!.getBoundingClientRect();
@@ -234,6 +257,8 @@ const pad = (value: number) => String(value).padStart(2, "0");
         }
 
         function onScroll() {
+          rebind();
+          if (!article || headings.length === 0) return;
           const progress = scrollProgress();
           progressBars.forEach((bar) => {
             bar.style.width = `${(progress * 100).toFixed(1)}%`;
@@ -273,6 +298,7 @@ const pad = (value: number) => String(value).padStart(2, "0");
 
         let lastFocus: HTMLElement | null = null;
         function openSheet() {
+          rebind();
           if (!sheet) return;
           lastFocus = document.activeElement as HTMLElement;
           sheet.classList.add("is-open");
@@ -282,6 +308,7 @@ const pad = (value: number) => String(value).padStart(2, "0");
           sheet.querySelector<HTMLElement>(".contents-close")?.focus();
         }
         function closeSheet() {
+          rebind();
           if (!sheet?.classList.contains("is-open")) return;
           sheet.classList.remove("is-open");
           sheet.setAttribute("aria-hidden", "true");
@@ -290,6 +317,7 @@ const pad = (value: number) => String(value).padStart(2, "0");
           lastFocus?.focus?.();
         }
         function toggleSheet() {
+          rebind();
           if (sheet?.classList.contains("is-open")) closeSheet();
           else openSheet();
         }
@@ -312,18 +340,38 @@ const pad = (value: number) => String(value).padStart(2, "0");
 
         onScroll();
         requestAnimationFrame(onScroll);
+
+        document.addEventListener("astro:page-load", () => {
+          currentChapter = -1;
+          lastStripChapter = -1;
+          document.body.style.overflow = "";
+          onScroll();
+        });
       })();
     </script>
 
     <script>
       (() => {
-        let audioPromise: Promise<{ toggleListen: () => void }> | undefined;
+        const w = window as unknown as { __diReaderAudioBoot?: boolean };
+        if (w.__diReaderAudioBoot) return;
+        w.__diReaderAudioBoot = true;
+
+        let audioPromise: Promise<{
+          toggleListen: () => void;
+          refresh: () => void;
+        }> | undefined;
 
         function loadAudio() {
           audioPromise ??= import("../scripts/reader-audio").then((module) =>
             module.initReaderAudio(),
           );
           return audioPromise;
+        }
+
+        function startIfListening() {
+          if (document.documentElement.dataset.listen !== "on") return;
+          if (!document.getElementById("post-content")) return;
+          loadAudio();
         }
 
         document.addEventListener("click", (event) => {
@@ -333,16 +381,12 @@ const pad = (value: number) => String(value).padStart(2, "0");
           loadAudio().then((api) => api.toggleListen());
         });
 
-        if (document.documentElement.dataset.listen === "on") {
-          const start = () => {
-            loadAudio();
-          };
-          if ("requestIdleCallback" in window) {
-            window.requestIdleCallback(start, { timeout: 1500 });
-          } else {
-            setTimeout(start, 400);
-          }
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(startIfListening, { timeout: 1500 });
+        } else {
+          setTimeout(startIfListening, 400);
         }
+        document.addEventListener("astro:page-load", startIfListening);
       })();
     </script>
   </body>

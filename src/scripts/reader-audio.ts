@@ -366,9 +366,8 @@ function stepChapter(direction: number) {
   goChapter(Math.min(headings.length - 1, Math.max(0, current + direction)));
 }
 
-function onArticleClick(event: MouseEvent) {
+function handleArticleClick(target: HTMLElement) {
   if (!state.listen || !article) return;
-  const target = event.target as HTMLElement;
   if (target.closest("a")) return;
   if (window.getSelection()?.toString()) return;
 
@@ -410,6 +409,10 @@ function onClick(event: MouseEvent) {
     if (!Number.isNaN(index) && (state.speaking || state.paused)) {
       window.setTimeout(() => startAtChapter(index), 0);
     }
+    return;
+  }
+  if (target.closest("#post-content")) {
+    handleArticleClick(target);
   }
 }
 
@@ -451,34 +454,58 @@ export interface ReaderAudioApi {
   toggleListen: () => void;
   togglePlay: () => void;
   stop: () => void;
+  refresh: () => void;
 }
 
-export function initReaderAudio(): ReaderAudioApi {
-  const api: ReaderAudioApi = { toggleListen, togglePlay, stop };
-  if (initialized) return api;
-  initialized = true;
-
+function refresh() {
+  state.listen = prefs().listen;
   article = document.getElementById("post-content");
   dock = document.querySelector("[data-audio-dock]");
-  if (!article || !dock) return api;
+  if (!article || !dock) {
+    stop();
+    return;
+  }
 
   headings = Array.from(article.querySelectorAll<HTMLElement>("h2"));
   headings.forEach((heading, index) => {
     heading.dataset.chapter = String(index);
   });
 
-  document.addEventListener("click", onClick);
-  document.addEventListener("change", onChange);
-  article.addEventListener("click", onArticleClick);
-  setupMediaSession();
+  prepared = false;
+  sentences = [];
+  if (current) {
+    current.classList.remove("is-speaking");
+    current = null;
+  }
+  state.speaking = false;
+  state.paused = false;
+  state.finished = false;
+  state.idx = 0;
+  synth()?.cancel();
+  clearTimeout(simTimer);
 
-  const stored = prefs();
-  if (stored.listen) {
-    state.listen = true;
+  if (state.listen) {
     ensurePrepared();
     syncListenUI();
   }
   updateUI();
+}
+
+export function initReaderAudio(): ReaderAudioApi {
+  const api: ReaderAudioApi = { toggleListen, togglePlay, stop, refresh };
+  if (initialized) return api;
+  initialized = true;
+
+  document.addEventListener("click", onClick);
+  document.addEventListener("change", onChange);
+  document.addEventListener("astro:before-swap", () => {
+    stop();
+  });
+  document.addEventListener("astro:page-load", () => {
+    refresh();
+  });
+  setupMediaSession();
+  refresh();
 
   return api;
 }

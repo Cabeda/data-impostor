@@ -167,7 +167,7 @@ const { align = "right" } = Astro.props;
     else delete root.dataset.listen;
 
     const color =
-      prefs.theme === "night" ? "#14161a" : prefs.theme === "sepia" ? "#f2e6d1" : "#fbf8f1";
+      prefs.theme === "night" ? "#000000" : prefs.theme === "sepia" ? "#f2e6d1" : "#fbf8f1";
     document.querySelector('meta[name="theme-color"]')?.setAttribute("content", color);
   }
 

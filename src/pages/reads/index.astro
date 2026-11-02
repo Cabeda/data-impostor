@@ -5,268 +5,355 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection, render } from "astro:content";
 import { ClientRouter } from "astro:transitions";
-import FormattedDate from "../../components/FormattedDate.astro";
 
 const allPosts = (await getCollection("reads")).sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 
-const ITEMS_PER_PAGE = 20;
-
-// Render all posts with their content
-const renderedPosts = await Promise.all(
+const rendered = await Promise.all(
   allPosts.map(async (post) => {
     const { Content } = await render(post);
-    return {
-      post,
-      Content,
-    };
-  })
+    return { post, Content };
+  }),
 );
+
+interface Month {
+  key: string;
+  label: string;
+  items: {
+    post: (typeof rendered)[number]["post"];
+    Content: (typeof rendered)[number]["Content"];
+    dayLabel: string;
+    dateLabel: string;
+  }[];
+}
+
+const months: Month[] = [];
+for (const entry of rendered) {
+  const date = entry.post.data.pubDate;
+  const key = `${date.getFullYear()}-${date.getMonth()}`;
+  const month = months.find((m) => m.key === key) ?? {
+    key,
+    label: date.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+    items: [],
+  };
+  if (!months.includes(month)) months.push(month);
+  month.items.push({
+    ...entry,
+    dayLabel: date.toLocaleDateString("en-US", { weekday: "long" }),
+    dateLabel: date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+    }),
+  });
+}
+const noteCount = rendered.length;
+const REVEAL_STEP = 6;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE + " - Reads"} description={"Reading feed and notes from " + SITE_DESCRIPTION} />
+    <BaseHead
+      title={`Reading diary · ${SITE_TITLE}`}
+      description={`A diary of articles, papers, and books, with the notes I kept. ${noteCount} entries. ${SITE_DESCRIPTION}`}
+    />
     <ClientRouter />
     <style>
-      main {
-        max-width: 900px;
+      .diary {
         width: 100%;
+        max-width: 900px;
         margin: 0 auto;
-        padding: 2rem 1rem;
+        padding: 54px 24px 90px;
+      }
+      .diary-head {
+        margin-bottom: 42px;
+      }
+      .diary-head h1 {
+        margin: 0.12em 0 0.25em;
+        font-size: clamp(36px, 5vw, 54px);
+        line-height: 1.03;
+        letter-spacing: -0.03em;
+      }
+      .diary-head p {
+        max-width: 54ch;
+        margin: 0;
+        color: var(--muted);
+        font-family: var(--font-serif);
+        font-size: 18px;
+        line-height: 1.55;
       }
 
-      .reads-header {
-        margin-bottom: 3rem;
-        text-align: center;
-      }
-
-      .reads-header h1 {
-        margin-bottom: 0.5rem;
-        color: rgb(var(--black));
-      }
-
-      .reads-header p {
-        color: rgb(var(--gray));
-        font-size: 1.1rem;
-      }
-
-      .reads-container {
+      .month-head {
         display: flex;
-        flex-direction: column;
-        gap: 2rem;
+        align-items: center;
+        gap: 14px;
+        margin: 46px 0 6px;
       }
-
-      .read-card {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 1.5rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(var(--gray), 0.1);
-        opacity: 1;
-        animation: fadeIn 0.5s ease-in;
+      .month-head h2 {
+        margin: 0;
+        font-family: var(--font-serif);
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
       }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .read-card:hover {
-        box-shadow: var(--box-shadow);
-        transform: translateY(-2px);
-      }
-
-      .read-date {
-        display: inline-block;
-        color: rgb(var(--gray-dark));
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
-        font-weight: 500;
-        background: var(--surface-2);
-        padding: 0.25rem 0.75rem;
-        border-radius: 6px;
-      }
-
-      .read-content {
-        color: rgb(var(--gray-dark));
-      }
-
-      .read-content :global(h2) {
-        margin: 0.75rem 0;
-        font-size: 1.1rem;
-        line-height: 1.4;
-      }
-
-      .read-content :global(a) {
+      .month-head .count {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
         color: var(--accent);
+      }
+      .month-head .rule {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+      .month-head .diamond {
+        width: 6px;
+        height: 6px;
+        transform: rotate(45deg);
+        background: var(--accent);
+      }
+
+      .diary-day {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 28px;
+        padding: 26px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .day-date {
+        text-align: right;
+        padding-top: 3px;
+      }
+      .day-weekday {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .day-full {
+        margin: 2px 0 0;
+        font-family: var(--font-serif);
+        font-size: 17px;
+        line-height: 1.2;
+      }
+
+      .day-body {
+        min-width: 0;
+      }
+      .day-body :global(h2) {
+        margin: 0 0 0.7em;
+        font-family: var(--font-serif);
+        font-size: 21px;
+        font-style: italic;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+      .day-body :global(h2:first-child) {
+        margin-top: 0;
+      }
+      .day-body :global(h2:not(:first-child)) {
+        margin-top: 1.6em;
+        padding-top: 1.2em;
+        border-top: 1px dotted var(--line);
+      }
+      .day-body :global(h2 a) {
+        color: var(--ink);
         text-decoration: none;
-        transition: color 0.2s ease;
+        background-image: linear-gradient(var(--accent), var(--accent));
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        background-size: 0 1px;
+        transition: background-size 180ms ease, color 180ms ease;
       }
-
-      .read-content :global(a:hover) {
-        color: var(--accent-dark);
-        text-decoration: underline;
+      .day-body :global(h2 a:hover) {
+        color: var(--accent);
+        background-size: 100% 1px;
       }
-
-      .read-content :global(p) {
-        margin: 0.5rem 0;
+      .day-body :global(ul),
+      .day-body :global(ol) {
+        margin: 0 0 1.1em 1.3em;
+        padding: 0;
+      }
+      .day-body :global(li) {
+        margin-bottom: 0.5em;
+        color: var(--muted);
+        font-family: var(--font-serif);
+        font-size: 16px;
         line-height: 1.6;
       }
-
-      .loading-container {
-        text-align: center;
-        padding: 2rem;
-        opacity: 0;
-        transition: opacity 0.3s ease;
+      .day-body :global(p) {
+        color: var(--muted);
+        font-family: var(--font-serif);
+        font-size: 16px;
+        line-height: 1.65;
       }
-
-      .loading-container.visible {
-        opacity: 1;
-      }
-
-      .loading-spinner {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border: 4px solid rgb(var(--gray-light));
-        border-top-color: var(--accent);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-
-      .end-message {
-        text-align: center;
-        padding: 2rem;
-        color: rgb(var(--gray));
+      .day-body :global(blockquote) {
+        margin: 1.2em 0;
+        padding-left: 1em;
+        border-left: 2px solid var(--accent-soft);
+        color: var(--ink);
+        font-family: var(--font-serif);
         font-style: italic;
+      }
+      .day-body :global(a) {
+        color: var(--accent);
+      }
+      .day-body :global(a:hover) {
+        color: var(--accent-dark);
+      }
+
+      .diary-more {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 34px;
+      }
+      .diary-more-note {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .diary-end {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 46px;
+        color: var(--muted);
+      }
+      .diary-end .rule {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+      .diary-end .diamond {
+        width: 6px;
+        height: 6px;
+        transform: rotate(45deg);
+        background: var(--accent);
+      }
+      .diary-end span:last-child {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
       }
 
       @media (max-width: 720px) {
-        main {
-          padding: 1rem 0.5rem;
+        .diary {
+          padding: 32px 20px 64px;
         }
-
-        .read-card {
-          padding: 1rem;
+        .diary-head {
+          margin-bottom: 26px;
         }
-
-        .reads-header h1 {
-          font-size: 2rem;
+        .diary-day {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+          padding: 22px 0;
+        }
+        .day-date {
+          display: flex;
+          align-items: baseline;
+          gap: 8px;
+          text-align: left;
+          padding: 0;
+        }
+        .day-full {
+          font-size: 15px;
+        }
+        .day-body :global(h2) {
+          font-size: 19px;
         }
       }
     </style>
   </head>
   <body>
     <Header />
-    <main>
-      <div class="reads-header">
-        <h1>Reading Feed</h1>
-        <p>Articles I've read with my notes and highlights</p>
+    <main class="diary">
+      <header class="diary-head">
+        <p class="kicker">Reading diary</p>
+        <h1>What I read, and what stayed with me.</h1>
+        <p>
+          A running log of articles, papers, and books, with the notes I kept.{" "}
+          {noteCount} entries and counting.
+        </p>
+      </header>
+
+      {
+        months.map((month, index) => (
+          <section class="month-section" data-month-index={index} hidden={index >= REVEAL_STEP}>
+            <header class="month-head">
+              <span class="diamond" aria-hidden="true"></span>
+              <h2>{month.label}</h2>
+              <span class="count">
+                {month.items.length} {month.items.length === 1 ? "note" : "notes"}
+              </span>
+              <span class="rule" aria-hidden="true"></span>
+            </header>
+
+            {month.items.map((item) => {
+              const ReadContent = item.Content;
+              return (
+                <article class="diary-day">
+                  <div class="day-date">
+                    <p class="day-weekday">{item.dayLabel}</p>
+                    <p class="day-full">{item.dateLabel}</p>
+                  </div>
+                  <div class="day-body">
+                    <ReadContent />
+                  </div>
+                </article>
+              );
+            })}
+          </section>
+        ))
+      }
+
+      <div class="diary-more" data-older-more>
+        <button class="btn" data-older type="button">Read older entries</button>
+        <p class="diary-more-note" data-older-note>
+          Showing {Math.min(REVEAL_STEP, months.length)} of {months.length} months
+        </p>
       </div>
 
-      <div class="reads-container" id="reads-container">
-        {renderedPosts.map(({ post, Content }, index) => (
-          <article 
-            class="read-card" 
-            data-index={index}
-            style={index >= ITEMS_PER_PAGE ? "display: none;" : ""}
-          >
-            <div class="read-date">
-              <FormattedDate date={post.data.pubDate} />
-            </div>
-            <div class="read-content">
-              <Content />
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <div class="loading-container" id="loading-indicator">
-        <div class="loading-spinner"></div>
-      </div>
-
-      <div class="end-message" id="end-message" style="display: none;">
-        🎉 You've reached the end of the reading feed!
+      <div class="diary-end" aria-hidden="true">
+        <span class="diamond"></span>
+        <span class="rule"></span>
+        <span>End of the diary</span>
       </div>
     </main>
     <Footer />
 
-    <script is:inline define:vars={{ itemsPerPage: ITEMS_PER_PAGE, totalPosts: renderedPosts.length }}>
-      let currentIndex = itemsPerPage;
-      let isLoading = false;
-      let hasMore = currentIndex < totalPosts;
+    <script is:inline define:vars={{ step: REVEAL_STEP }}>
+      (() => {
+        const sections = Array.from(document.querySelectorAll("[data-month-index]"));
+        const button = document.querySelector("[data-older]");
+        const note = document.querySelector("[data-older-note]");
+        const more = document.querySelector("[data-older-more]");
+        let visible = sections.filter((section) => !section.hidden).length;
 
-      const loadingIndicator = document.getElementById('loading-indicator');
-      const endMessage = document.getElementById('end-message');
-      const allCards = Array.from(document.querySelectorAll('.read-card'));
+        function update() {
+          if (note) note.textContent = `Showing ${visible} of ${sections.length} months`;
+          if (more && visible >= sections.length) more.style.display = "none";
+        }
 
-      function loadMorePosts() {
-        if (isLoading || !hasMore) return;
-
-        isLoading = true;
-        loadingIndicator.classList.add('visible');
-
-        // Simulate a slight delay for smoother UX
-        setTimeout(() => {
-          const endIndex = Math.min(currentIndex + itemsPerPage, totalPosts);
-          
-          for (let i = currentIndex; i < endIndex; i++) {
-            const card = allCards[i];
-            if (card) {
-              card.style.display = '';
-              card.style.animationDelay = `${(i - currentIndex) * 0.05}s`;
-            }
-          }
-
-          currentIndex = endIndex;
-          hasMore = currentIndex < totalPosts;
-          
-          loadingIndicator.classList.remove('visible');
-          isLoading = false;
-
-          if (!hasMore) {
-            loadingIndicator.style.display = 'none';
-            endMessage.style.display = 'block';
-            observer.disconnect();
-          }
-        }, 300);
-      }
-
-      // Intersection Observer for infinite scroll
-      const observerOptions = {
-        root: null,
-        rootMargin: '200px',
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && hasMore && !isLoading) {
-            loadMorePosts();
-          }
+        button?.addEventListener("click", () => {
+          sections.slice(visible, visible + step).forEach((section) => {
+            section.hidden = false;
+          });
+          visible = Math.min(visible + step, sections.length);
+          update();
         });
-      }, observerOptions);
-
-      if (hasMore) {
-        observer.observe(loadingIndicator);
-      } else {
-        loadingIndicator.style.display = 'none';
-        endMessage.style.display = 'block';
-      }
+        update();
+      })();
     </script>
   </body>
 </html>

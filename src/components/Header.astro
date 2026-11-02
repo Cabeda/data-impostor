@@ -24,13 +24,6 @@ import ReaderSettings from "./ReaderSettings.astro";
       <HeaderLink href="/reads">Reads</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
     </div>
-    <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel" aria-label="Menu">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
     <div id="navPanel" class="nav-panel" aria-hidden="true" inert>
       <div class="nav-panel-inner">
         <div class="panel-header">
@@ -57,20 +50,29 @@ import ReaderSettings from "./ReaderSettings.astro";
         </div>
       </div>
     </div>
-    <ReaderSettings />
-    <div class="social-links">
-      <a href="https://mastodon.social/@jecabeda" target="_blank">
-        <span class="sr-only">Follow me on Mastodon</span>
-        <MastodonIcon width={32} height={32} />
-      </a>
-      <a href="https://github.com/cabeda" target="_blank">
-        <span class="sr-only">Go to my GitHub repo</span>
-        <GitHubIcon width={32} height={32} />
-      </a>
-      <a href="https://cabeda.dev/rss.xml" target="_blank">
-        <span class="sr-only">Go to my RSS feed</span>
-        <RssIcon width={30} height={32} />
-      </a>
+    <div class="header-tools">
+      <ReaderSettings />
+      <div class="social-links">
+        <a href="https://mastodon.social/@jecabeda" target="_blank">
+          <span class="sr-only">Follow me on Mastodon</span>
+          <MastodonIcon width={32} height={32} />
+        </a>
+        <a href="https://github.com/cabeda" target="_blank">
+          <span class="sr-only">Go to my GitHub repo</span>
+          <GitHubIcon width={32} height={32} />
+        </a>
+        <a href="https://cabeda.dev/rss.xml" target="_blank">
+          <span class="sr-only">Go to my RSS feed</span>
+          <RssIcon width={30} height={32} />
+        </a>
+      </div>
+      <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </nav>
 </header>
@@ -105,6 +107,13 @@ import ReaderSettings from "./ReaderSettings.astro";
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+  }
+
+  .header-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
   }
 
   .internal-links {
@@ -221,6 +230,7 @@ import ReaderSettings from "./ReaderSettings.astro";
     .social-links { display: none; }
     .internal-links { display: none; }
     .menu-button { display: inline-flex; }
+    .header-tools { gap: 0.65rem; }
   }
 </style>
 
