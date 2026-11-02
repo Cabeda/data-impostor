@@ -8,6 +8,11 @@ import remarkToc from 'remark-toc';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://cabeda.dev',
+	build: {
+		// Inline every stylesheet: a 2 KB component stylesheet in a separate
+		// request is a render-blocking round trip on every page.
+		inlineStylesheets: 'always',
+	},
 	session: false,
 	experimental: {
 		incrementalBuild: true,

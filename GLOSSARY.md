@@ -60,7 +60,7 @@ decides whether it is a page or a post.
 
 ## Reads entry
 
-A reading note's body: `##### [title by author](url)`, then one `- highlight`
+A reading note's body: `## [title by author](url)`, then one `- highlight`
 bullet per highlight. The reads page styles exactly this shape, so the renderer
 lives in content intake, next to the entry's identity, rather than in the script
 that fetches the bookmark.

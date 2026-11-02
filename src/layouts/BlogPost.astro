@@ -7,8 +7,9 @@ import FormattedDate from "../components/FormattedDate.astro";
 import MastodonComments from "../components/MastodonComments.astro";
 import { Image } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
+import { excerpt } from "../lib/excerpt.ts";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"blog">["data"] & { body: string };
 
 const {
   title,
@@ -18,12 +19,21 @@ const {
   heroImage,
   heroImageAlt,
   mastodonUrl,
+  body,
 } = Astro.props;
+
+const metaDescription = description?.trim() || excerpt(body);
+// Social crawlers do not read AVIF; fall back to the site image for those.
+const heroIsShareable = heroImage && ["jpeg", "png"].includes(heroImage.format);
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead
+      title={title}
+      description={metaDescription}
+      image={heroIsShareable ? heroImage.src : undefined}
+    />
     <ClientRouter />
     <style>
       main {

@@ -5,8 +5,9 @@ import { mastodonLoader } from "./loaders/mastodon.js";
 import { identityGlob } from "./lib/identity-loader.ts";
 
 const blog = defineCollection({
-    // .mdx stays out until the Pyscript demo renders: its terminal needs worker
-    // mode, which needs cross-origin isolation the deployment does not set.
+    // .mdx stays out: its PyScript demo needs a worker-mode terminal, which
+    // cross-origin isolation alone did not start. The file is repaired and
+    // ready; the component is the blocker, not the glob.
     loader: identityGlob({ collection: "blog", pattern: '**/[^_]*.md', base: "./src/data/blog" }),
     schema: ({ image }) => z.object({
         title: z.string(),
