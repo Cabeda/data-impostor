@@ -42,6 +42,7 @@ test("latest contents selects the newest of each collection", () => {
       ["Writing", "Old post"],
       ["Reading", "Second read"],
       ["Activity", "Newer toot"],
+      ["Activity", "Older toot"],
     ],
   );
   assert.equal(items[0].href, "/blog/new/");

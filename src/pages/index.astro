@@ -72,7 +72,7 @@ const contents = latestContents(blogposts, reads, mastodon);
         overflow: visible;
       }
       .home-title {
-        margin: 0.08em 0 0.12em;
+        margin: 0.08em 0 0.5em;
         padding-top: 0.1em;
         font-family: "Diary Ink", var(--font-serif);
         font-size: clamp(54px, 6.4vw, 92px);
@@ -117,24 +117,6 @@ const contents = latestContents(blogposts, reads, mastodon);
         .home-title .ink-char { opacity: 1; animation: none; transform: none; }
         .home-title .ink-cursor { display: none; }
       }
-      .ornament {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 24px 0;
-        color: var(--accent);
-      }
-      .ornament .rule {
-        flex: 1;
-        height: 1px;
-        background: var(--line);
-      }
-      .ornament .diamond {
-        width: 7px;
-        height: 7px;
-        transform: rotate(45deg);
-        background: var(--accent);
-      }
       .home-lede {
         max-width: 42ch;
         margin: 0;
@@ -158,7 +140,6 @@ const contents = latestContents(blogposts, reads, mastodon);
 
       .home-contents {
         align-self: start;
-        border-top: 1px solid var(--line);
         padding-top: 18px;
         font-size: var(--read-size);
       }
@@ -168,11 +149,10 @@ const contents = latestContents(blogposts, reads, mastodon);
         padding: 0;
       }
       .home-contents-list li {
-        border-bottom: 1px solid var(--line);
       }
       .home-contents-list a {
         display: block;
-        padding: 14px 0;
+        padding: 6px 0;
         color: var(--ink);
         text-decoration: none;
       }
@@ -191,6 +171,9 @@ const contents = latestContents(blogposts, reads, mastodon);
         font-family: var(--font-read);
         font-size: 0.95em;
         line-height: 1.25;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         transition: color 140ms ease;
       }
       .home-contents-list a:hover .contents-title { color: var(--accent); }
@@ -208,9 +191,9 @@ const contents = latestContents(blogposts, reads, mastodon);
         color: var(--muted);
       }
       .contents-kind {
-        margin: 5px 0 0 30px;
+        margin: 2px 0 0 30px;
         font-family: var(--font-mono);
-        font-size: 9px;
+        font-size: 7px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--accent);
@@ -284,11 +267,6 @@ const contents = latestContents(blogposts, reads, mastodon);
               <span class="ink-cursor" aria-hidden="true"></span>
             </span>
           </h1>
-          <div class="ornament" aria-hidden="true">
-            <span class="rule"></span>
-            <span class="diamond"></span>
-            <span class="rule"></span>
-          </div>
           <p class="home-lede">
             A nerd, reader and fan of francesinhas. Oh, and data engineer.
           </p>

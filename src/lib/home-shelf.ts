@@ -43,13 +43,17 @@ export function latestContents(
   blog: BlogLike[],
   reads: ReadLike[],
   mastodon: MastodonLike[],
+  writingLimit = 5,
+  activityLimit = 3,
 ): HomeItem[] {
   const items: HomeItem[] = [];
   const posts = [...blog]
     .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-    .slice(0, 5);
+    .slice(0, Math.max(1, writingLimit));
   const read = newest(reads, (entry) => entry.data.pubDate.getTime());
-  const activity = newest(mastodon, (entry) => new Date(entry.data.created_at).getTime());
+  const activities = [...mastodon]
+    .sort((a, b) => new Date(b.data.created_at).getTime() - new Date(a.data.created_at).getTime())
+    .slice(0, Math.max(1, activityLimit));
 
   for (const post of posts) {
     items.push({
@@ -67,7 +71,7 @@ export function latestContents(
       date: new Date(read.data.pubDate),
     });
   }
-  if (activity) {
+  for (const activity of activities) {
     items.push({
       kind: "Activity",
       href: `/mastodon/${activity.id}`,
