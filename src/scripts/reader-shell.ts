@@ -146,6 +146,7 @@ function onClick(event: MouseEvent) {
     const menu = menuLink.closest(".reader-menu");
     if (menu) menu.removeAttribute("open");
   }
+}
 
 function onKeydown(event: KeyboardEvent) {
   const target = event.target as HTMLElement;
