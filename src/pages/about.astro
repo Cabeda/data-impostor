@@ -24,6 +24,7 @@ import { ClientRouter } from "astro:transitions";
         grid-template-columns: 300px minmax(0, 1fr);
         gap: 56px;
         align-items: start;
+        font-size: var(--read-size);
       }
       .portrait {
         width: 100%;
@@ -35,20 +36,21 @@ import { ClientRouter } from "astro:transitions";
       }
       .about-copy h1 {
         margin: 0.1em 0 0.3em;
-        font-size: clamp(38px, 4.4vw, 56px);
+        font-family: var(--font-read);
+        font-size: 2.8em;
         line-height: 1.02;
         letter-spacing: -0.03em;
       }
       .about-copy p {
         max-width: 58ch;
         color: var(--muted);
-        font-family: var(--font-serif);
-        font-size: 19px;
-        line-height: 1.65;
+        font-family: var(--font-read);
+        font-size: 1em;
+        line-height: var(--read-leading);
       }
       .about-copy p:first-of-type {
         color: var(--ink);
-        font-size: 21px;
+        font-size: 1.05em;
       }
       .about-links {
         display: flex;
@@ -66,9 +68,12 @@ import { ClientRouter } from "astro:transitions";
           width: 160px;
           aspect-ratio: 4 / 5;
         }
+        .about-copy h1 {
+          font-size: 2em;
+        }
         .about-copy p,
         .about-copy p:first-of-type {
-          font-size: 16px;
+          font-size: 1em;
         }
       }
     </style>

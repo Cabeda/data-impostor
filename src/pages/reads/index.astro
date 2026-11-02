@@ -19,7 +19,11 @@ const rendered = await Promise.all(
 
 interface Month {
   key: string;
+  id: string;
+  index: number;
+  year: number;
   label: string;
+  shortLabel: string;
   items: {
     post: (typeof rendered)[number]["post"];
     Content: (typeof rendered)[number]["Content"];
@@ -34,7 +38,11 @@ for (const entry of rendered) {
   const key = `${date.getFullYear()}-${date.getMonth()}`;
   const month = months.find((m) => m.key === key) ?? {
     key,
+    id: `month-${date.getFullYear()}-${date.getMonth() + 1}`,
+    index: months.length,
+    year: date.getFullYear(),
     label: date.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+    shortLabel: date.toLocaleDateString("en-US", { month: "short" }),
     items: [],
   };
   if (!months.includes(month)) months.push(month);
@@ -49,6 +57,8 @@ for (const entry of rendered) {
 }
 const noteCount = rendered.length;
 const REVEAL_STEP = 6;
+
+const years = [...new Set(months.map((month) => month.year))];
 ---
 
 <!doctype html>
@@ -65,13 +75,15 @@ const REVEAL_STEP = 6;
         max-width: 900px;
         margin: 0 auto;
         padding: 54px 24px 90px;
+        font-size: var(--read-size);
       }
       .diary-head {
         margin-bottom: 42px;
       }
       .diary-head h1 {
         margin: 0.12em 0 0.25em;
-        font-size: clamp(36px, 5vw, 54px);
+        font-family: var(--font-read);
+        font-size: 2.6em;
         line-height: 1.03;
         letter-spacing: -0.03em;
       }
@@ -79,10 +91,61 @@ const REVEAL_STEP = 6;
         max-width: 54ch;
         margin: 0;
         color: var(--muted);
-        font-family: var(--font-serif);
-        font-size: 18px;
-        line-height: 1.55;
+        font-family: var(--font-read);
+        font-size: 1em;
+        line-height: var(--read-leading);
       }
+
+      .diary-layout {
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr);
+        gap: 36px;
+        align-items: start;
+      }
+      .diary-rail {
+        position: sticky;
+        top: 92px;
+        max-height: calc(100vh - 130px);
+        overflow: auto;
+      }
+      .diary-index {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .index-year {
+        margin: 0 0 5px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .index-months {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+      }
+      .index-months a {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 5px;
+        padding: 3px 6px;
+        border-radius: 6px;
+        color: var(--muted);
+        text-decoration: none;
+        font-family: var(--font-mono);
+        font-size: 10px;
+      }
+      .index-months a:hover { color: var(--accent); }
+      .index-months a.is-current {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .index-count { opacity: 0.7; }
+      .month-section { scroll-margin-top: 110px; }
+
+      .diary-sticky { display: none; }
 
       .month-head {
         display: flex;
@@ -92,8 +155,8 @@ const REVEAL_STEP = 6;
       }
       .month-head h2 {
         margin: 0;
-        font-family: var(--font-serif);
-        font-size: 22px;
+        font-family: var(--font-read);
+        font-size: 1.15em;
         font-weight: 600;
         letter-spacing: -0.01em;
       }
@@ -144,11 +207,14 @@ const REVEAL_STEP = 6;
 
       .day-body {
         min-width: 0;
+        font-family: var(--font-read);
+        font-size: var(--read-size);
+        line-height: var(--read-leading);
       }
       .day-body :global(h2) {
         margin: 0 0 0.7em;
-        font-family: var(--font-serif);
-        font-size: 21px;
+        font-family: var(--font-read);
+        font-size: 1.1em;
         font-style: italic;
         font-weight: 500;
         line-height: 1.3;
@@ -182,14 +248,14 @@ const REVEAL_STEP = 6;
       .day-body :global(li) {
         margin-bottom: 0.5em;
         color: var(--muted);
-        font-family: var(--font-serif);
-        font-size: 16px;
+        font-family: var(--font-read);
+        font-size: 1em;
         line-height: 1.6;
       }
       .day-body :global(p) {
         color: var(--muted);
-        font-family: var(--font-serif);
-        font-size: 16px;
+        font-family: var(--font-read);
+        font-size: 1em;
         line-height: 1.65;
       }
       .day-body :global(blockquote) {
@@ -197,7 +263,7 @@ const REVEAL_STEP = 6;
         padding-left: 1em;
         border-left: 2px solid var(--accent-soft);
         color: var(--ink);
-        font-family: var(--font-serif);
+        font-family: var(--font-read);
         font-style: italic;
       }
       .day-body :global(a) {
@@ -247,6 +313,48 @@ const REVEAL_STEP = 6;
         text-transform: uppercase;
       }
 
+      @media (max-width: 860px) {
+        .diary-layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 0;
+        }
+        .diary-rail { display: none; }
+        .diary-sticky {
+          display: block;
+          position: sticky;
+          top: 0;
+          z-index: 30;
+          margin-bottom: 16px;
+          background: var(--bg);
+          border-bottom: 1px solid var(--line);
+        }
+        .diary-sticky summary {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 11px 0;
+          cursor: pointer;
+          list-style: none;
+        }
+        .diary-sticky summary::-webkit-details-marker { display: none; }
+        .diary-sticky [data-sticky-month] {
+          font-family: var(--font-serif);
+          font-size: 16px;
+        }
+        .sticky-caret {
+          margin-left: auto;
+          color: var(--muted);
+          font-size: 11px;
+        }
+        .sticky-index {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 4px 0 16px;
+          max-height: 50vh;
+          overflow: auto;
+        }
+      }
       @media (max-width: 720px) {
         .diary {
           padding: 32px 20px 64px;
@@ -270,7 +378,7 @@ const REVEAL_STEP = 6;
           font-size: 15px;
         }
         .day-body :global(h2) {
-          font-size: 19px;
+          font-size: 1em;
         }
       }
     </style>
@@ -287,47 +395,106 @@ const REVEAL_STEP = 6;
         </p>
       </header>
 
-      {
-        months.map((month, index) => (
-          <section class="month-section" data-month-index={index} hidden={index >= REVEAL_STEP}>
-            <header class="month-head">
-              <span class="diamond" aria-hidden="true"></span>
-              <h2>{month.label}</h2>
-              <span class="count">
-                {month.items.length} {month.items.length === 1 ? "note" : "notes"}
-              </span>
-              <span class="rule" aria-hidden="true"></span>
-            </header>
+      <details class="diary-sticky" data-diary-sticky>
+        <summary>
+          <span class="kicker">Jump to</span>
+          <span data-sticky-month>{months[0]?.label}</span>
+          <span class="sticky-caret" aria-hidden="true">▾</span>
+        </summary>
+        <nav class="sticky-index" aria-label="Months">
+          {
+            years.map((year) => (
+              <div class="index-year-group">
+                <p class="index-year">{year}</p>
+                <div class="index-months">
+                  {months
+                    .filter((month) => month.year === year)
+                    .map((month) => (
+                      <a href={`#${month.id}`} data-index-month={month.index}>
+                        {month.shortLabel}
+                      </a>
+                    ))}
+                </div>
+              </div>
+            ))
+          }
+        </nav>
+      </details>
 
-            {month.items.map((item) => {
-              const ReadContent = item.Content;
-              return (
-                <article class="diary-day">
-                  <div class="day-date">
-                    <p class="day-weekday">{item.dayLabel}</p>
-                    <p class="day-full">{item.dateLabel}</p>
+      <div class="diary-layout">
+        <aside class="diary-rail" aria-label="Diary index">
+          <p class="kicker">Index</p>
+          <nav class="diary-index">
+            {
+              years.map((year) => (
+                <div class="index-year-group">
+                  <p class="index-year">{year}</p>
+                  <div class="index-months">
+                    {months
+                      .filter((month) => month.year === year)
+                      .map((month) => (
+                        <a href={`#${month.id}`} data-index-month={month.index}>
+                          <span class="index-month">{month.shortLabel}</span>
+                          <span class="index-count">{month.items.length}</span>
+                        </a>
+                      ))}
                   </div>
-                  <div class="day-body">
-                    <ReadContent />
-                  </div>
-                </article>
-              );
-            })}
-          </section>
-        ))
-      }
+                </div>
+              ))
+            }
+          </nav>
+        </aside>
 
-      <div class="diary-more" data-older-more>
-        <button class="btn" data-older type="button">Read older entries</button>
-        <p class="diary-more-note" data-older-note>
-          Showing {Math.min(REVEAL_STEP, months.length)} of {months.length} months
-        </p>
-      </div>
+        <div class="diary-log">
+          {
+            months.map((month, index) => (
+              <section
+                class="month-section"
+                id={month.id}
+                data-month-index={index}
+                data-month-label={month.label}
+                hidden={index >= REVEAL_STEP}
+              >
+                <header class="month-head">
+                  <span class="diamond" aria-hidden="true"></span>
+                  <h2>{month.label}</h2>
+                  <span class="count">
+                    {month.items.length} {month.items.length === 1 ? "note" : "notes"}
+                  </span>
+                  <span class="rule" aria-hidden="true"></span>
+                </header>
 
-      <div class="diary-end" aria-hidden="true">
-        <span class="diamond"></span>
-        <span class="rule"></span>
-        <span>End of the diary</span>
+                {month.items.map((item) => {
+                  const ReadContent = item.Content;
+                  return (
+                    <article class="diary-day">
+                      <div class="day-date">
+                        <p class="day-weekday">{item.dayLabel}</p>
+                        <p class="day-full">{item.dateLabel}</p>
+                      </div>
+                      <div class="day-body">
+                        <ReadContent />
+                      </div>
+                    </article>
+                  );
+                })}
+              </section>
+            ))
+          }
+
+          <div class="diary-more" data-older-more>
+            <button class="btn" data-older type="button">Read older entries</button>
+            <p class="diary-more-note" data-older-note>
+              Showing {Math.min(REVEAL_STEP, months.length)} of {months.length} months
+            </p>
+          </div>
+
+          <div class="diary-end" aria-hidden="true">
+            <span class="diamond"></span>
+            <span class="rule"></span>
+            <span>End of the diary</span>
+          </div>
+        </div>
       </div>
     </main>
     <Footer />
@@ -335,24 +502,83 @@ const REVEAL_STEP = 6;
     <script is:inline define:vars={{ step: REVEAL_STEP }}>
       (() => {
         const sections = Array.from(document.querySelectorAll("[data-month-index]"));
-        const button = document.querySelector("[data-older]");
+        const links = Array.from(document.querySelectorAll("[data-index-month]"));
         const note = document.querySelector("[data-older-note]");
         const more = document.querySelector("[data-older-more]");
+        const sticky = document.querySelector("[data-diary-sticky]");
+        const stickyMonth = document.querySelector("[data-sticky-month]");
         let visible = sections.filter((section) => !section.hidden).length;
+        let active = -1;
 
-        function update() {
+        function updateCount() {
           if (note) note.textContent = `Showing ${visible} of ${sections.length} months`;
           if (more && visible >= sections.length) more.style.display = "none";
         }
 
-        button?.addEventListener("click", () => {
-          sections.slice(visible, visible + step).forEach((section) => {
-            section.hidden = false;
+        function revealUpTo(index) {
+          sections.forEach((section, i) => {
+            if (i <= index) section.hidden = false;
           });
-          visible = Math.min(visible + step, sections.length);
-          update();
+          visible = Math.max(visible, Math.min(index + 1, sections.length));
+          updateCount();
+        }
+
+        function setActive(index) {
+          if (active === index) return;
+          active = index;
+          links.forEach((link) => {
+            link.classList.toggle("is-current", Number(link.dataset.indexMonth) === index);
+          });
+          const label = sections[index]?.dataset.monthLabel;
+          if (stickyMonth && label) stickyMonth.textContent = label;
+        }
+
+        function onScroll() {
+          const line = window.innerHeight * 0.35;
+          let index = 0;
+          sections.forEach((section, i) => {
+            if (section.hidden) return;
+            if (section.getBoundingClientRect().top < line) index = i;
+          });
+          setActive(index);
+        }
+
+        let ticking = false;
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+              onScroll();
+              ticking = false;
+            });
+          },
+          { passive: true },
+        );
+
+        document.addEventListener("click", (event) => {
+          const link = event.target.closest("[data-index-month]");
+          if (link) {
+            event.preventDefault();
+            const index = Number(link.dataset.indexMonth);
+            revealUpTo(index);
+            sections[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+            sticky?.removeAttribute("open");
+            return;
+          }
+          const older = event.target.closest("[data-older]");
+          if (older) {
+            sections.slice(visible, visible + step).forEach((section) => {
+              section.hidden = false;
+            });
+            visible = Math.min(visible + step, sections.length);
+            updateCount();
+          }
         });
-        update();
+
+        updateCount();
+        onScroll();
       })();
     </script>
   </body>

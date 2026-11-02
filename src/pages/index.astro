@@ -85,15 +85,20 @@ const contents = [
         align-items: center;
       }
 
+      .home-copy {
+        font-size: var(--read-size);
+      }
       .home-copy h1 {
         margin: 0.12em 0 0;
-        font-size: clamp(44px, 5.4vw, 76px);
+        font-family: var(--font-read);
+        font-size: 3.5em;
         line-height: 1;
         letter-spacing: -0.035em;
       }
       .home-copy h1 em {
         display: block;
         margin-top: 0.18em;
+        font-family: var(--font-read);
         font-size: 0.52em;
         font-weight: 400;
         font-style: italic;
@@ -121,9 +126,9 @@ const contents = [
       .home-lede {
         max-width: 52ch;
         margin: 0;
-        font-family: var(--font-serif);
-        font-size: 19px;
-        line-height: 1.6;
+        font-family: var(--font-read);
+        font-size: 1em;
+        line-height: var(--read-leading);
         color: var(--muted);
       }
       .drop-cap {
@@ -162,19 +167,12 @@ const contents = [
       }
       .home-links a:hover { color: var(--accent); }
       .home-links span { color: var(--line); }
-      .home-colophon {
-        margin: 22px 0 0;
-        font-family: var(--font-mono);
-        font-size: 9px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
 
       .home-contents {
         align-self: start;
         border-top: 1px solid var(--line);
         padding-top: 18px;
+        font-size: var(--read-size);
       }
       .home-contents-list {
         list-style: none;
@@ -202,8 +200,8 @@ const contents = [
         color: var(--accent);
       }
       .contents-title {
-        font-family: var(--font-serif);
-        font-size: 18px;
+        font-family: var(--font-read);
+        font-size: 0.95em;
         line-height: 1.25;
         transition: color 140ms ease;
       }
@@ -259,14 +257,14 @@ const contents = [
           gap: 26px;
         }
         .home-copy h1 {
-          font-size: 44px;
+          font-size: 2.25em;
         }
         .home-copy h1 em {
-          font-size: 0.56em;
+          font-size: 0.6em;
         }
         .home-lede {
-          font-size: 16px;
-          line-height: 1.55;
+          font-size: 1em;
+          line-height: var(--read-leading);
         }
         .drop-cap {
           font-size: 2.8em;
@@ -274,14 +272,11 @@ const contents = [
         .home-ctas {
           margin: 18px 0 12px;
         }
-        .home-colophon {
-          margin-top: 16px;
-        }
         .home-contents {
           padding-top: 14px;
         }
         .contents-title {
-          font-size: 16px;
+          font-size: 0.85em;
         }
         .contents-kind {
           margin-left: 26px;
@@ -290,14 +285,13 @@ const contents = [
       @media (max-width: 820px) and (max-height: 720px) {
         .home-main { padding: 12px 18px; }
         .home-hero { gap: 16px; }
-        .home-copy h1 { font-size: 36px; }
-        .home-lede { font-size: 14.5px; line-height: 1.5; }
+        .home-copy h1 { font-size: 1.9em; }
+        .home-lede { font-size: 0.9em; line-height: 1.45; }
         .drop-cap { font-size: 2.4em; }
         .home-ctas { margin: 12px 0 8px; }
         .home-links { font-size: 9px; }
-        .home-colophon { margin-top: 12px; }
         .home-contents-list a { padding: 10px 0; }
-        .contents-title { font-size: 15px; }
+        .contents-title { font-size: 0.8em; }
         .contents-kind { display: none; }
       }
     </style>
@@ -341,7 +335,6 @@ const contents = [
             <span>·</span>
             <a href="/rss.xml">RSS</a>
           </nav>
-          <p class="home-colophon">Written in Lisbon · Since 2019</p>
         </div>
 
         <aside class="home-contents" aria-label="Recently">

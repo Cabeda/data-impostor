@@ -1,0 +1,340 @@
+---
+/*
+ * PROTOTYPE — marginal quotes in the reading diary.
+ * Three treatments of the same day, switchable with ?variant=A|B|C.
+ */
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import PrototypeBar from "../../components/PrototypeBar.astro";
+
+const article = {
+  title: "Revised rules of engineering leadership.",
+  source: "lethain.com",
+};
+
+const rows = [
+  {
+    note: "The domain-context point is the one I keep coming back to. Durable teams outperform brilliant individuals who lack context.",
+    quote:
+      "High judgment individuals can wander across a company doing remarkable things, but at some point they do get hemmed in by lack of domain context.",
+  },
+  {
+    note: "This is the shift I feel at work: the harness writes the first pass, and the job moves up a level.",
+    quote:
+      "Pretty much every PR is written by harnesses now, at least in the first pass.",
+  },
+  {
+    note: "Worth remembering: the tools changed, but the judgment did not.",
+    quote:
+      "The good news is that this means the things that were most valuable to speed up engineering two years ago are still the things that are most valuable to speed them up today.",
+  },
+];
+---
+
+<!doctype html>
+<html lang="en" data-proto-variant="A">
+  <head>
+    <BaseHead
+      title="Prototype · marginal quotes"
+      description="Three ways to show article highlights as marginalia in the reading diary."
+    />
+    <meta name="robots" content="noindex" />
+    <style is:global>
+      .proto-page {
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 46px 24px 120px;
+      }
+      .proto-head {
+        max-width: 760px;
+        margin-bottom: 34px;
+      }
+      .proto-head h1 {
+        margin: 0.1em 0 0.3em;
+        font-size: clamp(34px, 4.5vw, 52px);
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+      .proto-head p {
+        margin: 0;
+        color: var(--muted);
+        font-family: var(--font-read);
+        font-size: var(--read-size);
+        line-height: var(--read-leading);
+      }
+      .variant { display: none; }
+      html[data-proto-variant="A"] .v-a,
+      html[data-proto-variant="B"] .v-b,
+      html[data-proto-variant="C"] .v-c {
+        display: block;
+      }
+      .day-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin-bottom: 26px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .day-head .kicker { margin: 0; }
+      .day-head h2 {
+        margin: 0;
+        font-family: var(--font-read);
+        font-size: 1.25em;
+        font-style: italic;
+        font-weight: 500;
+      }
+      .day-head a { color: var(--ink); text-decoration: none; }
+      .day-head a:hover { color: var(--accent); }
+      .note {
+        font-family: var(--font-read);
+        font-size: var(--read-size);
+        line-height: var(--read-leading);
+        color: var(--ink);
+      }
+      .quote-text {
+        font-family: var(--font-read);
+        font-style: italic;
+        color: var(--muted);
+      }
+
+      /* A · margin */
+      .v-a .margin-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 240px;
+        gap: 38px;
+        align-items: start;
+        padding: 18px 0;
+      }
+      .v-a .margin-quote {
+        margin: 2px 0 0;
+        padding-top: 12px;
+        border-top: 1px solid var(--accent);
+        font-size: calc(var(--read-size) - 4px);
+        line-height: 1.5;
+      }
+      .v-a .margin-quote::before {
+        content: "“";
+        display: block;
+        margin-bottom: -8px;
+        font-family: var(--font-serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+      }
+      .v-a .margin-quote cite {
+        display: block;
+        margin-top: 8px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        font-style: normal;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      /* B · pull */
+      .v-b .pull-row { padding: 18px 0; }
+      .v-b .pull-quote {
+        margin: 22px 0;
+        padding: 4px 0 4px 22px;
+        border-left: 2px solid var(--accent);
+        font-size: 1.35em;
+        line-height: 1.3;
+      }
+      .v-b .pull-quote cite {
+        display: block;
+        margin-top: 10px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        font-style: normal;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      /* C · rail */
+      .v-c .rail-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 46px;
+        align-items: start;
+      }
+      .v-c .rail-copy { max-width: 56ch; }
+      .v-c .rail-copy p { position: relative; }
+      .v-c .marker {
+        display: inline-grid;
+        place-items: center;
+        width: 17px;
+        height: 17px;
+        margin-left: 3px;
+        border-radius: 50%;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 9px;
+        line-height: 1;
+        vertical-align: super;
+        text-decoration: none;
+      }
+      .v-c .rail {
+        position: sticky;
+        top: 92px;
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+      }
+      .v-c .rail ol {
+        list-style: none;
+        margin: 10px 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .v-c .rail li a {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        gap: 8px;
+        padding: 10px 8px;
+        border-radius: 7px;
+        color: var(--muted);
+        text-decoration: none;
+        font-family: var(--font-read);
+        font-style: italic;
+        font-size: calc(var(--read-size) - 5px);
+        line-height: 1.4;
+      }
+      .v-c .rail li a:hover,
+      .v-c .rail li a.is-active {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .v-c .rail .n {
+        font-family: var(--font-mono);
+        font-style: normal;
+        font-size: 9px;
+        color: var(--accent);
+      }
+
+      @media (max-width: 820px) {
+        .proto-page { padding: 28px 20px 100px; }
+        .v-a .margin-row {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+        }
+        .v-a .margin-quote {
+          margin-left: 20px;
+          padding-left: 12px;
+          border-top: 0;
+          border-left: 2px solid var(--accent);
+        }
+        .v-c .rail-layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 24px;
+        }
+        .v-c .rail {
+          position: static;
+          order: -1;
+        }
+        .v-c .rail ol {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="proto-page">
+      <header class="proto-head">
+        <p class="kicker">Prototype · marginal quotes</p>
+        <h1>How should a highlight sit next to a note?</h1>
+        <p>
+          The same diary day, three ways. A and B put the quote in the flow; C keeps
+          a sticky index of highlights beside the notes.
+        </p>
+      </header>
+
+      <section class="variant v-a">
+        <div class="day-head">
+          <p class="kicker">Monday · October 26</p>
+          <h2><a href="https://lethain.com/revised-rules-of-engineering-leadership/">{article.title}</a></h2>
+        </div>
+        {
+          rows.map((row) => (
+            <div class="margin-row">
+              <p class="note">{row.note}</p>
+              <blockquote class="margin-quote quote-text">
+                {row.quote}
+                <cite>{article.source}</cite>
+              </blockquote>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="variant v-b">
+        <div class="day-head">
+          <p class="kicker">Monday · October 26</p>
+          <h2><a href="https://lethain.com/revised-rules-of-engineering-leadership/">{article.title}</a></h2>
+        </div>
+        {
+          rows.map((row) => (
+            <div class="pull-row">
+              <p class="note">{row.note}</p>
+              <blockquote class="pull-quote quote-text">
+                {row.quote}
+                <cite>{article.source}</cite>
+              </blockquote>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="variant v-c">
+        <div class="day-head">
+          <p class="kicker">Monday · October 26</p>
+          <h2><a href="https://lethain.com/revised-rules-of-engineering-leadership/">{article.title}</a></h2>
+        </div>
+        <div class="rail-layout">
+          <div class="rail-copy">
+            {
+              rows.map((row, index) => (
+                <p class="note">
+                  {row.note}{" "}
+                  <a class="marker" href={`#quote-${index + 1}`}>
+                    {index + 1}
+                  </a>
+                </p>
+              ))
+            }
+          </div>
+          <aside class="rail" aria-label="Highlights">
+            <p class="kicker">Highlights</p>
+            <ol>
+              {
+                rows.map((row, index) => (
+                  <li>
+                    <a href={`#quote-${index + 1}`} id={`quote-${index + 1}`}>
+                      <span class="n">{String(index + 1).padStart(2, "0")}</span>
+                      <span>{row.quote}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ol>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <PrototypeBar
+      variants={[
+        { key: "A", label: "Margin" },
+        { key: "B", label: "Pull" },
+        { key: "C", label: "Rail" },
+      ]}
+    />
+  </body>
+</html>

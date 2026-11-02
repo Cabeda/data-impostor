@@ -26,13 +26,15 @@ const posts = (await getCollection("blog")).sort(
         max-width: 860px;
         margin: 0 auto;
         padding: 54px 24px 90px;
+        font-size: var(--read-size);
       }
       .archive-head {
         margin-bottom: 38px;
       }
       .archive-head h1 {
         margin: 0.1em 0 0.25em;
-        font-size: clamp(38px, 5vw, 56px);
+        font-family: var(--font-read);
+        font-size: 2.8em;
         line-height: 1.02;
         letter-spacing: -0.03em;
       }
@@ -40,9 +42,9 @@ const posts = (await getCollection("blog")).sort(
         max-width: 54ch;
         margin: 0;
         color: var(--muted);
-        font-family: var(--font-serif);
-        font-size: 18px;
-        line-height: 1.55;
+        font-family: var(--font-read);
+        font-size: 1em;
+        line-height: var(--read-leading);
       }
       .post-list {
         list-style: none;
@@ -75,14 +77,16 @@ const posts = (await getCollection("blog")).sort(
       }
       .post-copy h2 {
         margin: 0 0 4px;
-        font-size: 23px;
+        font-family: var(--font-read);
+        font-size: 1.2em;
         line-height: 1.2;
         transition: color 140ms ease;
       }
       .post-copy p {
         margin: 0;
         color: var(--muted);
-        font-size: 14px;
+        font-family: var(--font-read);
+        font-size: 0.8em;
         line-height: 1.45;
       }
       .arrow {
@@ -97,6 +101,9 @@ const posts = (await getCollection("blog")).sort(
         .archive-head {
           margin-bottom: 24px;
         }
+        .archive-head h1 {
+          font-size: 2em;
+        }
         .post-list a {
           grid-template-columns: minmax(0, 1fr) auto;
           gap: 4px 12px;
@@ -106,10 +113,10 @@ const posts = (await getCollection("blog")).sort(
           grid-column: 1 / -1;
         }
         .post-copy h2 {
-          font-size: 19px;
+          font-size: 1.05em;
         }
         .post-copy p {
-          font-size: 13px;
+          font-size: 0.75em;
         }
       }
     </style>

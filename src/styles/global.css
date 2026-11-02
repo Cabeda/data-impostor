@@ -147,6 +147,11 @@ a { color: var(--accent); text-underline-offset: 3px; }
 a:hover { color: var(--accent-dark); }
 
 p { margin: 0 0 1em; }
+.prose {
+  font-family: var(--font-read);
+  font-size: var(--read-size);
+  line-height: var(--read-leading);
+}
 .prose p { margin-bottom: 1.1em; }
 
 button { font: inherit; color: inherit; }
