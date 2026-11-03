@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-12-01"
+heroImage: barcelona.jpeg
+heroImageAlt: "Photo by Logan Armstrong on Unsplash"
 ---
-
-![Photo by Logan Armstrong on Unsplash](./barcelona.jpeg)
 
 ## Organization
 

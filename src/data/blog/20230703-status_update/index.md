@@ -1,9 +1,9 @@
 ---
 title: "AWS certification | Readings"
 pubDate: "2023-07-03"
+heroImage: pos.avif
+heroImageAlt: "https://unsplash.com/photos/c2a0TydMlAs"
 ---
-
-![https://unsplash.com/photos/c2a0TydMlAs](./pos.avif)
 
 For this 2 weeks I was planning on picking the Flink book but got approval to do the AWS exam so I'll be doing the [Udemy course](https://fidel.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03) in preparation for the one I'm taking. Regarding the POS-mobile I was able to add the features I had planned. Throughout the event it worked perfectly (although I had to do a [last-minute fix](https://github.com/Cabeda/POS-mobile/commit/dd51e3e254473cde7df40746bbf8c4710788a6ab) ). With the event in the past, I'm planning to clean the code and then think about how to set up the website to enable more than one event to be created.
 

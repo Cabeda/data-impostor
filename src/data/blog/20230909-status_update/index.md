@@ -1,9 +1,9 @@
 ---
 title: "Omnivore & Semester | Readings"
 pubDate: "2023-09-09"
+heroImage: travel_plan.avif
+heroImageAlt: "https://unsplash.com/photos/1-29wyvvLJA"
 ---
-
-![https://unsplash.com/photos/1-29wyvvLJA](./travel_plan.avif)
 
 After listening to Python Bytes episode 349, I decided to give a try to omnivore. I really like the notion integration but sadly I think I didn't get to the habit of opening the links as loading articles was slow and I had the constant feeling that they weren't available offline.
 

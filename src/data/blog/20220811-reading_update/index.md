@@ -1,9 +1,9 @@
 ---
 title: "Status update"
 pubDate: "2022-08-11"
+heroImage: douro.jpeg
+heroImageAlt: "Photo by Ricardo Resende on Unsplash"
 ---
-
-![Photo by Ricardo Resende on Unsplash](./douro.jpeg)
 
 I've quickly gotten a prototype to generate my reading updates. The python script ([repo](https://git.sr.ht/~jecabeda/pocket)) uses the Pocket API (had to move away from instapaper as they didn't approve a developer key for me to use). It facilitates a lot by listing the articles I've read in markdown. I might be doing some adjustments before publishing it as I might move this to typer cli, avoid recurrent logins and add additional features like cleaning the newsletter articles. Let's see 😅
 

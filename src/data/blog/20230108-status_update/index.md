@@ -1,9 +1,9 @@
 ---
 title: "Rust and side projects | Readings"
 pubDate: "2023-01-08"
+heroImage: swim.avif
+heroImageAlt: "Photo by Thomas Park on Unsplash"
 ---
-
-![Photo by Thomas Park on Unsplash](./swim.avif)
 
 The weekend has been pretty slow. I've been reading the rust book (only got 3 chapters down) and programmed a bit but I haven't started to do the advent of code in Rust (one of my priorities for this year). I've thought of an interesting project to apply the Rust using my Trelo drone in case the research project doesn't come to fruition. With these two I think I get at least one article for each. Nothing related to Data for now but it's nice to try other subjects. I'll try to set more time aside to finish the book next week.
 

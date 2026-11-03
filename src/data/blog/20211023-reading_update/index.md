@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-10-23"
+heroImage: iceland.jpeg
+heroImageAlt: "Photo by Serey Morm on Unsplash"
 ---
-
-![Photo by Serey Morm on Unsplash](./iceland.jpeg)
 
 I've taken some time from writing my reading updates and I'd say some of the articles have gone into something I like to call knowledge oblivion. I read them, found them interesting, some knowledge might have got stuck in the back of my mind, ready to be useful if the situation calls for it, but most of it is gone. One of the reasons for writing these reading updates is to consolidate and reflect a bit on important topics and be able to remember them. Nonetheless here are some of the articles I found interesting.
 

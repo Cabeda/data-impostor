@@ -1,11 +1,11 @@
 ---
 title: "Streams, streams and streams | Readings"
 pubDate: "2023-11-14"
+heroImage: cashier.avif
+heroImageAlt: "https://unsplash.com/photos/closeup-photography-of-gold-colored-ornament-sMCBEI5zkqc"
 tags: 
     - newsletter
 ---
-
-![https://unsplash.com/photos/closeup-photography-of-gold-colored-ornament-sMCBEI5zkqc](./cashier.avif)
 
 Taking a bit more attention to Kinesis I think it becomes very interesting to understand some of the insides of the stream world. Things like temporal joins and the way Flink/Data Analytics creates subscribers to handle the Shards should be an interesting deep dive in a separate article.
 

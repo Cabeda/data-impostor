@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: 2022-02-10
+heroImage: malta.jpeg
+heroImageAlt: "Photo by Giammarco on Unsplash"
 ---
-
-![Photo by Giammarco on Unsplash](./malta.jpeg)
 
 Hey! I've been a bit out but, nonetheless, I've been keeping up with news, while studying a bit on scala.
 

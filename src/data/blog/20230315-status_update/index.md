@@ -1,9 +1,9 @@
 ---
 title: "New moves! | Readings"
 pubDate: "2023-03-15"
+heroImage: payment.avif
+heroImageAlt: "Photo by Towfiqu barbhuiya"
 ---
-
-![Photo by Towfiqu barbhuiya](./payment.avif)
 
 This week I've been a bit late on the reading update as I've gotten to move from pocket to notion, so a bit of reading to try and clean my huge reading list on Pocket. I've written in 10 minutes a quick script to get all newsletter articles from Notion which, compared to Pocket API is a HUGE improvement. To make it quick I'll create a new ClI in Deno.
 

@@ -1,12 +1,12 @@
 ---
 title: "Lambdas and runs | Readings"
 pubDate: "2023-10-23"
+heroImage: marques.avif
+heroImageAlt: "Photo of Marquês's church, Porto"
 tags: 
     - newsletter
     - aws lambda
 ---
-
-![Photo of Marquês's church, Porto](./marques.avif)
 
 ## Web Dev
 

@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2022-03-13"
+heroImage: rain.jpeg
+heroImageAlt: "Photo by allison christine on Unsplash"
 ---
-
-![Photo by allison christine on Unsplash](./rain.jpeg)
 
 This has been a productive week, I've read a lot of articles and hope to start reading the book Database Internals
 

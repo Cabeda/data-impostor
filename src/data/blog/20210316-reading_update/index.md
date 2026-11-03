@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: 2021-03-16
+heroImage: biel-morro-d0xjEv-WJQk-unsplash-1.jpg
+heroImageAlt: "Photo by Biel Morro on Unsplash"
 ---
-
-![Photo by Biel Morro on Unsplash](./biel-morro-d0xjEv-WJQk-unsplash-1.jpg)
 
 This week I've gotten to read a lot on architecture. I'm still trying to reduce the articles on my pile and hopefully start an article of my own before my book of scala arrives.
 

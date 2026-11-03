@@ -1,9 +1,9 @@
 ---
 title: "Status update"
 pubDate: "2022-09-06"
+heroImage: soccer.jpeg
+heroImageAlt: "Photo by Emilio Garcia on Unsplash"
 ---
-
-![Photo by Emilio Garcia on Unsplash](./soccer.jpeg)
 
 I've taken some time to study and add notes to my [second brain](http://strange.cabeda.dev/). It has been an interesting way of studying which has left me with a thought. Could I measure my productivity by written words? The days I write more seem to be the most productive ones. But could I even measure the difference of words day by day? This could be something interesting to do.
 

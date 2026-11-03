@@ -1,9 +1,9 @@
 ---
 title: "Reflections | Readings"
 pubDate: "2023-06-04"
+heroImage: fartura.avif
+heroImageAlt: "Farturas na festa"
 ---
-
-![Farturas na festa](./fartura.avif)
 
 Funny the number of articles I've still got to read 😅 I've also focused on reading only when I'm able to take notes on https://strange.cabeda.dev.
 

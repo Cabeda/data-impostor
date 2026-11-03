@@ -1,9 +1,9 @@
 ---
 title: "Status update"
 pubDate: "2022-10-09"
+heroImage: athens.jpeg
+heroImageAlt: "Photo by Constantinos Kollias on Unsplash"
 ---
-
-![Photo by Constantinos Kollias on Unsplash](./athens.jpeg)
 
 I've taken a bit off for the past month. Nonetheless I've read the Streaming systems book (great one to complement Designing Data Intensive Applications). For the next one, October I'll need to both refresh my statistics knowledge and I'm starting to write some ideas to present on meetups/conferences which I'd like to have on a final draft by the end of the month.
 

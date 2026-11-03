@@ -1,9 +1,9 @@
 ---
 title: "POS, readings and rambles | Readings"
 pubDate: 2023-06-18
+heroImage: n222.avif
+heroImageAlt: "N222"
 ---
-
-![N222](./n222.avif)
 
 I've gotten to do some small improvements to the mobile website. I've in the pipeline the addition of an admin page to administer the event and from which I'm hoping I can add more features if needed. I'll try to keep it small and modular but should be interesting as at this point I'm using planetScale for the system I'm going to implement the auth using Supabase and need to connect to the original database in MSSQL. 😅 Let's see how Prisma can handle more than one DB.
 

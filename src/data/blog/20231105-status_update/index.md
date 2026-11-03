@@ -1,11 +1,11 @@
 ---
 title: "Logseq, Impostor Syndrome | Readings"
 pubDate: "2023-11-05"
+heroImage: rain.avif
+heroImageAlt: "https://unsplash.com/photos/selective-color-photography-of-three-person-holding-umbrellas-under-the-rain-IeV07y5UK3k"
 tags: 
     - newsletter
 ---
-
-![https://unsplash.com/photos/selective-color-photography-of-three-person-holding-umbrellas-under-the-rain-IeV07y5UK3k](./rain.avif)
 
 I've been able to move my personal thoughts and notes to Logseq instead of just using random notes + vs code. I can easily revert to the old way as the ony thing I had to change for the migration was rename my files from YYYYMMDD.md to YYYY_MM_DD.md. Simple enough!
 

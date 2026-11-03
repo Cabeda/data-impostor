@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-04-03"
+heroImage: alfons-morales-YLSwjSy7stw-unsplash.jpg
+heroImageAlt: "Photo by Alfons Morales on Unsplash"
 ---
-
-![Photo by Alfons Morales on Unsplash](./alfons-morales-YLSwjSy7stw-unsplash.jpg)
 
 This was a relative calm week. I've read a lot and coded less than I wanted. I'll try to focus more on development and less in reading for the next weeks.
 

@@ -1,9 +1,9 @@
 ---
 title: "Public transportation project | Readings"
 pubDate: "2023-08-28"
+heroImage: pancake.avif
+heroImageAlt: "https://unsplash.com/photos/4CwxnXWPDMQ"
 ---
-
-![https://unsplash.com/photos/4CwxnXWPDMQ](./pancake.avif)
 
 I would like to keep my interest in actually finishing the Spark book. However, I also got an idea to set up a bot to gather real-time data on Porto's bus locations and compare it to the schedule. This would allow to actually to analyze some hypotheses like:
     1. Buses that arrive early and don't wait

@@ -1,9 +1,9 @@
 ---
 title: "Flutter? | Readings"
 pubDate: "2023-07-08"
+heroImage: raft.avif
+heroImageAlt: "https://unsplash.com/photos/jmwlyZDxu80"
 ---
-
-![https://unsplash.com/photos/jmwlyZDxu80](./raft.avif)
 
 The week has gone by and in terms of updates I haven't gotten much. I still feel that I should be taking much more notes, on meetings during talks with friends. I feel like I'd be much more fulfilled by writing more (hence so many article references on taking notes). I've gotten feedback to not consider too much the certification of AWS and focus on learning.
 So I've backtracked a bit and as I've received the book [Learning Spark](https://www.goodreads.com/book/show/24808098-learning-spark?ac=1&from_search=true&qid=yvSL5wHXWT&rank=1) I'm considering that some of my focus could be on improving my Spark skills. Flink would be next. And then a statistics course. The worst is always to start and commit to it.

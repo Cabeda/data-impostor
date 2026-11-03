@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-07-10"
+heroImage: niklas-ohlrogge.jpg
+heroImageAlt: "Photo by Niklas Ohlrogge on Unsplash"
 ---
-
-![Photo by Niklas Ohlrogge on Unsplash](./niklas-ohlrogge.jpg)
 
 This week I've been pushing my scripty guy and tried to automate the lookout for vaccines in my country. Add some partial success and let's leave it at that 😅.
 

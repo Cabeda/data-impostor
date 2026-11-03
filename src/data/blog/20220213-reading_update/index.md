@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2022-02-13"
+heroImage: west end.jpeg
+heroImageAlt: "Photo by Gwen King on Unsplash"
 ---
-
-![Photo by Gwen King on Unsplash](./west end.jpeg)
 
 ## Data Engineering
 
