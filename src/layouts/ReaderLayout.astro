@@ -132,7 +132,7 @@ const ogImage = heroImage
             </nav>
           )
         }
-        <a class="chip" href="/blog">More notes →</a>
+        {!(prevPost || nextPost) && <a class="chip" href="/blog">More notes →</a>}
       </footer>
 
       {
