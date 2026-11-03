@@ -15,7 +15,7 @@ body.reader-page {
   overflow: hidden;
   background: var(--surface-2);
   color: var(--ink);
-  padding: 64px 0 48px;
+  padding: calc(var(--header-h) + 16px) 0 48px;
 }
 .reader-hero.has-image {
   min-height: 480px;
@@ -452,7 +452,7 @@ html[data-listen="on"] .reader-dock { display: flex; }
   .reader-hero.has-image { min-height: 400px; }
   .reader-hero:not(.has-image) {
     min-height: auto;
-    padding: 48px 0 32px;
+    padding: calc(var(--header-h) + 16px) 0 32px;
   }
   .reader-hero-inner { padding: 92px 20px 30px; }
   .reader-hero.has-image .reader-hero-inner { padding: 92px 20px 30px; }
