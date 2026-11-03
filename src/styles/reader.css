@@ -13,9 +13,9 @@ body.reader-page {
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: var(--surface-2);
+  background: var(--bg);
   color: var(--ink);
-  padding: 64px 0 48px;
+  padding: calc(var(--header-h) + 24px) 0 48px;
 }
 .reader-hero.has-image {
   min-height: min(72vh, 700px);
@@ -44,16 +44,7 @@ body.reader-page {
     rgba(0, 0, 0, 0.84) 100%
   );
 }
-.reader-hero:not(.has-image)::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 36px;
-  height: 1px;
-  background: var(--line);
-}
+/* (removed decorative rule for minimalist no-image hero) */
 .reader-hero-inner {
   position: relative;
   z-index: 2;
