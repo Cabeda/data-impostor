@@ -28,6 +28,13 @@ export const DEFAULT_READER_PREFS: ReaderPrefs = {
   listen: false,
 };
 
+export function systemTheme(): Theme {
+  if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "paper";
+  }
+  return "paper";
+}
+
 function oneOf<T extends string>(values: readonly T[], value: unknown, fallback: T): T {
   return typeof value === "string" && (values as readonly string[]).includes(value)
     ? (value as T)
@@ -35,18 +42,19 @@ function oneOf<T extends string>(values: readonly T[], value: unknown, fallback:
 }
 
 export function parseReaderPrefs(raw: string | null | undefined): ReaderPrefs {
-  if (!raw) return { ...DEFAULT_READER_PREFS };
+  const fallbackTheme = systemTheme();
+  if (!raw) return { ...DEFAULT_READER_PREFS, theme: fallbackTheme };
   try {
     const value = JSON.parse(raw) as Partial<ReaderPrefs> | null;
-    if (!value || typeof value !== "object") return { ...DEFAULT_READER_PREFS };
+    if (!value || typeof value !== "object") return { ...DEFAULT_READER_PREFS, theme: fallbackTheme };
     return {
-      theme: oneOf(THEMES, value.theme, DEFAULT_READER_PREFS.theme),
+      theme: oneOf(THEMES, value.theme, fallbackTheme),
       size: oneOf(SIZES, value.size, DEFAULT_READER_PREFS.size),
       face: oneOf(FACES, value.face, DEFAULT_READER_PREFS.face),
       listen: typeof value.listen === "boolean" ? value.listen : DEFAULT_READER_PREFS.listen,
     };
   } catch {
-    return { ...DEFAULT_READER_PREFS };
+    return { ...DEFAULT_READER_PREFS, theme: fallbackTheme };
   }
 }
 

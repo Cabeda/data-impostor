@@ -43,14 +43,36 @@ const ogImage = new URL(image, Astro.url);
     try {
       const raw = localStorage.getItem(prefsKey);
       const prefs = raw ? JSON.parse(raw) : null;
+      let resolvedTheme = null;
       if (prefs && themes.includes(prefs.theme)) {
-        root.dataset.theme = prefs.theme;
-        const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta && colors[prefs.theme]) meta.setAttribute("content", colors[prefs.theme]);
+        resolvedTheme = prefs.theme;
+      } else {
+        const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        resolvedTheme = dark ? "night" : "paper";
       }
+      root.dataset.theme = resolvedTheme;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta && colors[resolvedTheme]) meta.setAttribute("content", colors[resolvedTheme]);
       if (prefs && sizes.includes(prefs.size)) root.dataset.size = prefs.size;
       if (prefs && faces.includes(prefs.face)) root.dataset.face = prefs.face;
       if (prefs && prefs.listen === true) root.dataset.listen = "on";
+    } catch {}
+
+    // React to system color-scheme changes when the user hasn't overridden.
+    try {
+      if (window.matchMedia) {
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const handler = () => {
+          try {
+            if (localStorage.getItem(prefsKey)) return; // overridden
+          } catch {}
+          const t = mq.matches ? "night" : "paper";
+          root.dataset.theme = t;
+          const m = document.querySelector('meta[name="theme-color"]');
+          if (m && colors[t]) m.setAttribute("content", colors[t]);
+        };
+        if (mq.addEventListener) mq.addEventListener("change", handler);
+      }
     } catch {}
 
     try {
