@@ -15,17 +15,14 @@ body.reader-page {
   overflow: hidden;
   background: var(--surface-2);
   color: var(--ink);
-  padding: calc(var(--header-h) + 16px) 0 48px;
+  padding: 64px 0 48px;
 }
 .reader-hero.has-image {
-  min-height: 480px;
+  min-height: min(72vh, 700px);
   align-items: flex-end;
   padding: 0;
   background: #000;
   color: #fff;
-}
-@media (min-width: 721px) {
-  .reader-hero.has-image { min-height: 640px; }
 }
 .reader-hero img {
   position: absolute;
@@ -449,10 +446,10 @@ html[data-listen="on"] .reader-dock { display: flex; }
   .chapter-meta { display: none; }
 }
 @media (max-width: 720px) {
-  .reader-hero.has-image { min-height: 400px; }
+  .reader-hero.has-image { min-height: 58vh; }
   .reader-hero:not(.has-image) {
     min-height: auto;
-    padding: calc(var(--header-h) + 16px) 0 32px;
+    padding: 48px 0 32px;
   }
   .reader-hero-inner { padding: 92px 20px 30px; }
   .reader-hero.has-image .reader-hero-inner { padding: 92px 20px 30px; }
