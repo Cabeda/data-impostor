@@ -79,5 +79,7 @@ export function latestContents(
       date: new Date(activity.data.created_at),
     });
   }
+  // Interleave by date so the newest item is first.
+  items.sort((a, b) => b.date.getTime() - a.date.getTime());
   return items;
 }
