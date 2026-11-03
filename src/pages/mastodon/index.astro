@@ -3,88 +3,287 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { previewText, stripLinks } from '../../lib/mastodon-preview.ts';
+import { previewText } from '../../lib/mastodon-preview.ts';
 
 const posts = (await getCollection('mastodon')).sort(
   (a, b) => new Date(b.data.created_at).valueOf() - new Date(a.data.created_at).valueOf()
 );
+
+function relativeTime(dateStr: string): string {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
+  if (diff < 60) return `${diff}s`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
+  if (diff < 604800) return `${Math.floor(diff / 86400)}d`;
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="Mastodon Posts" description="Posts from Mastodon" />
+    <BaseHead title="Mastodon" description="Posts from Mastodon" />
   </head>
   <body>
     <Header />
-    <main>
-      <section>
-        <h1>Mastodon Posts</h1>
-        <ul class="posts-list">
-          {posts.map((post) => {
-            // The card is itself a link: nested anchors are invalid HTML and
-            // produce unnamed links, so the preview keeps the text only.
-            const preview = stripLinks(post.data.content);
-            const label = previewText(preview);
-            return (
-              <li>
-                <a href={`/mastodon/${post.id}`} aria-label={`Mastodon post: ${label}`}>
-                  <div class="post-preview">
-                    <time datetime={post.data.created_at}>
-                      {new Date(post.data.created_at).toLocaleDateString()}
-                    </time>
-                    <div class="content" set:html={preview} />
+    <main class="mastodon-main">
+      <div class="mastodon-header">
+        <h1>Mastodon</h1>
+        <p class="mastodon-subtitle">My public notes and thoughts.</p>
+      </div>
+
+      <div class="posts-timeline">
+        {posts.map((post) => {
+          const label = previewText(post.data.content, 100);
+          return (
+            <article class="post">
+              <div class="post-header">
+                <img
+                  src={post.data.account.avatar}
+                  alt={post.data.account.display_name}
+                  class="avatar"
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                />
+                <div class="post-meta">
+                  <div class="post-author">
+                    <strong>{post.data.account.display_name}</strong>
+                    <span class="username">@{post.data.account.username}</span>
                   </div>
+                  <time datetime={post.data.created_at} class="post-time">
+                    {relativeTime(post.data.created_at)}
+                  </time>
+                </div>
+              </div>
+
+              <div class="post-content" set:html={post.data.content} />
+
+              {post.data.images && post.data.images.length > 0 && (
+                <div class="post-media">
+                  {post.data.images.map((img: { url: string; description?: string }) => (
+                    <img
+                      src={img.url}
+                      alt={img.description || ''}
+                      loading="lazy"
+                      width="400"
+                      height="300"
+                    />
+                  ))}
+                </div>
+              )}
+
+              <div class="post-actions">
+                <a
+                  href={`/mastodon/${post.id}`}
+                  class="action"
+                  aria-label={`View post: ${label}`}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                  <span>{post.data.replies_count ?? 0}</span>
                 </a>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+                <a
+                  href={post.data.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="action"
+                  aria-label="View on Mastodon"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M17 1l4 4-4 4" />
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                    <path d="M7 23l-4-4 4-4" />
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                  </svg>
+                  <span>{post.data.reblogs_count ?? 0}</span>
+                </a>
+                <span class="action" aria-label="Favorites">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
+                  <span>{post.data.favourites_count ?? 0}</span>
+                </span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
     </main>
     <Footer />
   </body>
 </html>
 
 <style>
-  main {
-    width: 720px;
-    max-width: calc(100% - 2em);
-    margin: auto;
-    padding: 3em 1em;
+  .mastodon-main {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
   }
-  
-  h1 {
-    margin-bottom: 2em;
+
+  .mastodon-header {
+    margin-bottom: 2rem;
   }
-  
-  .posts-list {
-    list-style: none;
-    padding: 0;
+
+  .mastodon-header h1 {
+    margin: 0.1em 0 0.3em;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .mastodon-subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .posts-timeline {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
-  
-  .posts-list a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .post-preview {
-    padding: 1rem;
-    border: 1px solid rgb(var(--gray-light));
-    border-radius: 8px;
+
+  .post {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
     transition: border-color 0.2s;
   }
-  
-  .post-preview:hover {
+
+  .post:hover {
     border-color: var(--accent);
   }
-  
-  time {
-    color: rgb(var(--gray));
-    font-size: 0.9rem;
-    display: block;
-    margin-bottom: 0.5rem;
+
+  .post-header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .post-author {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .post-author strong {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .username {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .post-time {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .post-content {
+    font-family: var(--font-read);
+    font-size: var(--read-size);
+    line-height: var(--read-leading);
+    color: var(--ink);
+  }
+
+  .post-content p {
+    margin: 0 0 0.75em;
+  }
+
+  .post-content a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .post-content a:hover {
+    text-decoration: underline;
+  }
+
+  .post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .post-media {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+
+  .post-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .post-actions {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    transition: color 0.2s;
+  }
+
+  .action:hover {
+    color: var(--accent);
+  }
+
+  .action svg {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .mastodon-main {
+      padding: 2rem 1rem;
+    }
+    .post-media {
+      grid-template-columns: 1fr;
+    }
+    .post-actions {
+      gap: 1rem;
+    }
   }
 </style>

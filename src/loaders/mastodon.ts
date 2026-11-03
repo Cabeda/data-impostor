@@ -37,7 +37,14 @@ export function mastodonLoader(options: MastodonLoaderOptions): Loader {
               url: img.url,
               preview_url: img.preview_url,
               description: img.description
-            }))
+            })),
+            replies_count: post.replies_count ?? 0,
+            reblogs_count: post.reblogs_count ?? 0,
+            favourites_count: post.favourites_count ?? 0,
+            emojis: post.emojis ?? [],
+            sensitive: post.sensitive ?? false,
+            spoiler_text: post.spoiler_text ?? '',
+            visibility: post.visibility ?? 'public',
           },
           rendered: {
             html: post.content
@@ -61,7 +68,18 @@ export function mastodonLoader(options: MastodonLoaderOptions): Loader {
         url: z.string(),
         preview_url: z.string(),
         description: z.string().optional()
-      })).optional()
+      })).optional(),
+      replies_count: z.number().default(0),
+      reblogs_count: z.number().default(0),
+      favourites_count: z.number().default(0),
+      emojis: z.array(z.object({
+        shortcode: z.string(),
+        url: z.string(),
+        static_url: z.string()
+      })).default([]),
+      sensitive: z.boolean().default(false),
+      spoiler_text: z.string().default(''),
+      visibility: z.string().default('public')
     })
   };
 }

@@ -14,6 +14,17 @@ export interface MastodonPost {
     preview_url: string;
     description?: string;
   }>;
+  replies_count?: number;
+  reblogs_count?: number;
+  favourites_count?: number;
+  emojis?: Array<{
+    shortcode: string;
+    url: string;
+    static_url: string;
+  }>;
+  sensitive?: boolean;
+  spoiler_text?: string;
+  visibility?: string;
 }
 
 export interface MastodonReply {

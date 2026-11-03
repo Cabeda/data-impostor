@@ -97,7 +97,7 @@ if (postId) {
   .mastodon-comments {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid rgb(var(--gray-light));
+    border-top: 1px solid var(--line);
   }
 
   .comments-list {
@@ -108,7 +108,7 @@ if (postId) {
 
   .comment {
     padding: 1rem;
-    background: rgb(var(--gray-light) / 0.1);
+    background: var(--surface-2);
     border-radius: 8px;
   }
 
@@ -119,33 +119,41 @@ if (postId) {
   }
 
   .avatar {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    flex-shrink: 0;
   }
 
   .comment-meta {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.15rem;
   }
 
-  .username {
-    color: rgb(var(--gray));
+  .comment-meta strong {
+    color: var(--ink);
     font-size: 0.9rem;
   }
 
-  time {
-    color: rgb(var(--gray));
+  .username {
+    color: var(--muted);
     font-size: 0.85rem;
   }
 
+  time {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
   .comment-content {
-    margin-left: 60px;
+    margin-left: 52px;
+    color: var(--ink);
+    line-height: 1.6;
   }
 
   .no-comments {
-    color: rgb(var(--gray));
+    color: var(--muted);
     font-style: italic;
   }
 
@@ -157,6 +165,8 @@ if (postId) {
   .view-on-mastodon a {
     color: var(--accent);
     text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
   }
 
   .view-on-mastodon a:hover {
