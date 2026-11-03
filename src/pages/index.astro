@@ -198,6 +198,19 @@ const contents = latestContents(blogposts, reads, mastodon);
         text-transform: uppercase;
         color: var(--accent);
       }
+      .contents-all {
+        display: inline-block;
+        margin-top: 10px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .contents-all:hover {
+        color: var(--accent);
+      }
       @keyframes home-reveal {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: none; }
@@ -299,6 +312,7 @@ const contents = latestContents(blogposts, reads, mastodon);
               ))
             }
           </ol>
+          <a class="contents-all" href="/blog">See all notes →</a>
         </aside>
       </section>
     </main>
