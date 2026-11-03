@@ -244,6 +244,7 @@ html[data-listen="on"] .post-body .tts-sentence:hover {
 
 .reader-end {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -253,7 +254,57 @@ html[data-listen="on"] .post-body .tts-sentence:hover {
   color: var(--muted);
   font-size: 14px;
 }
+.reader-pager { flex-basis: 100%; }
 .reader-end p { margin: 0; }
+
+/* Article pager ---------------------------------------------------------- */
+.reader-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.pager-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s;
+}
+.pager-card:hover {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+.pager-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pager-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.pager-date {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+.pager-prev { text-align: left; }
+.pager-next { text-align: right; grid-column: 2; }
+@media (max-width: 720px) {
+  .reader-pager { grid-template-columns: 1fr; }
+  .pager-next { grid-column: 1; }
+}
 
 .reader-comments {
   margin-top: 56px;

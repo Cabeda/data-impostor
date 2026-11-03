@@ -19,9 +19,11 @@ interface Heading {
 interface Props {
   post: CollectionEntry<"blog">;
   headings: Heading[];
+  prev?: CollectionEntry<"blog"> | null;
+  next?: CollectionEntry<"blog"> | null;
 }
 
-const { post, headings } = Astro.props;
+const { post, headings, prev: prevPost, next: nextPost } = Astro.props;
 const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, mastodonUrl } =
   post.data;
 
@@ -106,6 +108,30 @@ const ogImage = heroImage
       </article>
 
       <footer class="reader-end">
+        {
+          (prevPost || nextPost) && (
+            <nav class="reader-pager" aria-label="Article navigation">
+              {prevPost && (
+                <a class="pager-card pager-prev" href={`/blog/${prevPost.id}/`}>
+                  <span class="pager-label">← Previous</span>
+                  <span class="pager-title">{prevPost.data.title}</span>
+                  <span class="pager-date">
+                    {prevPost.data.pubDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </span>
+                </a>
+              )}
+              {nextPost && (
+                <a class="pager-card pager-next" href={`/blog/${nextPost.id}/`}>
+                  <span class="pager-label">Next →</span>
+                  <span class="pager-title">{nextPost.data.title}</span>
+                  <span class="pager-date">
+                    {nextPost.data.pubDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </span>
+                </a>
+              )}
+            </nav>
+          )
+        }
         <a class="chip" href="/blog">More notes →</a>
       </footer>
 
