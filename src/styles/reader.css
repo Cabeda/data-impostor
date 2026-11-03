@@ -18,11 +18,14 @@ body.reader-page {
   padding: 64px 0 48px;
 }
 .reader-hero.has-image {
-  min-height: min(72vh, 700px);
+  min-height: 480px;
   align-items: flex-end;
   padding: 0;
   background: #000;
   color: #fff;
+}
+@media (min-width: 721px) {
+  .reader-hero.has-image { min-height: 640px; }
 }
 .reader-hero img {
   position: absolute;
@@ -446,7 +449,7 @@ html[data-listen="on"] .reader-dock { display: flex; }
   .chapter-meta { display: none; }
 }
 @media (max-width: 720px) {
-  .reader-hero.has-image { min-height: 58vh; }
+  .reader-hero.has-image { min-height: 400px; }
   .reader-hero:not(.has-image) {
     min-height: auto;
     padding: 48px 0 32px;
