@@ -491,7 +491,7 @@ html[data-listen="on"] .reader-dock { display: flex; }
   .reader-hero.has-image { min-height: 58vh; }
   .reader-hero:not(.has-image) {
     min-height: auto;
-    padding: 48px 0 32px;
+    padding: calc(var(--header-h) + 24px) 0 32px;
   }
   .reader-hero-inner { padding: 92px 20px 30px; }
   .reader-hero.has-image .reader-hero-inner { padding: 92px 20px 30px; }
