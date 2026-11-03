@@ -11,11 +11,11 @@ body.reader-page {
   position: relative;
   min-height: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
   background: var(--bg);
   color: var(--ink);
-  padding: calc(var(--header-h) + 24px) 0 48px;
+  padding: 100px 0 48px;
 }
 .reader-hero.has-image {
   min-height: min(72vh, 700px);
@@ -491,7 +491,7 @@ html[data-listen="on"] .reader-dock { display: flex; }
   .reader-hero.has-image { min-height: 58vh; }
   .reader-hero:not(.has-image) {
     min-height: auto;
-    padding: calc(var(--header-h) + 24px) 0 32px;
+    padding: 90px 0 32px;
   }
   .reader-hero-inner { padding: 92px 20px 30px; }
   .reader-hero.has-image .reader-hero-inner { padding: 92px 20px 30px; }
