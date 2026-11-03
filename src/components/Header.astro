@@ -77,11 +77,14 @@ import ReaderSettings from "./ReaderSettings.astro";
   header {
     margin: 0;
     padding: 0 1em;
-    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
     border-bottom: 1px solid var(--line);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 100;
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
   }
   h2 {
     margin: 0;
@@ -137,7 +140,7 @@ import ReaderSettings from "./ReaderSettings.astro";
     border: none;
     padding: 0.5rem;
     cursor: pointer;
-    color: rgb(var(--black));
+    color: var(--ink);
     transition: opacity 0.2s;
   }
   
@@ -156,8 +159,8 @@ import ReaderSettings from "./ReaderSettings.astro";
     height: 100vh;
     width: 340px;
     max-width: 86%;
-    background: var(--bg, #fff);
-    box-shadow: -8px 0 24px rgba(0,0,0,0.25);
+    background: var(--surface);
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
     transition: right 260ms ease;
     z-index: 1200;
     display: flex;
@@ -182,7 +185,7 @@ import ReaderSettings from "./ReaderSettings.astro";
     font-size: 1.6rem;
     line-height: 1;
     cursor: pointer;
-    color: var(--muted, #666);
+    color: var(--muted);
   }
   .panel-links {
     display: flex;
@@ -195,7 +198,8 @@ import ReaderSettings from "./ReaderSettings.astro";
     padding: 1rem 0.25rem;
     font-size: 1.125rem;
     width: 100%;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
   }
   .panel-links a.active {
     font-weight: 700;
