@@ -156,11 +156,33 @@ function loadVoices() {
   const api = synth();
   if (!api) {
     state.hasVoices = false;
+    state.voice = null;
+    syncVoiceUI();
     return;
   }
   const voices = api.getVoices().filter((v) => /^en/i.test(v.lang));
-  state.voice = voices[0] ?? null;
   state.hasVoices = voices.length > 0;
+  const preferred = prefs().voice;
+  state.voice = (preferred && voices.find((v) => v.voiceURI === preferred)) || voices[0] || null;
+  syncVoiceUI();
+}
+
+function syncVoiceUI() {
+  const api = synth();
+  const voices = api ? api.getVoices().filter((v) => /^en/i.test(v.lang)) : [];
+  document.querySelectorAll<HTMLSelectElement>("[data-voice]").forEach((select) => {
+    const selected = state.voice?.voiceURI ?? "";
+    select.innerHTML = "";
+    voices.forEach((voice) => {
+      const option = document.createElement("option");
+      option.value = voice.voiceURI;
+      option.textContent = `${voice.name}`;
+      if (voice.voiceURI === selected) option.selected = true;
+      select.appendChild(option);
+    });
+    const row = select.closest<HTMLElement>("[data-voice-row]");
+    if (row) row.style.display = voices.length > 1 ? "" : "none";
+  });
 }
 
 function ensurePrepared() {
@@ -362,6 +384,7 @@ function enableListen() {
   state.listen = true;
   ensurePrepared();
   syncListenUI();
+  syncVoiceUI();
   updateUI();
 }
 
@@ -464,6 +487,20 @@ function onClick(event: MouseEvent) {
 
 function onChange(event: Event) {
   const target = event.target as HTMLSelectElement;
+  if (target.matches("[data-voice]")) {
+    const voices = synth()?.getVoices().filter((v) => /^en/i.test(v.lang)) ?? [];
+    const next = voices.find((v) => v.voiceURI === target.value) ?? null;
+    state.voice = next;
+    savePrefs({ voice: next?.voiceURI });
+    document.querySelectorAll<HTMLSelectElement>("[data-voice]").forEach((select) => {
+      select.value = target.value;
+    });
+    if (state.speaking && !state.paused && state.hasVoices) {
+      synth()?.cancel();
+      speakFrom(state.idx);
+    }
+    return;
+  }
   if (!target.matches("[data-rate]")) return;
   state.rate = Number(target.value) || 1;
   document.querySelectorAll<HTMLSelectElement>("[data-rate]").forEach((select) => {
@@ -529,6 +566,7 @@ function refresh() {
     ensurePrepared();
     syncListenUI();
   }
+  syncVoiceUI();
   updateUI();
 }
 
@@ -545,6 +583,13 @@ export function initReaderAudio(): ReaderAudioApi {
   document.addEventListener("astro:page-load", () => {
     refresh();
   });
+  const synthApi = synth();
+  if (synthApi) {
+    synthApi.onvoiceschanged = () => {
+      loadVoices();
+    };
+  }
+  loadVoices();
   setupMediaSession();
   refresh();
 

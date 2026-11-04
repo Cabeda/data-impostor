@@ -50,6 +50,11 @@ const { align = "right" } = Astro.props;
       </div>
     </div>
 
+    <div class="settings-row" data-voice-row>
+      <span>Voice</span>
+      <select data-voice aria-label="Voice" class="settings-select"></select>
+    </div>
+
     <p class="settings-note">Saved on this device. Applies to every page.</p>
   </div>
 </div>
@@ -109,6 +114,16 @@ const { align = "right" } = Astro.props;
   }
   .settings-row .seg { flex: 0 0 auto; }
   .settings-row .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .settings-select {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    padding: 5px 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    max-width: 150px;
+  }
   .settings-note {
     margin: 10px 0 0;
     font-family: var(--font-mono);
