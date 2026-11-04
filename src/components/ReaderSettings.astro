@@ -202,6 +202,36 @@ const { align = "right" } = Astro.props;
     sync();
   }
 
+  function synth(): SpeechSynthesis | null {
+    return typeof window !== "undefined" && window.speechSynthesis ? window.speechSynthesis : null;
+  }
+
+  function enVoices(): SpeechSynthesisVoice[] {
+    const api = synth();
+    return api ? api.getVoices().filter((v) => /^en/i.test(v.lang)) : [];
+  }
+
+  function syncVoice() {
+    const voices = enVoices();
+    const preferred = read().voice;
+    const selected =
+      (preferred && voices.find((v) => v.voiceURI === preferred)?.voiceURI) ||
+      voices[0]?.voiceURI ||
+      "";
+    document.querySelectorAll<HTMLSelectElement>("[data-voice]").forEach((select) => {
+      select.innerHTML = "";
+      voices.forEach((voice) => {
+        const option = document.createElement("option");
+        option.value = voice.voiceURI;
+        option.textContent = voice.name;
+        if (voice.voiceURI === selected) option.selected = true;
+        select.appendChild(option);
+      });
+      const row = select.closest<HTMLElement>("[data-voice-row]");
+      if (row) row.style.display = voices.length > 1 ? "" : "none";
+    });
+  }
+
   function closePanels(except?: Element | null) {
     document.querySelectorAll<HTMLElement>("[data-settings-panel]").forEach((panel) => {
       if (panel === except) return;
@@ -255,7 +285,31 @@ const { align = "right" } = Astro.props;
       if (event.key === "Escape") closePanels();
     });
 
+    document.addEventListener("change", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLSelectElement)) return;
+      if (!target.matches("[data-voice]")) return;
+      const prefs = read();
+      const next = { ...prefs, voice: target.value } as ReaderPrefs;
+      write(next);
+      document.querySelectorAll<HTMLSelectElement>("[data-voice]").forEach((select) => {
+        select.value = target.value;
+      });
+      document.dispatchEvent(new CustomEvent("di:voice-changed", { detail: { voiceURI: target.value } }));
+    });
+
+    const voiceApi = synth();
+    if (voiceApi) {
+      const previous = voiceApi.onvoiceschanged;
+      voiceApi.onvoiceschanged = () => {
+        if (typeof previous === "function") (previous as () => void)();
+        syncVoice();
+      };
+    }
+
     sync();
+    syncVoice();
     document.addEventListener("astro:page-load", sync);
+    document.addEventListener("astro:page-load", syncVoice);
   }
 </script>
