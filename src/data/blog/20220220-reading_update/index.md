@@ -18,8 +18,8 @@ heroImageAlt: "Photo by Gwen King on Unsplash"
 
 - [Kubernetes: The Documentary](https://www.youtube.com/watch?v=BE77h7dmoQU) - This documentary on kubernetes was really interesting, especially knowing how pervasive the technology is nowadays
 - [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) - As a github user this new feature is really great as we can start to define our architecture changes in diagrams directly on each repo and open discussions on it
-- [A non-exhaustive list of my favorite things about working at companies with a culture of writing](https://founder-fodder.ghost.io/writing-cultures-win/) - Not quite a technical article but writing is a really good skill that enables clearer understading inside a company and can be an enabler of new initiatives and open good career paths
+- [A non-exhaustive list of my favorite things about working at companies with a culture of writing](https://founder-fodder.ghost.io/writing-cultures-win/) - Not quite a technical article but writing is a really good skill that enables clearer understanding inside a company and can be an enabler of new initiatives and open good career paths
 
 ## Others
 
-- [Imitate, then Innovate](https://perell.com/essay/imitate-then-innovate/) - This isn't a technical article but it resonates with my experience where I struggle first to learn and immitating help bring oneself to the next step and innovate on any given field
+- [Imitate, then Innovate](https://perell.com/essay/imitate-then-innovate/) - This isn't a technical article but it resonates with my experience where I struggle first to learn and imitating help bring oneself to the next step and innovate on any given field

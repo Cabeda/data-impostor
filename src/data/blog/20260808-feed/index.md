@@ -47,7 +47,7 @@ TLDR: Read-it-later app is a must to avoid drowning in the feed era.
 
 I wanted to read the articles but I soon realized that with more than 100 articles per week, that I was unable to do anything else. So I set out to once per week I would open the feed and check all articles there. If it's something quick and interesting (a 1-2 minute read) I can read it immediately, but for the majority of the time I'll just click the "save it later" button. My focus during that time is to filter out the articles that I think are interesting. I can skim it, check the beginning and end of it to get the gist of it and then have it added to my to-read pile.
 
-Then, with the list set if the list is too big, I'll reconsider some articles and remove them. My goal is to have something that can be read during that week, and preferably that I can finish early. It's important to note that I do this for everything, series, the newspaper (subscribed to Expresso, which has weekly editions).
+Then, with the list set if the list is too big, I'll reconsider some articles and remove them. My goal is to have something that can be read during that week, and preferably that I can finish early. It's important to note that I do this for everything, series, the newspaper (subscribed to Espresso, which has weekly editions).
 
 ## Take control of the stack
 

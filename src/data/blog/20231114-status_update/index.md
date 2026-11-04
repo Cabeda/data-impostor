@@ -52,11 +52,11 @@ I've been doing some experimentations with the iceberg table. The table and I've
 
 Progress: 20%
 
-This week's game was really good! However I feel I need to train for the 10K as it would greatly help me with the stamina to keep the rythm throughout the game. That and the fact that I've ordered a swytch kit to convert my bike to eletrical. Will be a fun project.
+This week's game was really good! However I feel I need to train for the 10K as it would greatly help me with the stamina to keep the rhythm throughout the game. That and the fact that I've ordered a swytch kit to convert my bike to electrical. Will be a fun project.
 
 ## Readings of the week
 
-This week didn't get a lot of reading done, I've again gotten to add the articles to omnivore and will eventually prune them. I've been building more interest around Flink and I truly want to do some exercises with both FlinkSQL as well as with Pyflink bu the articles from Robin were very interesting.
+This week didn't get a lot of reading done, I've again gotten to add the articles to omnivore and will eventually prune them. I've been building more interest around Flink and I truly want to do some exercises with both FlinkSQL as well as with Pyflink by the articles from Robin were very interesting.
 
 - [Data Engineering in 2022: Storage and Access](https://rmoff.net/2022/09/14/data-engineering-in-2022-storage-and-access/)
 - [Streaming SQL in Data Mesh by Netflix Technology Blog | Netflix TechBlog by Netflix Technology Blog](https://netflixtechblog.com/streaming-sql-in-data-mesh-0d83f5a00d08?source=rss----2615bd06b42e---4)

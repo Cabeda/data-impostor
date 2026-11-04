@@ -8,7 +8,7 @@ heroImage: ./stadium.avif
 heroImageAlt: https://unsplash.com/photos/a-stadium-filled-with-lots-of-empty-seats-MiQEr9B_svM
 ---
 
-This week has been all about trying to finish my two projects (POS-mobile and the chatbot). I've been doing a bit of cleaing on the POS-mobile and I'm happy on how I got internationalization working. Still think that the server components devex is a bit bad. Hoping it will improve with the intro of React 19 🤞🏼. The chatbot took me around 30 minutes this week where I asked for copilot to update the css to use tailwind. Got immediate improvements to the UI and got to delete a bunch of code. This feels like magic ✨.
+This week has been all about trying to finish my two projects (POS-mobile and the chatbot). I've been doing a bit of cleaning on the POS-mobile and I'm happy on how I got internationalization working. Still think that the server components devex is a bit bad. Hoping it will improve with the intro of React 19 🤞🏼. The chatbot took me around 30 minutes this week where I asked for copilot to update the css to use tailwind. Got immediate improvements to the UI and got to delete a bunch of code. This feels like magic ✨.
 
 In the between projects, I've started writing a new article on my series of "data impostor".
 

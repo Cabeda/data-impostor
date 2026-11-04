@@ -7,7 +7,7 @@ heroImage: "./dragao.avif"
 heroImageAlt: https://unsplash.com/photos/a-view-of-a-stadium-from-the-stands-4P_Lcl6TKUA
 ---
 
-Finished the Udemy course! Took me just getting focused and setting a plan (obviously). For the next week, I'll be on vacations but as I've gotten my talk accepted for the Volkswagen Tech summit, I'll start working on it (16 of May) before going to London. Going to be talking about using SQL to empower our decisons and be pushing for Duckdb and other tools like steampipe on the presentation. Regarding the exam I'm feeling that it's quite challenging from the practice test but I got a 70% on my first try and had time enough to review it. So I'll probably schedule it for the month of June.
+Finished the Udemy course! Took me just getting focused and setting a plan (obviously). For the next week, I'll be on vacations but as I've gotten my talk accepted for the Volkswagen Tech summit, I'll start working on it (16 of May) before going to London. Going to be talking about using SQL to empower our decisions and be pushing for Duckdb and other tools like steampipe on the presentation. Regarding the exam I'm feeling that it's quite challenging from the practice test but I got a 70% on my first try and had time enough to review it. So I'll probably schedule it for the month of June.
 
 I've also gotten a personal project that I'll keep the wraps on it for now. It's related to getting a RAG app and I'd love to use llama33 or another open model for it. As such, I'll probably test using ollama and get it running on ASS fargate or something similar. But my goal will be to open source it if it works well.
 

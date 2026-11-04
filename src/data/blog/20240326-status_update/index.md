@@ -13,7 +13,7 @@ So, let's do more by doing less 🤞
 
 ## Saga of host of personal notes
 
-So, to give some context, I tend to write a lot on my personal notes. As I want as much control on this data as possible, I moved from Notion to hosting on Git. However, this tended to be cumbersome as working with git on mobile is lacking to say the least. So now I've decided to keep it in sync using a file sync service. Syncthing doens't work on IOS (yeah, migrated to an iphone because of work) and dropbox and Onedrive is blocked by my emploeyer. Google drive doens't allow third apps to edit on IOS. So what am I to do?
+So, to give some context, I tend to write a lot on my personal notes. As I want as much control on this data as possible, I moved from Notion to hosting on Git. However, this tended to be cumbersome as working with git on mobile is lacking to say the least. So now I've decided to keep it in sync using a file sync service. Syncthing doesn't work on IOS (yeah, migrated to an iphone because of work) and dropbox and Onedrive is blocked by my emploeyer. Google drive doesn't allow third apps to edit on IOS. So what am I to do?
 
 Side note: Moved from spotify to youtube premium. I'm mostly watching series like critical role or educational content and as I get youtube music with it it just made sense.
 

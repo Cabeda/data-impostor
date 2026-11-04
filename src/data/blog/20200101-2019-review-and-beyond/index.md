@@ -41,7 +41,7 @@ For this year I'll try to replace the gym with swimming (3x/week). Not going to 
 
 ## Travels
 
-Last year, aside from visiting the main cities of Portugal, I was able to acomplish my goals. Got a really great experience out of Rome and Scotland and, as a bonus, went in December to Budapest. All trips were done on a tight budget so I was able to not break the bank.
+Last year, aside from visiting the main cities of Portugal, I was able to accomplish my goals. Got a really great experience out of Rome and Scotland and, as a bonus, went in December to Budapest. All trips were done on a tight budget so I was able to not break the bank.
 
 For this year I'll try to enter a routine of a big and a small trip. There's nothing planned yet but I would really love to visit a country outside Europe and another on Europe.
 As an extra I'd like to substitute a plane trip with a train. The experience is different but quite enjoyable.

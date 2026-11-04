@@ -5,7 +5,7 @@ heroImage: unsplash.jpg
 heroImageAlt: "<span>Photo by <a href=\"https://unsplash.com/@romankraft?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Roman Kraft</a> on <a href=\"https://unsplash.com/s/photos/read?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a></span>"
 ---
 
-Hi there! I've gathered some articles and in the meanwhile I've been reading a bit about scala and also saving some papers for a "ligh read".
+Hi there! I've gathered some articles and in the meanwhile I've been reading a bit about scala and also saving some papers for a "light read".
 
 ## Architectures
 
@@ -38,6 +38,6 @@ Coming back to airflow, Cloudfare as shown how truly great this technology can b
 
 In the tech environment I'm working I've actually felt the consequences of the different types of companies shown in [What Silicon Valley "Gets" about Software Engineers that Traditional Companies Do Not](https://blog.pragmaticengineer.com/what-silicon-valley-gets-right-on-software-engineers)
 
-More related to data teams I can concur with the views in [How to Drive Effective Data Science Communication with Cross-Functional Teams](https://doordash.engineering/2021/02/11/how-to-drive-effective-data-science-communication/) that shows how importan is the communication of insights which is often overlooked.
+More related to data teams I can concur with the views in [How to Drive Effective Data Science Communication with Cross-Functional Teams](https://doordash.engineering/2021/02/11/how-to-drive-effective-data-science-communication/) that shows how important is the communication of insights which is often overlooked.
 
 Be well and stay safe :-)

@@ -1,7 +1,7 @@
 ---
 title: "Status update - March 23 Week 4"
 pubDate: 2025-03-23
-heroImage: oriente.avif
+heroImage: oriented.avif
 heroImageAlt: https://unsplash.com/photos/people-walking-inside-building-during-daytime-u_Svc_bDgHk
 tags:
   - status
@@ -18,7 +18,7 @@ tags:
 
 ## Next week's plan
 
-- Present Invisble women
+- Present Invisible women
 - Finalize travel arrangements and prepare for the upcoming months
 
 See you next week!

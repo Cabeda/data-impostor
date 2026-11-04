@@ -26,13 +26,13 @@ I think the focus on this project can't be no more on the work. I've gotten the 
 
 Progress: 0%
 
-The flink course idea is to fullfill a gap I personally feel I have. I get the theory but want to get more practice. But as I'm hoping to get this done through the communication part I think I'll leave this section set to 0 and consider it fullfilled with the advent of code.
+The flink course idea is to fulfill a gap I personally feel I have. I get the theory but want to get more practice. But as I'm hoping to get this done through the communication part I think I'll leave this section set to 0 and consider it fulfilled with the advent of code.
 
 ## Data Stream
 
 Progress: 26%
 
-I've been focusing on writing the data into iceberg but I've geen getting more challenges than I was expecting. I've got a weird issue on Glue where it detects I have to Spark catalogs instead of one. I'm truly focused on this and finding this as the biggest blocker for the entire presentation. However I'm finding truly refreshin to put my hands on Spark again
+I've been focusing on writing the data into iceberg but I've geen getting more challenges than I was expecting. I've got a weird issue on Glue where it detects I have to Spark catalogs instead of one. I'm truly focused on this and finding this as the biggest blocker for the entire presentation. However I'm finding truly refreshing to put my hands on Spark again
 
 ### Project
 
@@ -61,7 +61,7 @@ Gotten back into running! However I've sadly been unable to find the time and en
 
 ## Readings of the week
 
-I've been readin a lot of wheel of time and who knew it would absorve so much time from my readings...
+I've been reading a lot of wheel of time and who knew it would absorb so much time from my readings...
 
 - [Speed up queries with the cost-based optimizer in Amazon Athena | AWS Big Data Blog](https://aws.amazon.com/blogs/big-data/speed-up-queries-with-cost-based-optimizer-in-amazon-athena/)
 - [Suddenly, I Understand Software](https://johnwhiles.com/posts/programming-as-theory)

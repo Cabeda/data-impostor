@@ -52,7 +52,7 @@ Nothing major. Still playing 2 soccer games per week. I have a month until the c
 
 ## Readings of the week
 
-I've started reading Wheel of Time second book "The Great hunt" but at the same time I'm feeling a bit bad for not picking on my pile of phisical books.
+I've started reading Wheel of Time second book "The Great hunt" but at the same time I'm feeling a bit bad for not picking on my pile of physical books.
 
 ![Pile of shame](./pile_books.avif)
 

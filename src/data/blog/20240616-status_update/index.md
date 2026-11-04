@@ -33,7 +33,7 @@ So, at the moment I have a Demo that took a whole day and that I'm unsatisfied w
 - [Knowledge Bases for Amazon Bedrock now lets you configure Guardrails](https://aws.amazon.com/about-aws/whats-new/2024/05/knowledge-bases-amazon-bedrock-configure-guardrails/): Awesome to see blocked words. Exactly what I wanted for my project
 - [So, you think you’ve got dbt test bloat? | by Dave Flynn | In the Pipeline | Apr, 2024 | Medium by Dave Flynn](https://medium.com/inthepipeline/so-you-think-youve-got-dbt-test-bloat-37491fb330d5): I have never gotten into this scale but the strategy to avoid data alert fatigue sounds quite reasonable
 - [Airbnb Open-Sources its ML Feature Platform Chronon - InfoQ by Sergio De Simone](https://www.infoq.com/news/2024/04/airbnb-chronon-open-sourced/): Need to further check this platform. Usually Netflix releases really good open source projects
-- [Chronon, Airbnb’s ML Feature Platform, Is Now Open Source | by Varant Zanoyan | The Airbnb Tech Blog | Apr, 2024 | Medium by Varant Zanoyan](https://medium.com/airbnb-engineering/chronon-airbnbs-ml-feature-platform-is-now-open-source-d9c4dba859e8)
+- [Chronon, Airbnb’s ML Feature Platform, Is Now Open Source | by Variant Zanoyan | The Airbnb Tech Blog | Apr, 2024 | Medium by Variant Zanoyan](https://medium.com/airbnb-engineering/chronon-airbnbs-ml-feature-platform-is-now-open-source-d9c4dba859e8)
 - [Databricks Agrees to Acquire Tabular, the Company Founded by the Original Creators of Apache Iceberg - Databricks](https://www.databricks.com/company/newsroom/press-releases/databricks-agrees-acquire-tabular-company-founded-original-creators?ref=blef.fr): This are big news! What will databricks do with two standards? Which one will die? Iceberg? Or data lake?
 
 ## Goal of the week

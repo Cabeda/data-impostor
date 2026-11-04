@@ -24,8 +24,8 @@ I've subscribed to Increment, a magazine published by stripe which usually deep 
 Somehow I've read a lot on how we should be developing our data systems, be it for scaling, investment on open-source  or best practices. I leave below some of the most interesting (in my opinion of course):
 
 - [Scaling Reporting at Reddit](https://redditblog.com/2021/02/26/scaling-reporting-at-reddit/)
-- [the Furure of Business Inteligence is Open Source](https://maximebeauchemin.medium.com/the-future-of-business-intelligence-is-open-source-9b654595773a)
-- [DAG Writin Best Practices in Apache Airflow](https://www.astronomer.io/blog/dag-writing-best-practices-in-apache-airflow)
+- [the Future of Business Intelligence is Open Source](https://maximebeauchemin.medium.com/the-future-of-business-intelligence-is-open-source-9b654595773a)
+- [DAG Writing Best Practices in Apache Airflow](https://www.astronomer.io/blog/dag-writing-best-practices-in-apache-airflow)
 - [The New Rules of Data Quality](https://towardsdatascience.com/the-new-rules-of-data-quality-5e4fdecb9618)
 - [Evolving Schemaless into a Distributed SQL Database ](https://eng.uber.com/schemaless-sql-database/)
 

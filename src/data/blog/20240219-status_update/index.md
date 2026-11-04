@@ -15,11 +15,11 @@ Where before I would battle for reading between every nook and cranny I had, now
 
 I quickly set the time limits for other apps but I'll keep tweaking the times as I make sure this becomes part of my routine.
 
-On a further note, I've started coding a bit on an open source project to convert ebooks to audio. I'm very interested on adding style TTS 2 and being able to quickly allow anyone to generate a high quality audiobook from his DRM free ebook. Still very early on testing but I guess this is a side effect of having well defined periods for readin (it frees me to do other things).
+On a further note, I've started coding a bit on an open source project to convert ebooks to audio. I'm very interested on adding style TTS 2 and being able to quickly allow anyone to generate a high quality audiobook from his DRM free ebook. Still very early on testing but I guess this is a side effect of having well defined periods for reading (it frees me to do other things).
 
 ## Readings of the week
 
-As a result of the test, I've gotten to read to a lot. From a list of >100 to read I've gotten into 49 articles which at this rate I should trim to zero in no time. It would be perfect if the 1 hour per day rule allowed me to ony to read the articles but also to read technical books/write a bit myself. Let's see how this goes for the next week. 
+As a result of the test, I've gotten to read to a lot. From a list of >100 to read I've gotten into 49 articles which at this rate I should trim to zero in no time. It would be perfect if the 1 hour per day rule allowed me to only to read the articles but also to read technical books/write a bit myself. Let's see how this goes for the next week. 
 
 - [Add support for COPY FROM DATABASE statement by Mytherin · Pull Request #9765 · duckdb/duckdb · GitHub by duckdb](https://github.com/duckdb/duckdb/pull/9765)
 - [Announcing DuckDB 0.10.0 - DuckDB by Mark Raasveldt and Hannes Mühleisen](https://duckdb.org/2024/02/13/announcing-duckdb-0100.html)
@@ -47,14 +47,14 @@ As a result of the test, I've gotten to read to a lot. From a list of >100 to re
 - [Use dbt and Duckdb instead of Spark in data pipelines | by Niels Claeys | datamindedbe | Medium by Niels Claeys](https://medium.com/datamindedbe/use-dbt-and-duckdb-instead-of-spark-in-data-pipelines-9063a31ea2b5)
 - [Introducing Gemini 1.5, Google's next-generation AI model by Sundar Pichai](https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/)
 - [uv: Python packaging in Rust](https://astral.sh/blog/uv)
-- [Nvidia’s “Chat With RTX” is a ChatGPT-style app that runs on your own GPU | Ars Technica by Benj Edwards](https://arstechnica.com/?p=2003542)
+- [Nvidia’s “Chat With RTX” is a ChatGPT-style app that runs on your own GPU | Ars Technica by Binge Edwards](https://arstechnica.com/?p=2003542)
 - [AWS re:Invent 2023 - Best practices for analytics and generative AI on AWS (ANT329) by AWS Events](https://www.youtube.com/watch?t=1959&v=0ixjc4QrnTs)
 - [https://motherduck.com/blog/introducing-column-explorer](https://motherduck.com/blog/introducing-column-explorer)
 - [Scaling Large Language Models to zero with Ollama · The Fly Blog](https://fly.io/blog/scaling-llm-ollama/)
 - [Switching from S3 to Tigris on Fly.io by Ben Hoyt](https://benhoyt.com/writings/flyio-and-tigris/)
 - [Memory and new controls for ChatGPT by Authors](https://openai.com/blog/memory-and-new-controls-for-chatgpt)
 - [Harnessing AI-Generated Cloudformation with Application Composer by Claudio Masolo](https://www.infoq.com/news/2024/01/generative-ai-cloudformation/)
-- [Fixing small files performance issues in Apache Spark using DataFlint | by Meni Shmueli | Dec, 2023 | Medium by Meni Shmueli](https://medium.com/@menishmueli/fixing-small-files-performance-issues-in-apache-spark-using-dataflint-49ffe3eb755f)
+- [Fixing small files performance issues in Apache Spark using DataFlint | by Menu Shmueli | Dec, 2023 | Medium by Menu Shmueli](https://medium.com/@menishmueli/fixing-small-files-performance-issues-in-apache-spark-using-dataflint-49ffe3eb755f)
 
 ## Goals for this week
 

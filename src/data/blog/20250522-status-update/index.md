@@ -13,7 +13,7 @@ Well it's been quite a month since my last update. I've gotten a couple of books
 
 I've by chance also gotten further down in the road of self-hosting solutions. My last one was the rss feed aggregator. I was using with great success feedly but felt that I could have something more personal and lighter. For that I've gotten miniflux deployed to fly.io ([source](https://github.com/Cabeda/miniflux_deployment)) + supabase for the DB. My end goal will be to move to an european server but fly is so cheap and easy to use that I'll leave it for later.
 
-Oh and I've finnally been able to trim readeck down to 0 articles! With the miniflux integration I've been able to get everything, including nebula and youtube as a single feed from where I can save later to readeck. I only look into the feed on Monday and divide the reading throught the week. This makes me less overloaded than before where I'd try to read everything on Friday. Even now I have to carefully plan the week and drop articles. With this trimming I'm trying to be clear that there are thing I've already read and I should instead be implementing.
+Oh and I've finnally been able to trim readeck down to 0 articles! With the miniflux integration I've been able to get everything, including nebula and youtube as a single feed from where I can save later to readeck. I only look into the feed on Monday and divide the reading through the week. This makes me less overloaded than before where I'd try to read everything on Friday. Even now I have to carefully plan the week and drop articles. With this trimming I'm trying to be clear that there are thing I've already read and I should instead be implementing.
 
 ## Current week plan
 

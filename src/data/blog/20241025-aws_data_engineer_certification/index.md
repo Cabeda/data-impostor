@@ -17,7 +17,7 @@ So, I've done my AWS Data Engineering certification on the 25th October. To help
   - https://vwds.udemy.com/course/aws-certified-data-engineer-associate-dea-c01
   - https://vwds.udemy.com/course/aws-data-engineer
 - Udemy Glue course (as a refresher)
-- AWS Skill Builder (payed for 1 month before exame)
+- AWS Skill Builder (paid for 1 month before exame)
 
 Going through both the official preparation and the Udemy courses, I'd say to go for the official course if you want to get the best exam test experience. However Udemy is cheaper, provides way more courses and has a lot of exams to test out (like [this](https://vwds.udemy.com/course/practice-exams-aws-certified-data-engineer-associate-r)) although the questions quality may vary. You can check the recommendations on this [PDF](https://d1.awsstatic.com/training-and-certification/docs-data-engineer-associate/AWS-Certified-Data-Engineer-Associate_Exam-Guide.pdf) .****
 
@@ -43,7 +43,7 @@ With my previous experience there's a base knowledge that I think I've gathered.
 - This means that if we upload a new object with the same name it will be versioned and we can request the old one by providing the version id
 - To set a retention period, you must have the s3:PutObjectRetention permission.
 - S3 Object Lock provides two retention modes that apply different levels of protection to your objects:
-  - Governance mode: can be deleted by users with specific permissions `s3:BypassGovernanceRetention` and explicity pass `x-amz-bypass-governance-retention:true` header.
+  - Governance mode: can be deleted by users with specific permissions `s3:BypassGovernanceRetention` and explicitly pass `x-amz-bypass-governance-retention:true` header.
   - Compliance mode: can't be deleted by anyone. Including the root account.
 
 S3 tiers:
@@ -70,7 +70,7 @@ S3 batch replication allows to:
 - Replicate existing objects
 - replicate previous failed to replicate objects
 - replicate objects that have already been replicated
-- replicate replicated ojects
+- replicate replicated objects
 
 - Adding an S3 access point to a bucket doesn't change the bucket's behavior when the bucket is accessed directly through the bucket's name or Amazon Resource Name (ARN). All existing operations against the bucket will continue to work as before. Restrictions that you include in an access point policy apply only to requests made through that access point.
 
@@ -114,7 +114,7 @@ Is divided in these services:
 
 Furthermore we have Amazon Managed Service for Apache Flink
 
-Kinesis Agent is a pre-built java library to processs files into Kinesis Data Streams.
+Kinesis Agent is a pre-built java library to processes files into Kinesis Data Streams.
 
 - It allows other languages to run by using a MultiLangDaemon
 
@@ -137,7 +137,7 @@ MSK is a fully managed Kafka service.
 
 - Allows for data transfer between on-premises and AWS
 - Can be used to transfer data to and from S3, Network File System (NFS), and Server Message Block (SMB)
-- Prefered solution for large data transfers
+- Preferred solution for large data transfers
 
 ### Aws Snow
 

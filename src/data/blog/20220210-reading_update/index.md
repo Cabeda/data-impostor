@@ -18,7 +18,7 @@ Hey! I've been a bit out but, nonetheless, I've been keeping up with news, while
 - [Cost of Attrition](https://benjiweber.co.uk/blog/2022/01/12/cost-of-attrition) - A good take on the true price of losing a team member :-(
 - [Git Organized: A Better Git Flow](https://render.com/blog/git-organized-a-better-git-flow) - Deliver fast and clean the git commit history before merging to master
 - [Auto-Diagnosis and Remediation in Netflix Data Platform](https://netflixtechblog.com/auto-diagnosis-and-remediation-in-netflix-data-platform-5bcc52d853d1) - Netflix gives some great insights into how their data platform are proactive in detecting issues and respond to them automatically
-- [Consider SQLite](https://blog.wesleyac.com/posts/consider-sqlite) - This article proposes the use of sqllite before moving into larger databases. I tend to concur that this might be a great way for most projects as there are very few that go beyond it's limits
+- [Consider SQLite](https://blog.wesleyac.com/posts/consider-sqlite) - This article proposes the use of sqlite before moving into larger databases. I tend to concur that this might be a great way for most projects as there are very few that go beyond it's limits
 - [Best practices for writing code comments](https://stackoverflow.blog/2021/12/23/best-practices-for-writing-code-comments) - Good tips from stack overflow on how to write comments
 
 ## Others

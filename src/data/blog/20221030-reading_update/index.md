@@ -5,7 +5,7 @@ heroImage: thunder.jpg
 heroImageAlt: "Thunder in a city"
 ---
 
-I've done a lot of reading but I'll again be focusing on the talk I plan to prepare. I want to test some of the ideas I have but if I'm sucessful I'll be focusing November to have it ready. This means I'll be doing a lot estimation of the work but my main issue of what kind of dataset to retrieve might be solved as I was looking for some data that might be actually useful.
+I've done a lot of reading but I'll again be focusing on the talk I plan to prepare. I want to test some of the ideas I have but if I'm successful I'll be focusing November to have it ready. This means I'll be doing a lot estimation of the work but my main issue of what kind of dataset to retrieve might be solved as I was looking for some data that might be actually useful.
 
 ## Readings
 

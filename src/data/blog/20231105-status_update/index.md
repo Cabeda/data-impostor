@@ -7,11 +7,11 @@ tags:
     - newsletter
 ---
 
-I've been able to move my personal thoughts and notes to Logseq instead of just using random notes + vs code. I can easily revert to the old way as the ony thing I had to change for the migration was rename my files from YYYYMMDD.md to YYYY_MM_DD.md. Simple enough!
+I've been able to move my personal thoughts and notes to Logseq instead of just using random notes + vs code. I can easily revert to the old way as the only thing I had to change for the migration was rename my files from YYYYMMDD.md to YYYY_MM_DD.md. Simple enough!
 
 As the tool doesn't have git sync builtin for Android, I've had a bit more trouble setting up Syncthings. I've yet to fully understand how it functions but for now I'm quite satisfied. For backup I still keep the git working on my local computer.
 
-Additionaly I've been thinking a bit on how to keep working on the Code challenges and I think I need to do an hybrid. I'll be picking on doing a course this month instead of the code challenge. The code challenge will be left for December with the Advent of Code.
+Additionally I've been thinking a bit on how to keep working on the Code challenges and I think I need to do an hybrid. I'll be picking on doing a course this month instead of the code challenge. The code challenge will be left for December with the Advent of Code.
 
 Finally I have to prepare the POS systems for the traditional São Magusto festivity where I live in.
 
@@ -31,7 +31,7 @@ So I've decided to revamp this section and get a certificate around Flink. Still
 
 Progress: 25%
 
-I've had a bit of laziness on picking on this. My goal was to have all developments finished by Saturday but I've got a lot more to do. I've boostrapped dbt to power the analytics, I've fixed a bug as I needed to have say I have the following checklist divided by the project and the presentation:
+I've had a bit of laziness on picking on this. My goal was to have all developments finished by Saturday but I've got a lot more to do. I've bootstrapped dbt to power the analytics, I've fixed a bug as I needed to have say I have the following checklist divided by the project and the presentation:
 
 ### Project
 

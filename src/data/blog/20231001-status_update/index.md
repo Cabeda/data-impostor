@@ -9,7 +9,7 @@ heroImageAlt: "https://unsplash.com/photos/9_wUG_dw5rE"
 
 Progress: 5%
 
-I've coded little TS this week aside from the Data Stream project. It has been a lot of terraform and deployments. However I've been tackling daily issues that arrive and I've been successfull to some extenct. So, I'll consider it a win!
+I've coded little TS this week aside from the Data Stream project. It has been a lot of terraform and deployments. However I've been tackling daily issues that arrive and I've been successful to some extenct. So, I'll consider it a win!
 
 ## Code challenges
 
@@ -49,7 +49,7 @@ Since I came back from vacations I've had a a bit of a cold. I'm hoping to resta
 
 Somehow I've found myself adding more and more articles to omnivore. After all the reading I've gotten myself with a to-read list of 78 articles. With a quick check to the wordCount I feel I might need a whole nont-stop day to clean the list. So I might need to pruning 😅
 
-However I've started writting more and more notes which I think is great! To complement this I think it might be interesting to get the notes for each article so that I can review my notes and write some of them on this status update.
+However I've started writing more and more notes which I think is great! To complement this I think it might be interesting to get the notes for each article so that I can review my notes and write some of them on this status update.
 
 - [Introducing incremental export from Amazon DynamoDB to Amazon S3 | AWS Database Blog](https://aws.amazon.com/fr/blogs/database/introducing-incremental-export-from-amazon-dynamodb-to-amazon-s3)
 - [Announcing DuckDB 0.9.0 - DuckDB by Mark Raasveldt and Hannes Mühleisen](https://duckdb.org/2023/09/26/announcing-duckdb-090.html)

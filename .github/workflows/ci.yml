@@ -34,3 +34,19 @@ jobs:
       # intake rule: every entry's pubDate must agree with its path.
       - name: Type check and content intake
         run: pnpm check
+
+  spellcheck:
+    name: Spell check (markdown posts)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install codespell
+        run: python -m pip install codespell
+
+      - name: Check spelling in markdown posts
+        run: find src/data -type f -name '*.md' -print0 | xargs -0 codespell

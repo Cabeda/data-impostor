@@ -6,7 +6,7 @@ tags:
   - python
 ---
 
-After another, very fun Dungeons&Dragons sessions I wanted to generate an image for a scene that occured. It envolved a camel falling through a well (there's a very long story behind it). I quickly remembered that OpenAI had dall-e but sadly I found out that it Dall-E 3 doesn't have a free tier.
+After another, very fun Dungeons&Dragons sessions I wanted to generate an image for a scene that occurred. It involved a camel falling through a well (there's a very long story behind it). I quickly remembered that OpenAI had dall-e but sadly I found out that it Dall-E 3 doesn't have a free tier.
 
 ![no free tier for dall-e according to their main page](dalle_intro_page.avif)
 

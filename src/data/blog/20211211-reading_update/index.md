@@ -21,5 +21,5 @@ Well, on thursday I went through my first international talk at Coalesce where I
 ## Engineering
 
 - [Cleaning Up Git History](https://blog.sulami.xyz/posts/cleaning-up-git-history/) - I've more recently gotten into the problems of how to manage a repo with multiple contributions and having a clean history can really help
-- [Ship / Show / Ask](https://martinfowler.com/articles/ship-show-ask.html) - This is a review on how to balance between shipping immediatly and waiting for peer-review
+- [Ship / Show / Ask](https://martinfowler.com/articles/ship-show-ask.html) - This is a review on how to balance between shipping immediately and waiting for peer-review
 - [What’s New In Python 3.10](https://docs.python.org/3/whatsnew/3.10.html) - Python 3.10 has been some time ago but I hadn't taken the opportunity to read the release notes. Pattern matching is really exciting as we see ittaking some ideas from languages like scala
