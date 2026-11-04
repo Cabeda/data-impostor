@@ -550,8 +550,7 @@ html[data-listen="on"] .reader-dock { display: flex; }
     gap: 5px;
   }
   .dock-copy,
-  .dock-track,
-  .reader-dock select { display: none; }
+  .dock-track { display: none; }
   .dock-btn { width: 26px; height: 26px; font-size: 16px; }
   .dock-play { width: 34px; height: 34px; }
 }

@@ -154,11 +154,11 @@ const ogImage = heroImage
     </main>
 
     <div class="reader-dock" data-audio-dock aria-label="Audio player">
-      <button class="dock-btn" data-chapter="prev" type="button" aria-label="Previous chapter">‹</button>
+      {hasChapters && <button class="dock-btn" data-chapter="prev" type="button" aria-label="Previous chapter">‹</button>}
       <button class="dock-play" data-audio-toggle type="button" aria-label="Play or pause">
         <span data-audio-icon>▶</span>
       </button>
-      <button class="dock-btn" data-chapter="next" type="button" aria-label="Next chapter">›</button>
+      {hasChapters && <button class="dock-btn" data-chapter="next" type="button" aria-label="Next chapter">›</button>}
       <button
         class="dock-btn"
         data-audio-locate

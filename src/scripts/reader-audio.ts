@@ -391,6 +391,10 @@ function startAtChapter(index: number) {
   if (state.speaking || state.paused) {
     if (state.paused) play(sentenceIndex);
     else seekTo(sentenceIndex);
+  } else {
+    state.idx = sentenceIndex;
+    highlight(sentenceIndex);
+    updateUI();
   }
 }
 
