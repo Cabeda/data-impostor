@@ -291,7 +291,10 @@ function speakFrom(index: number) {
   next.rate = state.rate;
   if (state.voice) next.voice = state.voice;
   next.onend = () => {
+    // Zen/Firefox can fire `onend` more than once per utterance; only
+    // advance when this sentence is still the active one.
     if (!state.speaking || state.paused) return;
+    if (state.idx !== index) return;
     speakFrom(index + 1);
   };
   next.onerror = (event) => {

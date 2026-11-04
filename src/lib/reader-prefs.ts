@@ -53,7 +53,7 @@ export function parseReaderPrefs(raw: string | null | undefined): ReaderPrefs {
       size: oneOf(SIZES, value.size, DEFAULT_READER_PREFS.size),
       face: oneOf(FACES, value.face, DEFAULT_READER_PREFS.face),
       listen: typeof value.listen === "boolean" ? value.listen : DEFAULT_READER_PREFS.listen,
-      voice: typeof value.voice === "string" ? value.voice : undefined,
+      ...(typeof value.voice === "string" ? { voice: value.voice } : {}),
     };
   } catch {
     return { ...DEFAULT_READER_PREFS, theme: fallbackTheme };

@@ -83,7 +83,7 @@ const ogImage = heroImage
 
     {
       hasChapters && (
-        <div class="chapter-bar" data-chapter-bar>
+        <div class="chapter-bar" data-chapter-bar style={heroImage ? undefined : "top: 0"}>
           <div class="chapter-inner">
             <nav class="chapter-track" aria-label="Chapters">
               {chapters.map((heading, index) => (
