@@ -39,7 +39,7 @@ This rounds to ~1 hour. With the need to shower, change clothes and well, lunch,
 
 ## Readings of the week
 
-I've spent the week reading "Thinking Fast and Slow". I've been keen on reading it for almost half an year and had gotten to page 50. As I saw my reading speed increase with audiobooks I decided to give a go to text-to-speech (TTS). I've payed for ReadEra Premium (wanted to have both scroll and seamless TTS) and I've sped through the book in no time. When doing chores or running I'd just listen and before going to bed I'd read a bit more. With the speed set to 1.5x, I was able to comprehend the text so I'll keep it like this for now.
+I've spent the week reading "Thinking Fast and Slow". I've been keen on reading it for almost half an year and had gotten to page 50. As I saw my reading speed increase with audiobooks I decided to give a go to text-to-speech (TTS). I've paid for ReadEra Premium (wanted to have both scroll and seamless TTS) and I've sped through the book in no time. When doing chores or running I'd just listen and before going to bed I'd read a bit more. With the speed set to 1.5x, I was able to comprehend the text so I'll keep it like this for now.
 
 After finishing the book, I moved to another one from Thomas Piketty and in 2 days I've gotten to around 40% of the book. Pretty sweet.
 

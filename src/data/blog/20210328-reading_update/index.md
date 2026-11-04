@@ -9,7 +9,7 @@ This week I've been preping for three things. Read a book on Scala, writing abou
 
 ## Architecture
 
-I've found time to read the paper [Lakehouse: A New Generation of Open Platforms that UnifyData Warehousing and Advanced Analytics](http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf). The case for moving away from closed-sourced data warehouses into open systems with storage in an open format really resonates with me. The paper was writeen by databricks but also makes the case for systems like Trino + Apache Iceberg (which is devoloping quite nicely) which goes forward in bringing the data into an unified interface, instead of being stored in data silos.
+I've found time to read the paper [Lakehouse: A New Generation of Open Platforms that UnifyData Warehousing and Advanced Analytics](http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf). The case for moving away from closed-sourced data warehouses into open systems with storage in an open format really resonates with me. The paper was writeen by databricks but also makes the case for systems like Trino + Apache Iceberg (which is developing quite nicely) which goes forward in bringing the data into an unified interface, instead of being stored in data silos.
 
 Fivetran gives Strava as a use case on how to leverage it's platform to improve the speed from sources into a data warehouse in [Scaling Data Culture Is a Marathon, Not a Sprint](https://fivetran.com/blog/scaling-data-culture-is-a-marathon-not-a-sprint). As a user of fivetran I can say that it really helps to integrate data systems into a data warehouse although I also see a world where Presto plus open source solutions like Airbyte improve the move of data between systems (API's, databases, files, etc).
 

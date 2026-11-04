@@ -56,7 +56,7 @@ This is the final one which has nothing to do with the rest. As I've kept workin
 
 ## Moving forward
 
-The year review is great but as I've been saying, I'm trying to move to a semester mentality. I might even go with a trimester after reviewing the semester itself (probably next article). So, I think I can consider the review of 2023 done, I've done most of what I initally set out to do (I honestly wasn't counting on it) and the things i didn't do were either because I made a decision in favor of things more dear to me.
+The year review is great but as I've been saying, I'm trying to move to a semester mentality. I might even go with a trimester after reviewing the semester itself (probably next article). So, I think I can consider the review of 2023 done, I've done most of what I initially set out to do (I honestly wasn't counting on it) and the things i didn't do were either because I made a decision in favor of things more dear to me.
 
 ## Readings
 

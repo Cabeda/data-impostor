@@ -7,7 +7,7 @@ heroImageAlt: "https://unsplash.com/photos/1-29wyvvLJA"
 
 After listening to Python Bytes episode 349, I decided to give a try to omnivore. I really like the notion integration but sadly I think I didn't get to the habit of opening the links as loading articles was slow and I had the constant feeling that they weren't available offline.
 
-I've also decide to divide my time into Semester after reading the [vox article](https://www.vox.com/even-better/23835758/divide-life-semesters-not-in-school-motivation-goals). I've setup 5 different classes with general objetives (still to be refined) and will span from September up until January. Hopefully beginning of January I can wrap-up it all and get "free-time".
+I've also decide to divide my time into Semester after reading the [vox article](https://www.vox.com/even-better/23835758/divide-life-semesters-not-in-school-motivation-goals). I've setup 5 different classes with general objectives (still to be refined) and will span from September up until January. Hopefully beginning of January I can wrap-up it all and get "free-time".
 
 This doesn't leave me much time for reading except to try and get more knowledge on the subjects I picked  which currently are:
 
@@ -17,7 +17,7 @@ This doesn't leave me much time for reading except to try and get more knowledge
 - Communication
 - Sports
 
-I'm hoping to better refine the goals so that I can have a % completetion feel but my main objetive is to solidify what I feel should be the skills of a mid level data engineer.
+I'm hoping to better refine the goals so that I can have a % completion feel but my main objective is to solidify what I feel should be the skills of a mid level data engineer.
 
 ## Readings of the week
 

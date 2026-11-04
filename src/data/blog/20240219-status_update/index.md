@@ -15,11 +15,11 @@ Where before I would battle for reading between every nook and cranny I had, now
 
 I quickly set the time limits for other apps but I'll keep tweaking the times as I make sure this becomes part of my routine.
 
-On a further note, I've started coding a bit on an open source project to convert ebooks to audio. I'm very interested on adding style TTS 2 and being able to quickly allow anyone to generate a high quality audiobook from his DRM free ebook. Still very early on testing but I guess this is a side effect of having well defined periods for readin (it frees me to do other things).
+On a further note, I've started coding a bit on an open source project to convert ebooks to audio. I'm very interested on adding style TTS 2 and being able to quickly allow anyone to generate a high quality audiobook from his DRM free ebook. Still very early on testing but I guess this is a side effect of having well defined periods for reading (it frees me to do other things).
 
 ## Readings of the week
 
-As a result of the test, I've gotten to read to a lot. From a list of >100 to read I've gotten into 49 articles which at this rate I should trim to zero in no time. It would be perfect if the 1 hour per day rule allowed me to ony to read the articles but also to read technical books/write a bit myself. Let's see how this goes for the next week. 
+As a result of the test, I've gotten to read to a lot. From a list of >100 to read I've gotten into 49 articles which at this rate I should trim to zero in no time. It would be perfect if the 1 hour per day rule allowed me to only to read the articles but also to read technical books/write a bit myself. Let's see how this goes for the next week. 
 
 - [Add support for COPY FROM DATABASE statement by Mytherin · Pull Request #9765 · duckdb/duckdb · GitHub by duckdb](https://github.com/duckdb/duckdb/pull/9765)
 - [Announcing DuckDB 0.10.0 - DuckDB by Mark Raasveldt and Hannes Mühleisen](https://duckdb.org/2024/02/13/announcing-duckdb-0100.html)

@@ -15,7 +15,7 @@ As SQL is a declarative language, the query planner takes care of finding the mo
 
 ## Stream
 
-Kafka has been working on deprecating zookeeper and has finally gotten a preview, as shown in [Apache Kafka Made Simple: A First Glimpse of a Kafka Without ZooKeeper](https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/). This is really exciting as it simplifies the deployment of a cluster and increases the reliability and performance of kafka itself (specially when increasing horizontaly).
+Kafka has been working on deprecating zookeeper and has finally gotten a preview, as shown in [Apache Kafka Made Simple: A First Glimpse of a Kafka Without ZooKeeper](https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/). This is really exciting as it simplifies the deployment of a cluster and increases the reliability and performance of kafka itself (specially when increasing horizontally).
 [Why Kafka Is so Fast](https://medium.com/swlh/why-kafka-is-so-fast-bde0d987cd03) gives some insights into the reason on how Kafka'architecture makes it look as "fast" (not the best term to be used but makes a point).
 
 ## Code

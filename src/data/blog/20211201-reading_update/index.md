@@ -24,7 +24,7 @@ heroImageAlt: "Photo by Logan Armstrong on Unsplash"
 
 ## Analysis
 
-- [How do death rates from COVID-19 differ between people who are vaccinated and those who are not?](https://ourworldindata.org/covid-deaths-by-vaccination) - A change in the analysis can make a major diference on how we interpret data
+- [How do death rates from COVID-19 differ between people who are vaccinated and those who are not?](https://ourworldindata.org/covid-deaths-by-vaccination) - A change in the analysis can make a major difference on how we interpret data
 
 ## Engineering
 

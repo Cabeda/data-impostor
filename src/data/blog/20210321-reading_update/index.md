@@ -31,6 +31,6 @@ Flink gives a nice overview on [Batch Execution Mode](https://flink.apache.org/2
 
 **TIL**: Difference of tumbling window and a hopping window in a streaming pipeline 😎
 
-Airflow is a great tool but, to be correctly used, needs to thought as a worflow tool and not as a data processor. The article [TaskFlow API in Apache Airflow 2.0 — Should You Use It?](https://towardsdatascience.com/taskflow-api-in-apache-airflow-2-0-should-you-use-it-d6cc4913c24c#771d) starts by explaining what is the taskflow API but ends with a warning. Airflow, specially in 2.0, is great to manage multiple processes, but we are best saving state and doing heavy computations with other tools like spark and Presto.
+Airflow is a great tool but, to be correctly used, needs to thought as a workflow tool and not as a data processor. The article [TaskFlow API in Apache Airflow 2.0 — Should You Use It?](https://towardsdatascience.com/taskflow-api-in-apache-airflow-2-0-should-you-use-it-d6cc4913c24c#771d) starts by explaining what is the taskflow API but ends with a warning. Airflow, specially in 2.0, is great to manage multiple processes, but we are best saving state and doing heavy computations with other tools like spark and Presto.
 
 Stay safe, stay well 🙌

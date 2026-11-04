@@ -11,7 +11,7 @@ In a conversation with my brother he told of an event he was organizing which re
 
 ## But what did he really want?
 
-With the goal of helping him I started by making some questions. In the end we agree on the follwoing requirements:
+With the goal of helping him I started by making some questions. In the end we agree on the following requirements:
 
 1. See a question and give the ability to choose between 2 or more answers.
 2. Randomize the questions that appeared on each play.

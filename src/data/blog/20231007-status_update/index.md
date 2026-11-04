@@ -17,7 +17,7 @@ Tipping a bit again into typescript I'm foreseeing a lot of code for the next 2 
 
 Progress: 4%
 
-Again no challenges done. Luckly this is one of those where I can stick with it for a couple of weeks and get the lost challenges done in a single swoop. But my escuse for having done none this week was due to have focus a bit more on the Data Stream project.
+Again no challenges done. Luckily this is one of those where I can stick with it for a couple of weeks and get the lost challenges done in a single swoop. But my excuse for having done none this week was due to have focus a bit more on the Data Stream project.
 
 ## Data Stream
 
@@ -31,7 +31,7 @@ With the first loader prototype done I've gotten a proposal to go present in a m
   - Sqlite
   - Parquet
   - Iceberg? (if done in time). Alternative is to show a glue job to migrate data into Iceberg
-- Show duckdb reading the data from the storages. Possibily as live demo
+- Show duckdb reading the data from the storages. Possibly as live demo
 - Show some examples of running queries on all data. How fast it is. Show integrations with python notebooks
 - Present some of the insights in the form of the dashboard
 
@@ -41,7 +41,7 @@ In terms of progress I truly would like to have the loaders set using either spa
 
 Progress: 0%
 
-I'm presenting next week internally on some of the capabilities of Duckdb to my company. Some of this insights will be usefull for the presentation on November.
+I'm presenting next week internally on some of the capabilities of Duckdb to my company. Some of this insights will be useful for the presentation on November.
 The focus however will be on the meetup talk.
 
 ## Wellness
@@ -54,7 +54,7 @@ In the morning I'll just go for a quick walk before starting to work. During lun
 
 ## Readings of the week
 
-I've gotten more articles in the list than actually read. Luckly I also think I need to do a bit of trimming again as I added them with almost no criteria.
+I've gotten more articles in the list than actually read. Luckily I also think I need to do a bit of trimming again as I added them with almost no criteria.
 
 - [1.1.1.1 lookup failures on October 4th, 2023 by Ólafur Guðmundsson](https://blog.cloudflare.com/1-1-1-1-lookup-failures-on-october-4th-2023)
 - [Visual Studio Code September 2023 by Microsoft](https://code.visualstudio.com/updates/v1_83)

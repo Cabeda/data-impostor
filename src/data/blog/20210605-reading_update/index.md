@@ -5,7 +5,7 @@ heroImage: martin-munk-ez7pWbOebRk-unsplash.jpg
 heroImageAlt: "Photo by Martin Munk on Unsplash"
 ---
 
-I'm going on vacations but before doing so decided to clean my to-read list. Kinda, I'm leaving most of what I found interesting below but got some useful conferences to wathc on python and some interesting ideas related to data lineage, metrics and data arquitecture overall. But I'll leave that for later 😅
+I'm going on vacations but before doing so decided to clean my to-read list. Kinda, I'm leaving most of what I found interesting below but got some useful conferences to watch on python and some interesting ideas related to data lineage, metrics and data architecture overall. But I'll leave that for later 😅
 
 - [Are We There Yet? The Query Your Database Can’t Answer](https://www.confluent.io/blog/ksqldb-streaming-sql-the-query-your-database-cant-answer/)
 - [How to interpret PostgreSQL EXPLAIN ANALYZE output](https://www.cybertec-postgresql.com/en/how-to-interpret-postgresql-explain-analyze-output/)

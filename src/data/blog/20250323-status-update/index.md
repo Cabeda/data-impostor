@@ -18,7 +18,7 @@ tags:
 
 ## Next week's plan
 
-- Present Invisble women
+- Present Invisible women
 - Finalize travel arrangements and prepare for the upcoming months
 
 See you next week!

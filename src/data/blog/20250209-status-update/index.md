@@ -11,7 +11,7 @@ tags:
 
 - Created a monogram for my wedding. Ended up using Figma, exporting to PNG. My brother did most of the work exporting to STl file to 3d print a stamp. Seeing how well it goes.
 - Successfully planned the next steps for a project at work. [The talk Why Most Machine Learning Projects Fail to Reach Production and How to Beat the Odds](https://www.infoq.com/presentations/ml-pitfalls/) seems very relevant to the project
-- Successfuly cleaned my reading list to 0
+- Successfully cleaned my reading list to 0
 - Read "As Causas do Atraso Português". Really nice take on my home country main issues
 
 ## Reflections on the past week

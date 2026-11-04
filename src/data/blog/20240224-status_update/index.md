@@ -25,7 +25,7 @@ With this said, I haven't gotten anything done for the AWS Certification this we
 
 ## Readings of the week
 
-So, after a lot of reading (around 8h this week) I got to 5 to read article on omnivore. If I keep this down I guess I can finnaly get to read the Pandas docummentation.
+So, after a lot of reading (around 8h this week) I got to 5 to read article on omnivore. If I keep this down I guess I can finnaly get to read the Pandas documentation.
 
 - [Phind](https://www.phind.com/blog/introducing-phind-70b)
 - [Unified Machine Learning Platform at Expedia Group | by Hisham Mohamed | Expedia Group Technology | Medium by Hisham Mohamed](https://medium.com/expedia-group-tech/unified-machine-learning-platform-at-expedia-group-5aee72606c74)

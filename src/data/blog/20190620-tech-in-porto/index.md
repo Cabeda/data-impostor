@@ -61,7 +61,7 @@ I'd say Niko is the most knowledgeable SQL developer I ever met. I truly liked h
 
 Had to leave his brief Bio here
 
-Niko started by questioning our knowledge of how SQL works internally. There are proprietary versions like Oracle and SQL Server which have many optimizations not found on open source alternatives like PosgresQL
+Niko started by questioning our knowledge of how SQL works internally. There are proprietary versions like Oracle and SQL Server which have many optimizations not found on open source alternatives like postgresql
 
 Some of the techniques used for the so called Intelligent Query Processing are in the image below.
 
@@ -103,7 +103,7 @@ Second day, a new day!
 
 This was a talk I was very interested in as I have been listening to some [podcasts](https://softwareengineeringdaily.com/2019/06/06/service-mesh-interface-with-lachlan-evenson/) related to this new concept (new to me at least).
 
-The service mesh promises to solve some higher order problems that kubernets doesn't. One of the most recognised programs, and presented in this talk by Ricardo Castro is [Istio](https://istio.io/), developed mainly by Google.
+The service mesh promises to solve some higher order problems that kubernetes doesn't. One of the most recognised programs, and presented in this talk by Ricardo Castro is [Istio](https://istio.io/), developed mainly by Google.
 
 In this service the main components are:
 

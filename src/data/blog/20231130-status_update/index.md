@@ -52,7 +52,7 @@ I've gotten again focused on playing soccer. I've gotten to trainings and hopefu
 
 ## Readings of the week
 
-Finished "The eye of the world", furst book from the series Wheel of time. It was a great read/listen (I tend to listen to it instead of checking for podcasts).
+Finished "The eye of the world", first book from the series Wheel of time. It was a great read/listen (I tend to listen to it instead of checking for podcasts).
 
 - [Data Engineering in Retrospect: Key Trends and Patterns of 2023 by Ananth Packkildurai](https://www.dataengineeringweekly.com/p/data-engineering-in-retrospect-key)
 - [Enhance query performance using AWS Glue Data Catalog column-level statistics | AWS Big Data Blog](https://aws.amazon.com/blogs/big-data/enhance-query-performance-using-aws-glue-data-catalog-column-level-statistics/)

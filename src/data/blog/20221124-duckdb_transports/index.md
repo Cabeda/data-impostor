@@ -83,7 +83,7 @@ After running this command, you can check the tables you created with `show tabl
 
 Neat 🤌🏼 But...
 
-What would happen if you close the shell or the computer shut down? Well, we'd lose everything sadly. To solve this, DuckDB can store all data by creating a single \*.duckdb file (very similar to how SQLite works). This means no concurrent writers are allowed (only readers). Bu,t for our use case, it’s not something to bother us.
+What would happen if you close the shell or the computer shut down? Well, we'd lose everything sadly. To solve this, DuckDB can store all data by creating a single \*.duckdb file (very similar to how SQLite works). This means no concurrent writers are allowed (only readers). But, for our use case, it’s not something to bother us.
 
 So, for us to advance in our test we'll execute `.open main.duckdb`. This command either opens an existing file in the current directory or creates a new one. From this point on, everything you do is stored for all eternity. Or until you delete the file. Or the hard drive goes kaboom. Whatever comes first 🧨.
 
@@ -149,7 +149,7 @@ select avg(total) from route_stops;
 select min(total) from route_stops;
 select max(total) from route_stops;
 
--- To get exactly which routes have the fewer and most stops respectivelly
+-- To get exactly which routes have the fewer and most stops respectively
 select * from route_stops order by total asc limit 10;
 select * from route_stops order by total desc limit 10;
 ```
