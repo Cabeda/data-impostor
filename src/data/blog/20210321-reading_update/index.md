@@ -15,7 +15,7 @@ I've gotten into reading most articles I had for the past weeks. I'm seeing more
 
 AWS also gives some tips on how to store timeseries tables on Postgres on [Designing high-performance time series data tables on Amazon RDS for PostgreSQL](https://aws.amazon.com/pt/blogs/database/designing-high-performance-time-series-data-tables-on-amazon-rds-for-postgresql/).
 
-**TIL**: B-tree index is great but can increase in size linearly. BRING index tracks the minimum and maximum time values over a range so it can be a great match for time-series databases (in doubt use B-tree)!
+**TIL**: B-tree index is great but can increase in size linearly. BRIN index tracks the minimum and maximum time values over a range so it can be a great match for time-series databases (in doubt use B-tree)!
 
 For OLTP databases, Postgres and mysql are some of the best known (open source is a plus). After reading [Performance differences between Postgres and MySQL](https://arctype.com/blog/performance-difference-between-postgresql-and-mysql/) I've actually gotten some good insights into their internals.
 

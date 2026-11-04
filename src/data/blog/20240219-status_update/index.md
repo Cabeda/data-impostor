@@ -54,7 +54,7 @@ As a result of the test, I've gotten to read to a lot. From a list of >100 to re
 - [Switching from S3 to Tigris on Fly.io by Ben Hoyt](https://benhoyt.com/writings/flyio-and-tigris/)
 - [Memory and new controls for ChatGPT by Authors](https://openai.com/blog/memory-and-new-controls-for-chatgpt)
 - [Harnessing AI-Generated Cloudformation with Application Composer by Claudio Masolo](https://www.infoq.com/news/2024/01/generative-ai-cloudformation/)
-- [Fixing small files performance issues in Apache Spark using DataFlint | by Menu Shmueli | Dec, 2023 | Medium by Menu Shmueli](https://medium.com/@menishmueli/fixing-small-files-performance-issues-in-apache-spark-using-dataflint-49ffe3eb755f)
+- [Fixing small files performance issues in Apache Spark using DataFlint | by Meni Shmueli | Dec, 2023 | Medium by Meni Shmueli](https://medium.com/@menishmueli/fixing-small-files-performance-issues-in-apache-spark-using-dataflint-49ffe3eb755f)
 
 ## Goals for this week
 
