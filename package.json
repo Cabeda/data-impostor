@@ -15,7 +15,8 @@
     "astro": "astro",
     "test": "node --test \"src/lib/**/*.test.ts\"",
     "check": "astro check",
-    "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts"
+    "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts",
+    "syndicate": "deno run --allow-read --allow-write --allow-env --allow-net scripts/syndicate.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.1.2",

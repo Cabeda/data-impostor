@@ -112,3 +112,16 @@ Comments styling is in `src/components/MastodonComments.astro` in the `<style>` 
 - Only public posts and replies are fetched
 - Images are linked to Mastodon's CDN (not downloaded locally)
 - Videos are excluded to keep the integration lightweight
+
+## Auto-publishing (new)
+
+Posts can now be published to Mastodon automatically instead of manually sharing:
+
+1. Add `syndicate: true` to a blog post's frontmatter (or run with `--all`).
+2. Set `MASTODON_INSTANCE` and `MASTODON_ACCESS_TOKEN` (write:statuses scope).
+3. Run `pnpm syndicate` (or the `Syndicate to Mastodon` GitHub Action).
+4. The script posts to Mastodon and writes `mastodonUrl` back into the post's frontmatter, so replies appear as comments.
+
+## Multi-platform comments (new)
+
+Frontmatter supports either the legacy `mastodonUrl` or a `syndication` map (`mastodon`, `linkedin`, ...). `src/lib/platforms.ts` defines the adapter interface; `src/components/SocialComments.astro` aggregates comments from every platform that supports them (Mastodon pulls replies; LinkedIn shows a link). Add a new platform by implementing the `Platform` interface and registering it in `PLATFORMS`.

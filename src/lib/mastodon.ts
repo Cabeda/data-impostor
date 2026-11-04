@@ -39,13 +39,30 @@ export interface MastodonReply {
   };
 }
 
+export interface SocialComment {
+  id: string;
+  platform: string;
+  created_at: string;
+  content: string;
+  url: string;
+  account: {
+    username: string;
+    display_name: string;
+    avatar: string;
+  };
+}
+
 export class MastodonClient {
   private instance: string;
   private userId: string;
 
-  constructor(instance: string, userId: string) {
+  constructor(instance = 'mastodon.social', userId = '') {
     this.instance = instance;
     this.userId = userId;
+  }
+
+  get instanceHost(): string {
+    return this.instance;
   }
 
   async fetchUserPosts(limit = 20): Promise<MastodonPost[]> {
@@ -60,11 +77,52 @@ export class MastodonClient {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Failed to fetch replies: ${response.statusText}`);
     const data = await response.json();
-    return data.descendants || [];
+    return (data.descendants || []) as MastodonReply[];
+  }
+
+  async fetchComments(postUrl: string): Promise<SocialComment[]> {
+    const postId = this.extractPostIdFromUrl(postUrl);
+    if (!postId) return [];
+    const replies = await this.fetchPostReplies(postId);
+    return replies.map((r) => ({
+      id: r.id,
+      platform: 'mastodon',
+      created_at: r.created_at,
+      content: r.content,
+      url: r.url,
+      account: r.account,
+    }));
+  }
+
+  async publishStatus(token: string, status: string, visibility = 'public'): Promise<{ id: string; url: string }> {
+    const url = `https://${this.instance}/api/v1/statuses`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status, visibility }),
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Failed to publish status: ${response.status} ${response.statusText} ${text}`);
+    }
+    const data = await response.json();
+    const postUrl = data.url || `https://${this.instance}/@${data.account?.username || ''}/${data.id}`;
+    return { id: data.id, url: postUrl };
   }
 
   extractPostIdFromUrl(url: string): string | null {
     const match = url.match(/\/(\d+)$/);
     return match ? match[1] : null;
+  }
+
+  static instanceFromUrl(url: string): string {
+    try {
+      return new URL(url).host;
+    } catch {
+      return 'mastodon.social';
+    }
   }
 }

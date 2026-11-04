@@ -17,7 +17,9 @@ const blog = defineCollection({
         tags: z.array(z.string()).optional(),
         heroImage: image().optional(),
         heroImageAlt: z.string().optional(),
-        mastodonUrl: z.url().optional()
+        mastodonUrl: z.url().optional(),
+        syndication: z.record(z.string(), z.url()).optional(),
+        syndicate: z.boolean().optional()
     }),
 });
 const reads = defineCollection({

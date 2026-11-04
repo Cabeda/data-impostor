@@ -8,7 +8,7 @@ interface Props {
 
 const { mastodonUrl, buildTime = new Date() } = Astro.props;
 
-const client = new MastodonClient('mastodon.social', '');
+const client = new MastodonClient(MastodonClient.instanceFromUrl(mastodonUrl));
 const postId = client.extractPostIdFromUrl(mastodonUrl);
 
 let replies: any[] = [];
@@ -21,7 +21,7 @@ if (postId) {
 }
 ---
 
-<div class="mastodon-comments" data-post-id={postId} data-build-time={buildTime.toISOString()}>
+<div class="mastodon-comments" data-post-id={postId} data-instance={new URL(mastodonUrl).host} data-build-time={buildTime.toISOString()}>
   <div class="comments-list">
     {replies.length === 0 ? (
       <p class="no-comments">No comments yet. <a href={mastodonUrl} target="_blank" rel="noopener">Join the conversation on Mastodon</a></p>
@@ -59,7 +59,7 @@ if (postId) {
     const now = new Date();
 
     if (now.getTime() - buildTime.getTime() > REFRESH_THRESHOLD && postId) {
-      fetch(`https://mastodon.social/api/v1/statuses/${postId}/context`)
+      fetch(`https://${container.getAttribute('data-instance') || 'mastodon.social'}/api/v1/statuses/${postId}/context`)
         .then(res => res.json())
         .then(data => {
           const replies = data.descendants || [];

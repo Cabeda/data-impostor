@@ -202,6 +202,28 @@ body.reader-page {
 .post-body pre { font-size: 0.86em; }
 .post-body img { border-radius: 4px; }
 
+/* In-article listen toggle ----------------------------------------------- */
+.post-body .reader-listen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 1.4em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.post-body .reader-listen[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 .post-body { counter-reset: chapter; }
 .post-body h2 { counter-increment: chapter; }
 .post-body h2::before {
