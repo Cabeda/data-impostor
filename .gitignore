@@ -22,6 +22,6 @@ pnpm-debug.log*
 
 
 # Vale styles
-styles
+/styles/
 .vercel
 .envrc

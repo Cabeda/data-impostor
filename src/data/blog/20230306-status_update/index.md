@@ -1,9 +1,9 @@
 ---
 title: "Productivity on reading habits | Readings"
 pubDate: "2023-03-06"
+heroImage: reading_window.avif
+heroImageAlt: "Photo by Clay Banks"
 ---
-
-![Photo by Clay Banks](./reading_window.avif)
 
 For the past weeks, I've done a small change to how I keep reading up to date. I use RSS + Feeder reader (great app btw). However, something I've found is that I just.can't.read.it.all. And so I tend to open the most interesting articles, read the ones that are quicker and easier to read, maybe one long one if the topic grabs me, and leave the others for later reading. And I repeat the process, and the "to-read-later" list just keeps getting bigger. So I decided to only open the feeder when I've read all the topics. And that small change has allowed me to reduce my list (as can be seen by the number of articles below).
 

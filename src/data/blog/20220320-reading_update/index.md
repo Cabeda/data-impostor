@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2022-03-20"
+heroImage: blade_runner.jpeg
+heroImageAlt: "Photo by Patrick Perkins on Unsplash"
 ---
-
-![Photo by Patrick Perkins on Unsplash](./blade_runner.jpeg)
 
 I've gotten some interesting reading this week and, although I think I read quite a bit, I also think that my to read pile keeps increasing 😅. Nonetheless I want to start and finish the Database Internals so I'll keep it piling and see if I can write an overview of it before returning to my reading updates.
 

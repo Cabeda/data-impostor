@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-06-05"
+heroImage: martin-munk-ez7pWbOebRk-unsplash.jpg
+heroImageAlt: "Photo by Martin Munk on Unsplash"
 ---
-
-![Photo by Martin Munk on Unsplash](./martin-munk-ez7pWbOebRk-unsplash.jpg)
 
 I'm going on vacations but before doing so decided to clean my to-read list. Kinda, I'm leaving most of what I found interesting below but got some useful conferences to wathc on python and some interesting ideas related to data lineage, metrics and data arquitecture overall. But I'll leave that for later 😅
 

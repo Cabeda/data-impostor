@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-06-25"
+heroImage: night_watch.jpg
+heroImageAlt: "Night Watch by Rembrandt"
 ---
-
-![Night Watch by Rembrandt](./night_watch.jpg)
 
 I've gotten to watch a documentary related to [night watch](https://www.rijksmuseum.nl/en/stories/operation-night-watch/story/night-watch-the-missing-pieces) which I found quite nice which explain the image above 😅. Related to reading I've gotten started preparing some presentations for conferences, meetups and internal which I hope to use someday... I've also gotten into reading a bit more in airflow as I had to do a migration of airflow which I hope to write more later this week.
 

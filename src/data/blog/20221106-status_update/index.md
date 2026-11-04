@@ -1,9 +1,9 @@
 ---
 title: "Layoffs and focusing efforts on talk | Readings"
-pubDate: "2022-11-07"
+pubDate: 2022-11-06
+heroImage: flying.jpg
+heroImageAlt: "Thunder in a city"
 ---
-
-![Thunder in a city](./flying.jpg)
 
 This week has been weird. A lot of layoffs in the tech sector... Funnily, the theme for the talk I was preparing might be becoming more and more relevant so I'm focusing my efforts on it.
 

@@ -1,0 +1,209 @@
+---
+import { getPlatform, normalizeSyndication, type SyndicationUrls } from '../lib/platforms';
+import type { SocialComment } from '../lib/mastodon';
+
+interface Props {
+  urls?: SyndicationUrls;
+  mastodonUrl?: string;
+  buildTime?: Date;
+}
+
+const { urls: urlsProp, mastodonUrl, buildTime = new Date() } = Astro.props;
+const urls = normalizeSyndication({ mastodonUrl, syndication: urlsProp });
+
+const platformsWithUrls = Object.entries(urls)
+  .map(([id, url]) => ({ id, url, platform: getPlatform(id) }))
+  .filter((p) => p.platform);
+
+const commentsByPlatform: Record<string, SocialComment[]> = {};
+for (const { id, url, platform } of platformsWithUrls) {
+  if (!platform || !platform.supportsComments) {
+    commentsByPlatform[id] = [];
+    continue;
+  }
+  try {
+    commentsByPlatform[id] = await platform.fetchComments(url);
+  } catch (error) {
+    console.error(`Failed to fetch comments for ${id}:`, error);
+    commentsByPlatform[id] = [];
+  }
+}
+
+const mastodonEntry = platformsWithUrls.find((p) => p.id === 'mastodon');
+const mastodonUrlResolved = mastodonEntry?.url;
+let mastodonPostId: string | null = null;
+if (mastodonUrlResolved) {
+  const { MastodonClient } = await import('../lib/mastodon');
+  const client = new MastodonClient(MastodonClient.instanceFromUrl(mastodonUrlResolved));
+  mastodonPostId = client.extractPostIdFromUrl(mastodonUrlResolved);
+}
+---
+
+<div class="social-comments" data-mastodon-post-id={mastodonPostId || ''} data-mastodon-instance={mastodonUrlResolved ? new URL(mastodonUrlResolved).host : ''} data-build-time={buildTime.toISOString()}>
+  {platformsWithUrls.map(({ id, url, platform }) => {
+    const comments = commentsByPlatform[id] || [];
+    return (
+      <section class="platform-comments" data-platform={id}>
+        <h3 class="platform-title">
+          <span>{platform?.name}</span>
+          <a href={url} target="_blank" rel="noopener" class="platform-link">View on {platform?.name} →</a>
+        </h3>
+        <div class="comments-list" data-platform-list={id}>
+          {comments.length === 0 ? (
+            <p class="no-comments">
+              {platform?.supportsComments ? 'No comments yet.' : 'Join the conversation.'}{' '}
+              <a href={url} target="_blank" rel="noopener">Open on {platform?.name}</a>
+            </p>
+          ) : (
+            comments.map((comment) => (
+              <div class="comment" data-id={comment.id}>
+                <div class="comment-header">
+                  <img src={comment.account.avatar} alt={comment.account.display_name} class="avatar" />
+                  <div class="comment-meta">
+                    <strong>{comment.account.display_name}</strong>
+                    <span class="username">@{comment.account.username}</span>
+                    <time datetime={comment.created_at}>{new Date(comment.created_at).toLocaleDateString()}</time>
+                  </div>
+                </div>
+                <div class="comment-content" set:html={comment.content} />
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+    );
+  })}
+</div>
+
+<script>
+  const REFRESH_THRESHOLD = 24 * 60 * 60 * 1000;
+  const w = window as unknown as { __diSocialComments?: boolean };
+
+  function refreshMastodonComments() {
+    const container = document.querySelector('.social-comments');
+    if (!container) return;
+    const postId = container.getAttribute('data-mastodon-post-id');
+    const instance = container.getAttribute('data-mastodon-instance') || 'mastodon.social';
+    const buildTime = new Date(container.getAttribute('data-build-time') || '');
+    if (!postId) return;
+    if (new Date().getTime() - buildTime.getTime() <= REFRESH_THRESHOLD) return;
+
+    fetch('https://' + instance + '/api/v1/statuses/' + postId + '/context')
+      .then((res) => res.json())
+      .then((data) => {
+        const replies = data.descendants || [];
+        const list = container.querySelector('[data-platform-list="mastodon"]');
+        if (!list || replies.length === 0) return;
+        list.innerHTML = replies
+          .map((reply: any) => `
+            <div class="comment" data-id="${reply.id}">
+              <div class="comment-header">
+                <img src="${reply.account.avatar}" alt="${reply.account.display_name}" class="avatar" />
+                <div class="comment-meta">
+                  <strong>${reply.account.display_name}</strong>
+                  <span class="username">@${reply.account.username}</span>
+                  <time datetime="${reply.created_at}">${new Date(reply.created_at).toLocaleDateString()}</time>
+                </div>
+              </div>
+              <div class="comment-content">${reply.content}</div>
+            </div>
+          `)
+          .join('');
+      })
+      .catch((err) => console.error('Failed to refresh comments:', err));
+  }
+
+  if (!w.__diSocialComments) {
+    w.__diSocialComments = true;
+    document.addEventListener('astro:page-load', refreshMastodonComments);
+  }
+  refreshMastodonComments();
+</script>
+
+<style>
+  .social-comments {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .platform-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .platform-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .platform-link:hover {
+    text-decoration: underline;
+  }
+
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .comment {
+    padding: 1rem;
+    background: var(--surface-2);
+    border-radius: 8px;
+  }
+
+  .comment-header {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .comment-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .comment-meta strong {
+    color: var(--ink);
+    font-size: 0.9rem;
+  }
+
+  .username {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  time {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .comment-content {
+    margin-left: 52px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .no-comments {
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>

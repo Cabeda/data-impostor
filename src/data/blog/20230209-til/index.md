@@ -1,6 +1,6 @@
 ---
 title: "TIl 2023-02-09"
-pubDate: "2023-02-05"
+pubDate: 2023-02-09
 ---
 
 - You can setup your git email per repo with `git config user.email "jose.cabeda@fidel.uk"`

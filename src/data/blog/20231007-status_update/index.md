@@ -1,11 +1,11 @@
 ---
 title: "Meetup potential for data stream | Readings"
 pubDate: "2023-10-07"
+heroImage: d20.avif
+heroImageAlt: "https://unsplash.com/photos/oGAf4jsC0Fw"
 tags:
   - newsletter
 ---
-
-![https://unsplash.com/photos/oGAf4jsC0Fw](./d20.avif)
 
 ## Web Dev
 

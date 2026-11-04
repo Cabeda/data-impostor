@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-02-18"
+heroImage: unsplash.jpg
+heroImageAlt: "<span>Photo by <a href=\"https://unsplash.com/@romankraft?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Roman Kraft</a> on <a href=\"https://unsplash.com/s/photos/read?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a></span>"
 ---
-
-![<span>Photo by <a href="https://unsplash.com/@romankraft?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Roman Kraft</a> on <a href="https://unsplash.com/s/photos/read?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></span>](./unsplash.jpg)
 
 Hi there! I've gathered some articles and in the meanwhile I've been reading a bit about scala and also saving some papers for a "ligh read".
 

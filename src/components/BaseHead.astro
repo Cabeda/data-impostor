@@ -2,6 +2,14 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
+import {
+  DEFAULT_READER_PREFS,
+  FACES,
+  READER_PREFS_KEY,
+  SIZES,
+  THEMES,
+  THEME_COLORS,
+} from "../lib/reader-prefs";
 
 interface Props {
   title: string;
@@ -11,7 +19,9 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
+const { title, description, image = "/blog-placeholder-2.jpg" } = Astro.props;
+const metaDescription = description?.trim() || undefined;
+const ogImage = new URL(image, Astro.url);
 ---
 
 <!-- Global Metadata -->
@@ -20,6 +30,71 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 <meta name="fediverse:creator" content="@jecabeda@mastodon.social" />
+<meta name="theme-color" content="#fbf8f1" />
+
+<!-- Apply reader preferences and the first-visit book intro before paint. -->
+<script
+  is:inline
+  define:vars={{ prefsKey: READER_PREFS_KEY, themes: THEMES, sizes: SIZES, faces: FACES, defaults: DEFAULT_READER_PREFS, themeColors: THEME_COLORS }}
+>
+  (() => {
+    const root = document.documentElement;
+    const colors = themeColors || {};
+    try {
+      const raw = localStorage.getItem(prefsKey);
+      const prefs = raw ? JSON.parse(raw) : null;
+      let resolvedTheme = null;
+      if (prefs && themes.includes(prefs.theme)) {
+        resolvedTheme = prefs.theme;
+      } else {
+        const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        resolvedTheme = dark ? "night" : "paper";
+      }
+      root.dataset.theme = resolvedTheme;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta && colors[resolvedTheme]) meta.setAttribute("content", colors[resolvedTheme]);
+      if (prefs && sizes.includes(prefs.size)) root.dataset.size = prefs.size;
+      if (prefs && faces.includes(prefs.face)) root.dataset.face = prefs.face;
+      if (prefs && prefs.listen === true) root.dataset.listen = "on";
+    } catch {}
+
+    // React to system color-scheme changes when the user hasn't overridden.
+    try {
+      if (window.matchMedia) {
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const handler = () => {
+          try {
+            if (localStorage.getItem(prefsKey)) return; // overridden
+          } catch {}
+          const t = mq.matches ? "night" : "paper";
+          root.dataset.theme = t;
+          const m = document.querySelector('meta[name="theme-color"]');
+          if (m && colors[t]) m.setAttribute("content", colors[t]);
+        };
+        if (mq.addEventListener) mq.addEventListener("change", handler);
+      }
+    } catch {}
+
+    try {
+      const seen = localStorage.getItem("di:book-intro") === "1";
+      const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      root.dataset.bookIntro = reduce ? "none" : seen ? "subtle" : "full";
+      if (!seen) {
+        window.setTimeout(() => {
+          try {
+            localStorage.setItem("di:book-intro", "1");
+          } catch {}
+          root.dataset.bookIntro = "subtle";
+        }, 1900);
+      }
+    } catch {
+      root.dataset.bookIntro = "subtle";
+    }
+  })();
+</script>
+
+<!-- Vercel Analytics (enable in Vercel dashboard → Analytics) -->
+<script defer src="/_vercel/insights/script.js"></script>
 
 <!-- Font preloads -->
 <link
@@ -43,18 +118,38 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
-<meta name="description" content={description} />
+{metaDescription && <meta name="description" content={metaDescription} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+{metaDescription && <meta property="og:description" content={metaDescription} />}
+<meta property="og:image" content={ogImage} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+{metaDescription && <meta property="twitter:description" content={metaDescription} />}
+<meta property="twitter:image" content={ogImage} />
+
+<!-- Apple-style back navigation detection -->
+<script is:inline>
+  (() => {
+    let navDirection = 'forward';
+    document.addEventListener('astro:before-preparation', (e) => {
+      navDirection = e.direction === 'back' ? 'back' : 'forward';
+    });
+    document.addEventListener('astro:before-swap', () => {
+      if (navDirection === 'back') {
+        document.documentElement.classList.add('back-transition');
+      } else {
+        document.documentElement.classList.remove('back-transition');
+      }
+    });
+    document.addEventListener('astro:after-swap', () => {
+      document.documentElement.classList.remove('back-transition');
+    });
+  })();
+</script>

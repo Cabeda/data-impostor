@@ -1,6 +1,6 @@
 ---
 title: The many layer of Athena querying
-pubDate: 2024-07-09
+pubDate: 2024-07-05
 tags:
   - athena
   - aws

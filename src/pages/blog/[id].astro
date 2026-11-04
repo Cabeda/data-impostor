@@ -1,35 +1,29 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import BlogPost from "../../layouts/BlogPost.astro";
+import ReaderLayout from "../../layouts/ReaderLayout.astro";
 
 export async function getStaticPaths() {
   const blogposts = await getCollection("blog");
-  const database = (await getCollection("database")).map((post) => {
-    //@ts-ignore # Currently it doesn't properly recognize the external property
-    const coverImage: string | undefined = post.data.cover?.external?.url;
+  const sorted = [...blogposts].sort(
+    (a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime()
+  );
+  return blogposts.map((post) => {
+    const idx = sorted.findIndex((p) => p.id === post.id);
+    const prev = idx > 0 ? sorted[idx - 1] : null;
+    const next = idx < sorted.length - 1 ? sorted[idx + 1] : null;
     return {
-      ...post,
-      data: {
-        title: post.data.properties.Name,
-        pubDate: post.data.properties.pubDate,
-        description: "",
-        heroImage: coverImage,
-        tags: [],
-      },
+      params: { id: post.id },
+      props: { post, prev, next },
+      cacheKey: post.digest,
     };
   });
-  const allPosts = [...blogposts, ...database];
-  return allPosts.map((post) => ({
-    params: { id: post.id },
-    props: post,
-  }));
 }
-type Props = CollectionEntry<"blog">;
+type Props = { post: CollectionEntry<"blog">; prev: CollectionEntry<"blog"> | null; next: CollectionEntry<"blog"> | null };
 
-const post = Astro.props;
-const { Content } = await render(post);
+const { post, prev, next } = Astro.props;
+const { Content, headings } = await render(post);
 ---
 
-<BlogPost {...post.data}>
+<ReaderLayout post={post} headings={headings} prev={prev} next={next}>
   <Content />
-</BlogPost>
+</ReaderLayout>

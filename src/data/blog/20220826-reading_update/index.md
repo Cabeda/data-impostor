@@ -1,9 +1,9 @@
 ---
 title: "Status update"
 pubDate: "2022-08-26"
+heroImage: douro.jpeg
+heroImageAlt: "Photo by Ricardo Resende on Unsplash"
 ---
-
-![Photo by Ricardo Resende on Unsplash](./douro.jpeg)
 
 Not much has happened this this week, I've gotten myself into using docsaurus to publish my second brain. You can change it [here](https://strange.cabeda.dev/). I've found that if I don't force myself to publish I don't feel compelled into writing at all. And if I don't write it's almost as if I don't actually understand the subject at all. For now I'd say the site has a lack of content and the one there is, is a mixture of things. I'm hoping to be revising it. Again, this is more for myself to document it more than to have it out there.
 

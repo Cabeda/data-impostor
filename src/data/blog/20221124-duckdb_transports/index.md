@@ -1,9 +1,9 @@
 ---
 title: "DuckDB VS Porto buses - A small case for a new OLAP engine"
 pubDate: "2022-11-24" 
+heroImage: images/duck.jpg
+heroImageAlt: "Beautiful duck in a lake"
 ---
-
-![Beautiful duck in a lake](./images/duck.jpg)
 
 A new database, DuckDB, has seen a rise in popularity, in recent years. Other alternatives like Redshift are too expensive for many companies. In the open-source space, Postgres focuses on transactions, not data analysis. Clickhouse has a complex architecture to handle data on the same scale as Redshift. Would it be possible to have a small and lean database for analysis the same way we have Sqlite? At first, I didn't understand its appeal, but I decided to take it for a test. It might just prove to be great for quick analysis and as an alternative for data platforms.
 

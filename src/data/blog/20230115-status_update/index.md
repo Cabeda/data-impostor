@@ -1,9 +1,9 @@
 ---
 title: "Rusty progress | Readings"
 pubDate: "2023-01-15"
+heroImage: bread.avif
+heroImageAlt: "Photo by Bas Peperzak"
 ---
-
-![Photo by Bas Peperzak](./bread.avif)
 
 I've done a bit of progress on the Rust book this week. From the 20 chapters I've got 12 down (so 60% done 🧐📈). Focusing more on one project has helped. I'd say I'm about 60% Node for work, 30% Rust to learn, and 10% data analysis in Python (got to help writing a report). I'd say I'm struggling a bit on each end as I was rusty on most of them (pun intended) but I'm hoping that if I keep putting in the hours, and write a bit on my learnings in a couple of months I'll be able to excel at my current position as a backend while still keeping my toes in data. I'll keep going as it is for next week and hope to have the book finished by next Sunday. But no promises as the last chapters tend to be the more crufty ones.
 

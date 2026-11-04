@@ -8,6 +8,20 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    name: "Convocados",
+    url: "https://convocados.fly.dev",
+    description: "Web application to manage friendly sport games.",
+    repo: "https://github.com/Cabeda/Convocados",
+    tags: ["web", "sports", "tools"],
+  },
+  {
+    name: "doty",
+    url: "https://github.com/CodeAndJam/doty",
+    description: "An assistant to the DM.",
+    repo: "https://github.com/CodeAndJam/doty",
+    tags: ["wip", "game"],
+  },
+  {
     name: "pos.cabeda.dev",
     url: "https://pos.cabeda.dev/",
     description: "Personal open-source projects index and playground.",

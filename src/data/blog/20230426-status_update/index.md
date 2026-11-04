@@ -1,9 +1,9 @@
 ---
 title: "Week review | Readings"
 pubDate: "2023-04-26"
+heroImage: paiva.avif
+heroImageAlt: "https://unsplash.com/photos/VsUUHKQk-gc"
 ---
-
-![https://unsplash.com/photos/VsUUHKQk-gc](./paiva.avif)
 
 I've gotten one of the books I planned to read done and got started on "The Anatomy of the Swipe". I'm also planning on how to set aside some actual time for doing valuable writing and developing a bit on some of my ideas. I'm going to prepare a list of books I should be reading to have a complete view of data architectures from which I'm planning on doing a series of writes. I also think I should be introducing a bit of time to do some small code challenges and introduce again other languages like Rust. I don't have as much time as I hope to do all things but I'm restructuring it so that I don't neglect it too much.
 

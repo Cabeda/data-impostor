@@ -1,9 +1,9 @@
 ---
 title: "Slow weeks happen now and then | Readings"
 pubDate: "2022-11-13"
+heroImage: dall_e_cyberpunk.avif
+heroImageAlt: "Cyberpunk by DALL-E"
 ---
-
-![Cyberpunk by DALL-E](./dall_e_cyberpunk.avif)
 
 I've read quite a bit preparing the presentation. Although I'm still writing, rewriting, and doing the demo, I'll start to look for meetups and conferences which might be interesting. Anxious to see how this goes.
 

@@ -3,19 +3,7 @@ import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 export async function GET(context) {
-	const blogposts = await getCollection("blog");
-	const database = (await getCollection("database")).map((post) => {
-		return {
-			...post,
-			data: {
-				title: post.data.properties.Name,
-				pubDate: post.data.properties.pubDate,
-				description: "",
-				tags: [],
-			},
-		};
-	});
-	const allPosts = [...blogposts, ...database];
+	const allPosts = await getCollection("blog");
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,

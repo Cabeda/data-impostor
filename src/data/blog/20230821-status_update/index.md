@@ -1,9 +1,9 @@
 ---
 title: "Cooking | Readings"
 pubDate: "2023-08-21"
+heroImage: binge.avif
+heroImageAlt: "https://unsplash.com/photos/HiiBPW_Sx3U"
 ---
-
-![https://unsplash.com/photos/HiiBPW_Sx3U](./binge.avif)
 
 I've taken this first week slowly. I've done a lot of cooking which has been fun. And I've been pretty happy as I've kept my life somewhat organized and been more keen to write some of my personal updates (not the ones here). For this week I'm thinking of doing a bit of experimentation with Deno to automate the deployment of multiple Cloudformation Stacks.
 

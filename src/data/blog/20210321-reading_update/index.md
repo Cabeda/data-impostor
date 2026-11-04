@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
-pubDate: "2021-03-20"
+pubDate: 2021-03-21
+heroImage: theo-eilertsen-photography-ajhmqq12XvI-unsplash.jpg
+heroImageAlt: "Photo by Theo Eilertsen Photography on Unsplash"
 ---
-
-![Photo by Theo Eilertsen Photography on Unsplash](./theo-eilertsen-photography-ajhmqq12XvI-unsplash.jpg)
 
 Hi!
 

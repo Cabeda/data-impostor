@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-03-28"
+heroImage: samuel-hanna-kmZe7p4Kb3A-unsplash.jpg
+heroImageAlt: "Photo by samuel hanna on Unsplash"
 ---
-
-![Photo by samuel hanna on Unsplash](./samuel-hanna-kmZe7p4Kb3A-unsplash.jpg)
 
 This week I've been preping for three things. Read a book on Scala, writing about SQL VS code pipelines, and on how to create a new DBT adapter for Trino. I'm not that great on multitaskin but I guess, according with my energy, I'll go from code > writing > reading.
 

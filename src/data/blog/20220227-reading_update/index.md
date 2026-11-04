@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2022-02-27"
+heroImage: ukraine.jpeg
+heroImageAlt: "Photo by Tina Hartung on Unsplash"
 ---
-
-![Photo by Tina Hartung on Unsplash](./ukraine.jpeg)
 
 This week I have read much more articles non-related to data engineering as I've been too busy to even start reading heavily on apache flink book.
 

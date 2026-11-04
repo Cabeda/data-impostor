@@ -1,0 +1,261 @@
+---
+interface Props {
+  align?: "left" | "right";
+}
+const { align = "right" } = Astro.props;
+---
+
+<div class="reader-settings" data-reader-settings data-align={align}>
+  <button
+    class="settings-toggle"
+    data-settings-toggle
+    type="button"
+    aria-expanded="false"
+    aria-controls="reader-settings-panel"
+    aria-label="Reading settings"
+    title="Reading settings"
+  >
+    <span aria-hidden="true">Aa</span>
+  </button>
+
+  <div class="settings-panel" id="reader-settings-panel" data-settings-panel hidden>
+    <div class="settings-head">
+      <span class="mono-label">Reading</span>
+      <button class="settings-close" data-settings-close type="button" aria-label="Close reading settings">×</button>
+    </div>
+
+    <div class="settings-row">
+      <span>Theme</span>
+      <div class="seg" data-pref-group="theme">
+        <button type="button" data-pref-value="paper">Paper</button>
+        <button type="button" data-pref-value="sepia">Sepia</button>
+        <button type="button" data-pref-value="night">Night</button>
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <span>Text size</span>
+      <div class="seg" data-pref-group="size">
+        <button type="button" data-pref-value="s">S</button>
+        <button type="button" data-pref-value="m">M</button>
+        <button type="button" data-pref-value="l">L</button>
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <span>Typeface</span>
+      <div class="seg" data-pref-group="face">
+        <button type="button" data-pref-value="serif">Serif</button>
+        <button type="button" data-pref-value="sans">Sans</button>
+      </div>
+    </div>
+
+    <div class="settings-row" data-voice-row>
+      <span>Voice</span>
+      <select data-voice aria-label="Voice" class="settings-select"></select>
+    </div>
+
+    <p class="settings-note">Saved on this device. Applies to every page.</p>
+  </div>
+</div>
+
+<style>
+  .reader-settings { position: relative; display: inline-flex; }
+  .settings-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 30px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .settings-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .settings-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    z-index: 60;
+    width: 270px;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+  }
+  .reader-settings[data-align="right"] .settings-panel { right: 0; }
+  .reader-settings[data-align="left"] .settings-panel { left: 0; }
+  .settings-panel[hidden] { display: none; }
+  .settings-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .settings-close {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .settings-row .seg { flex: 0 0 auto; }
+  .settings-row .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .settings-select {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    padding: 5px 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    max-width: 150px;
+  }
+  .settings-note {
+    margin: 10px 0 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  @media (max-width: 720px) {
+    .settings-panel {
+      position: fixed;
+      top: auto;
+      right: 12px;
+      bottom: 72px;
+      left: 12px;
+      width: auto;
+    }
+  }
+</style>
+
+<script>
+  import {
+    READER_PREFS_KEY,
+    parseReaderPrefs,
+    serializeReaderPrefs,
+    type ReaderPrefs,
+  } from "../lib/reader-prefs";
+
+  function read(): ReaderPrefs {
+    try {
+      return parseReaderPrefs(localStorage.getItem(READER_PREFS_KEY));
+    } catch {
+      return parseReaderPrefs(null);
+    }
+  }
+
+  function write(prefs: ReaderPrefs) {
+    try {
+      localStorage.setItem(READER_PREFS_KEY, serializeReaderPrefs(prefs));
+    } catch {}
+  }
+
+  function apply(prefs: ReaderPrefs) {
+    const root = document.documentElement;
+    root.dataset.theme = prefs.theme;
+    root.dataset.size = prefs.size;
+    root.dataset.face = prefs.face;
+    if (prefs.listen) root.dataset.listen = "on";
+    else delete root.dataset.listen;
+
+    const color = getComputedStyle(root).getPropertyValue("--bg").trim();
+    if (color) {
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", color);
+    }
+  }
+
+  function sync() {
+    const prefs = read();
+    apply(prefs);
+    document.querySelectorAll<HTMLElement>("[data-pref-group]").forEach((group) => {
+      const name = group.dataset.prefGroup as "theme" | "size" | "face";
+      group.querySelectorAll<HTMLElement>("[data-pref-value]").forEach((button) => {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.prefValue === prefs[name]),
+        );
+      });
+    });
+  }
+
+  function setPref(name: "theme" | "size" | "face", value: string) {
+    const prefs = read();
+    if (!value) return;
+    const next = { ...prefs, [name]: value } as ReaderPrefs;
+    write(next);
+    apply(next);
+    sync();
+  }
+
+  function closePanels(except?: Element | null) {
+    document.querySelectorAll<HTMLElement>("[data-settings-panel]").forEach((panel) => {
+      if (panel === except) return;
+      panel.hidden = true;
+      panel.parentElement
+        ?.querySelector("[data-settings-toggle]")
+        ?.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  if (!(window as unknown as { __diReaderSettings?: boolean }).__diReaderSettings) {
+    (window as unknown as { __diReaderSettings?: boolean }).__diReaderSettings = true;
+
+    document.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+
+      const toggle = target.closest<HTMLElement>("[data-settings-toggle]");
+      if (toggle) {
+        const panel = toggle.parentElement?.querySelector<HTMLElement>("[data-settings-panel]");
+        if (!panel) return;
+        const open = panel.hidden;
+        closePanels(panel);
+        panel.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+        if (open) sync();
+        return;
+      }
+
+      const close = target.closest<HTMLElement>("[data-settings-close]");
+      if (close) {
+        closePanels();
+        return;
+      }
+
+      const value = target.closest<HTMLElement>("[data-pref-value]");
+      if (value) {
+        const group = value.closest<HTMLElement>("[data-pref-group]");
+        if (group?.dataset.prefGroup) {
+          setPref(
+            group.dataset.prefGroup as "theme" | "size" | "face",
+            value.dataset.prefValue || "",
+          );
+        }
+        return;
+      }
+
+      if (!target.closest("[data-settings-panel]")) closePanels();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closePanels();
+    });
+
+    sync();
+    document.addEventListener("astro:page-load", sync);
+  }
+</script>

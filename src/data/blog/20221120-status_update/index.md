@@ -1,9 +1,9 @@
 ---
 title: "Status update | Readings"
 pubDate: "2022-11-20"
+heroImage: casa_musica.avif
+heroImageAlt: "Casa da música Porto"
 ---
-
-![Casa da música Porto](./casa_musica.avif)
 
 With the rise of Mastodon, I've gotten myself into publishing some small thoughts. Not sure how useful this might be as I tend to prefer RSS feeds to keep me posted, but I've updated my social links and I'll be making an effort to try and find a community to interact with and, find new ideas, perspectives and, so on.
 

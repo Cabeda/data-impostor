@@ -1,9 +1,9 @@
 ---
 title: "Talk, blogging & rust | Readings"
 pubDate: "2022-11-27"
+heroImage: bom_jesus.avif
+heroImageAlt: "Bom Jesus Braga, Photo by Angela Compagnone"
 ---
-
-![Bom Jesus Braga, Photo by Angela Compagnone](./bom_jesus.avif)
 
 December is turning out to be a challenging one 😬. I've published the [first article in some time](https://cabeda.dev/2022/20221124-duckdb_transports/) (status updates don't count). My goal is to get some traction and be able after publishing some to also get it on a publisher. But I've got a lot of work to get there. A nice feature I've added to the blog is the time to read. You can check now how long an article is! In the future, I might also add a search for when the blog gets slower and starts to need pagination.
 

@@ -1,6 +1,6 @@
 ---
 title: Tests checklist
-pubDate: 2023-11-21
+pubDate: 2023-11-23
 tags:
   - development
   - agile

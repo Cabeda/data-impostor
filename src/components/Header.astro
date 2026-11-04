@@ -4,26 +4,30 @@ import { SITE_TITLE } from "../consts";
 import MastodonIcon from "./icons/MastodonIcon.astro";
 import GitHubIcon from "./icons/GitHubIcon.astro";
 import RssIcon from "./icons/RssIcon.astro";
+import ReaderSettings from "./ReaderSettings.astro";
 ---
 
-<header>
+<header transition:name="site-header" transition:persist>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2>
+      <a href="/" aria-label="Data Impostor home">{SITE_TITLE}</a>
+    </h2>
     <div class="internal-links">
       <HeaderLink href="/blog">Blog</HeaderLink>
+      <HeaderLink href="/mastodon">Mastodon</HeaderLink>
       <HeaderLink href="/projects">Projects</HeaderLink>
       <HeaderLink href="/talks">Talks</HeaderLink>
       <HeaderLink href="/reads">Reads</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
     </div>
-    <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel">Menu</button>
-    <div id="navPanel" class="nav-panel" aria-hidden="true">
+    <div id="navPanel" class="nav-panel" aria-hidden="true" inert>
       <div class="nav-panel-inner">
         <div class="panel-header">
           <button id="panelClose" class="panel-close" aria-label="Close menu">×</button>
         </div>
         <nav class="panel-links">
           <HeaderLink href="/blog">Blog</HeaderLink>
+          <HeaderLink href="/mastodon">Mastodon</HeaderLink>
           <HeaderLink href="/projects">Projects</HeaderLink>
           <HeaderLink href="/talks">Talks</HeaderLink>
           <HeaderLink href="/reads">Reads</HeaderLink>
@@ -42,19 +46,29 @@ import RssIcon from "./icons/RssIcon.astro";
         </div>
       </div>
     </div>
-    <div class="social-links">
-      <a href="https://mastodon.social/@jecabeda" target="_blank">
-        <span class="sr-only">Follow me on Mastodon</span>
-        <MastodonIcon width={32} height={32} />
-      </a>
-      <a href="https://github.com/cabeda" target="_blank">
-        <span class="sr-only">Go to my GitHub repo</span>
-        <GitHubIcon width={32} height={32} />
-      </a>
-      <a href="https://cabeda.dev/rss.xml" target="_blank">
-        <span class="sr-only">Go to my RSS feed</span>
-        <RssIcon width={30} height={32} />
-      </a>
+    <div class="header-tools">
+      <ReaderSettings />
+      <div class="social-links">
+        <a href="https://mastodon.social/@jecabeda" target="_blank">
+          <span class="sr-only">Follow me on Mastodon</span>
+          <MastodonIcon width={32} height={32} />
+        </a>
+        <a href="https://github.com/cabeda" target="_blank">
+          <span class="sr-only">Go to my GitHub repo</span>
+          <GitHubIcon width={32} height={32} />
+        </a>
+        <a href="https://cabeda.dev/rss.xml" target="_blank">
+          <span class="sr-only">Go to my RSS feed</span>
+          <RssIcon width={30} height={32} />
+        </a>
+      </div>
+      <button id="menuToggle" class="menu-button" aria-expanded="false" aria-controls="navPanel" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </nav>
 </header>
@@ -63,14 +77,23 @@ import RssIcon from "./icons/RssIcon.astro";
   header {
     margin: 0;
     padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-    position: relative;
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+    position: sticky;
+    top: 0;
     z-index: 100;
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
   }
   h2 {
     margin: 0;
     font-size: 1em;
+  }
+  h2 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   h2 a,
@@ -84,6 +107,13 @@ import RssIcon from "./icons/RssIcon.astro";
     gap: 1rem;
   }
 
+  .header-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+
   .internal-links {
     display: flex;
     gap: 0.25rem;
@@ -95,7 +125,7 @@ import RssIcon from "./icons/RssIcon.astro";
 
   nav a {
     padding: 1em 0.5em;
-    color: var(--black);
+    color: var(--ink);
     border-bottom: 4px solid transparent;
     text-decoration: none;
   }
@@ -107,10 +137,19 @@ import RssIcon from "./icons/RssIcon.astro";
   .menu-button {
     display: none;
     background: transparent;
-    border: 1px solid rgba(0,0,0,0.08);
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
+    border: none;
+    padding: 0.5rem;
     cursor: pointer;
+    color: var(--ink);
+    transition: opacity 0.2s;
+  }
+  
+  .menu-button:hover {
+    opacity: 0.7;
+  }
+  
+  .menu-button:active {
+    opacity: 0.5;
   }
 
   .nav-panel {
@@ -120,8 +159,8 @@ import RssIcon from "./icons/RssIcon.astro";
     height: 100vh;
     width: 340px;
     max-width: 86%;
-    background: var(--bg, #fff);
-    box-shadow: -8px 0 24px rgba(0,0,0,0.25);
+    background: var(--surface);
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
     transition: right 260ms ease;
     z-index: 1200;
     display: flex;
@@ -146,7 +185,7 @@ import RssIcon from "./icons/RssIcon.astro";
     font-size: 1.6rem;
     line-height: 1;
     cursor: pointer;
-    color: var(--muted, #666);
+    color: var(--muted);
   }
   .panel-links {
     display: flex;
@@ -159,7 +198,8 @@ import RssIcon from "./icons/RssIcon.astro";
     padding: 1rem 0.25rem;
     font-size: 1.125rem;
     width: 100%;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
   }
   .panel-links a.active {
     font-weight: 700;
@@ -189,14 +229,15 @@ import RssIcon from "./icons/RssIcon.astro";
     .social-links { display: none; }
     .internal-links { display: none; }
     .menu-button { display: inline-flex; }
+    .header-tools { gap: 0.65rem; }
   }
 </style>
 
 <script>
   (() => {
-    const debounce = (fn, wait = 100) => {
-      let t;
-      return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+    const debounce = (fn: (...args: unknown[]) => void, wait = 100) => {
+      let t: ReturnType<typeof setTimeout> | undefined;
+      return (...args: unknown[]) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
     };
 
     function checkOverflow() {
@@ -210,18 +251,21 @@ import RssIcon from "./icons/RssIcon.astro";
       if (isOverflowing) {
         nav.classList.add('collapsed');
         toggle.setAttribute('aria-expanded', 'false');
-        document.getElementById('navPanel')?.setAttribute('aria-hidden', 'true');
+        const hiddenPanel = document.getElementById('navPanel');
+        hiddenPanel?.setAttribute('aria-hidden', 'true');
+        if (hiddenPanel) hiddenPanel.inert = true;
       } else {
         nav.classList.remove('collapsed');
       }
     }
 
-    function togglePanel(open) {
+    function togglePanel(open: boolean) {
       const panel = document.getElementById('navPanel');
       const toggle = document.getElementById('menuToggle');
       if (!panel || !toggle) return;
       if (open) {
         panel.classList.add('open');
+        panel.inert = false;
         panel.setAttribute('aria-hidden', 'false');
         toggle.setAttribute('aria-expanded', 'true');
         // prevent body scroll while menu is open
@@ -229,6 +273,7 @@ import RssIcon from "./icons/RssIcon.astro";
       } else {
         panel.classList.remove('open');
         panel.setAttribute('aria-hidden', 'true');
+        panel.inert = true;
         toggle.setAttribute('aria-expanded', 'false');
         try { document.body.style.overflow = ''; } catch (e) {}
       }
@@ -256,6 +301,13 @@ import RssIcon from "./icons/RssIcon.astro";
         togglePanel(false);
       });
 
+      // close panel when a link inside it is clicked
+      if (panel) {
+        panel.addEventListener('click', (e) => {
+          const target = e.target;
+          if (target instanceof Element && target.closest('a')) togglePanel(false);
+        });
+      }
       // close button inside panel
       const closeBtn = document.getElementById('panelClose');
       if (closeBtn) closeBtn.addEventListener('click', () => togglePanel(false));

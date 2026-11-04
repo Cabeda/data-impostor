@@ -1,9 +1,9 @@
 ---
 title: "Return from vacations | Readings"
 pubDate: "2023-08-16"
+heroImage: krakow.avif
+heroImageAlt: "https://unsplash.com/@kintecus"
 ---
-
-![https://unsplash.com/@kintecus](./krakow.avif)
 
 I've spent more than one week without writing an update. Since then I've had the biggest vacations I had since I started working (almost 3 consecutive weeks). In that time I've done a bit of reading and skimmed the entire book of Flink. Now I think I actually need to develop in Flink to gain experience but I'd also like to read the Spark one and decide on what might be the better one to run tests.
 

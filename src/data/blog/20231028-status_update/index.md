@@ -1,11 +1,11 @@
 ---
 title: "Readings basically"
 pubDate: "2023-10-28"
+heroImage: chestnut.avif
+heroImageAlt: "https://unsplash.com/photos/brown-seeds-rh04bwPZDQo"
 tags: 
     - newsletter
 ---
-
-![https://unsplash.com/photos/brown-seeds-rh04bwPZDQo](./chestnut.avif)
 
 ## Web Dev
 

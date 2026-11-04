@@ -5,6 +5,7 @@ heroImage: pinto_costa.avif
 heroImageAlt: https://unsplash.com/photos/black-wooden-bench-near-green-leaf-trees-under-white-clouds-during-daytime-EBB45rCSjrU
 tags:
   - status
+mastodonUrl: https://mastodon.social/@josecabeda/116079594437948946
 ---
 
 ## Things I've done this week

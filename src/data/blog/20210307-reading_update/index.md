@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-03-07"
+heroImage: nicki-eliza-schinow-BjJP2TN8WoI-unsplash.jpg
+heroImageAlt: "Photo by Nicki Eliza Schinow on Unsplash"
 ---
-
-![Photo by Nicki Eliza Schinow on Unsplash](./nicki-eliza-schinow-BjJP2TN8WoI-unsplash.jpg)
 
 ## Data visualization
 

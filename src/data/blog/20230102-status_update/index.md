@@ -1,9 +1,9 @@
 ---
 title: "Talk, Christmas and next year | Readings"
 pubDate: "2023-01-02"
+heroImage: reef.avif
+heroImageAlt: "Photo by Hiroko Yoshii on Unsplash"
 ---
-
-![Photo by Hiroko Yoshii on Unsplash](./reef.avif)
 
 For the last couple of weeks, I've slowed down a bit and been reading a bit more high fantasy and enjoying the festivities. I've given the dbt in a data mesh world talk at Data Porto meetup which was nice and hope to work a bit more on relevant work to do other talks on more technical stuff.
 

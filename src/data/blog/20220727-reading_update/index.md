@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
-pubDate: "2022-08-10"
+pubDate: 2022-07-27
+heroImage: matosinhos.jpeg
+heroImageAlt: "Photo by Pedro Menezes on Unsplash"
 ---
-
-![Photo by Pedro Menezes on Unsplash](./matosinhos.jpeg)
 
 Since March there was a lot happening. I've moved from Talkdesk to a startup (Fidel API) to help bootstrap a data team and got to read a lot of articles around a lot of things (will leave those on the readings section). I've also got my hands on a personal project to help setup a POS and update a windows form app to the most recent .NET version (why not XD). I've been revisiting my CSS + react skills and will dive a bit into framer motion and react spring to see if I can create a nice UI. Finally, I'll be picking up a new project to try and deploy a full data stack that can be used by any team starting up (and should allow to scale up to some degree). Currently something mainly using DBT and with an open source database.
 

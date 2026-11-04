@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2021-01-23"
+heroImage: main.jpg
+heroImageAlt: "Sunset at Parque de Montesinho"
 ---
-
-![Sunset at Parque de Montesinho](./main.jpg)
 
 For the past weeks, I've found some interesting stories related to database migrations like [Your legacy database is outgrowing itself](https://ikonicscale.com/your-legacy-database-is-outgrowing-itself) and [An unlikely database migration](https://tailscale.com/blog/an-unlikely-database-migration/). The stacks are very different in each story but shows how challenging a migration is when you need to keep systems up and avoid data loss.
 These kind of challenges will only increase in number with the move of processes to the digital realm, which foresees an increase of data engineers as stated on [We Don't Need Data Scientists, We Need Data Engineers](https://www.mihaileric.com/posts/we-need-data-engineers-not-data-scientists/) and in [How To Become a Data Engineer](https://khashtamov.com/en/how-to-become-a-data-engineer/).

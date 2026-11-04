@@ -1,9 +1,9 @@
 ---
 title: "Visit to Lisbon | Readings"
 pubDate: "2023-01-30"
+heroImage: gulbenkian.avif
+heroImageAlt: "Photo by Rui Alves"
 ---
-
-![Photo by Rui Alves](./gulbenkian.avif)
 
 Done a lot of reading, and went to the Lisbon office to work for a couple of days but in terms of advancing on Rust I did exactly 0. So my objectives remain but I'll need to focus more as I've done a bit of everything but nothing for my side projects.
 

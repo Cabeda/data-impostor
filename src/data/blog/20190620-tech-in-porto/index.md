@@ -1,9 +1,9 @@
 ---
 title: 'A perspective on Tech In Porto'
 pubDate: '2019-06-20'
+heroImage: https://images.unsplash.com/photo-1555881400-89d5a9c86668?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb
+heroImageAlt: ""
 ---
-
-![](https://images.unsplash.com/photo-1555881400-89d5a9c86668?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb)
 
 A conference in Porto is a good conference :-p
 
@@ -87,7 +87,7 @@ The stone age was a period where, according to Pedro, even the CEO would come an
 
 Next, the tool age started by implementing some tools to monitor the health of the system (ex: VictorOps) and setting up some processes (ex: blameless post mortem). However, with too much alerts and with even alarms on staging, there were some cases of burn out.
 
-The bronze age was when talkdesk started to see some refinement. The team went from 2 engineers to 20, acacio's list was introcuded (homage to Acácio Cruz, SRE on google) and the shadowing program was created (a new recruit is set with a senior).
+The bronze age was when talkdesk started to see some refinement. The team went from 2 engineers to 20, acacio's list was introcuded (homage to Acï¿½cio Cruz, SRE on google) and the shadowing program was created (a new recruit is set with a senior).
 
 Finally, the next steps were presented. In the hope of making on-call rock, the gamification of the team is being introduced in a so called "Vanguard" program. One of the biggest improvements is the allocation of on-call engineers to a separate backlog where they set aside their normal work and instead focus on how to improve on-call and the systems resiliency.
 

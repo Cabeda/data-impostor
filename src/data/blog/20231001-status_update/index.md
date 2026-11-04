@@ -1,9 +1,9 @@
 ---
 title: "Data stream has started and small steps taken | Readings"
 pubDate: "2023-10-01"
+heroImage: batalha.avif
+heroImageAlt: "https://unsplash.com/photos/9_wUG_dw5rE"
 ---
-
-![https://unsplash.com/photos/9_wUG_dw5rE](./batalha.avif)
 
 ## Web Dev
 

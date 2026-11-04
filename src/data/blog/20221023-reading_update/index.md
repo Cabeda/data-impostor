@@ -1,9 +1,9 @@
 ---
 title: "Status update"
 pubDate: "2022-10-23"
+heroImage: valetta_malta.jpg
+heroImageAlt: "Photo by Micaela Parente on Unsplash"
 ---
-
-![Photo by Micaela Parente on Unsplash](./valetta_malta.jpg)
 
 Gotten some progress on the statistics course and finnally caught with the to-read pile of articles. As I've been on vacations I didn't do too much else so happy with my personal progress.
 

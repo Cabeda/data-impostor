@@ -1,9 +1,9 @@
 ---
 title: "Reflections | Readings"
 pubDate: "2023-05-31"
+heroImage: molho_milao.avif
+heroImageAlt: "Molho de milão 🪦"
 ---
-
-![Molho de milão 🪦](./molho_milao.avif)
 
 A month has passed since my last week's review. A bit has happened since and I've gotten around to playing D&D with friends. It seems like an ancient game but it provides a lot of fun. I've also been trying to rethink what might be the next thing. I've for some reason not gotten the energy to advance on the talks but I'm guessing this is where I got the most done. Teaching is one of the best ways to learn. The idea of getting a book published is a long-term goal but I want to write and present a lot more before I gather enough material for a book.
 

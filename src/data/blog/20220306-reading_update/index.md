@@ -1,9 +1,9 @@
 ---
 title: "Reading Update"
 pubDate: "2022-03-06"
+heroImage: kyiv.jpeg
+heroImageAlt: "Photo by Eugene on Unsplash"
 ---
-
-![Photo by Eugene on Unsplash](./kyiv.jpeg)
 
 ## Data Engineering
 

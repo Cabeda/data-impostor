@@ -1,72 +1,320 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
+import { latestContents } from "../lib/home-shelf.ts";
 
 const blogposts = await getCollection("blog");
-const database = (await getCollection("database")).map((post) => {
-  //@ts-ignore # Currently it doesn't properly recognize the external property
-  const coverImage: string | undefined = post.data.cover?.external?.url;
-  return {
-    ...post,
-    data: {
-      title: post.data.properties.Name,
-      pubDate: post.data.properties.pubDate,
-      description: "",
-      heroImage: coverImage,
-      tags: [],
-    },
-  };
-});
-const allPosts = [...blogposts, ...database];
+const reads = await getCollection("reads");
+const mastodon = await getCollection("mastodon");
 
-const posts = allPosts
-  .sort(
-    (a, b) =>
-      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-  )
-  .slice(0, 5);
+const latestPost = [...blogposts].sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+)[0];
+const startHref = "/blog";
+const contents = latestContents(blogposts, reads, mastodon);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
+    <BaseHead
+      title={SITE_TITLE}
+      description={SITE_DESCRIPTION}
+      image={latestPost?.data.heroImage?.src}
+    />
+    <link rel="preload" href="/fonts/la-belle-aurore.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      @font-face {
+        font-family: "Diary Ink";
+        src: url("/fonts/la-belle-aurore.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
+      }
+    </style>
+    <ClientRouter />
+    <style is:global>
+      @font-face {
+        font-family: "Diary Ink";
+        src: url("/fonts/la-belle-aurore.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
+      }
+      body.home-page {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+      }
+      .home-main {
+        flex: 1;
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 28px 32px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+        gap: clamp(36px, 6vw, 88px);
+        align-items: center;
+      }
+
+      .home-copy {
+        font-size: var(--read-size);
+        overflow: visible;
+      }
+      .home-title {
+        margin: 0.08em 0 0.5em;
+        padding-top: 0.1em;
+        font-family: "Diary Ink", var(--font-serif);
+        font-size: clamp(54px, 6.4vw, 92px);
+        font-weight: 400;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+        overflow: visible;
+      }
+      .home-title .ink {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: visible;
+      }
+      .home-title .ink-char {
+        display: inline-block;
+        opacity: 0;
+        animation: ink-char 140ms ease-out forwards;
+        animation-delay: calc(var(--i) * 105ms + 180ms);
+      }
+      @keyframes ink-char {
+        from { opacity: 0; transform: translateY(2px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .home-title .ink-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 0.72em;
+        margin-left: 0.04em;
+        vertical-align: -0.06em;
+        background: var(--accent);
+        opacity: 0;
+        animation: ink-cursor 1s steps(1) infinite;
+        animation-delay: calc(11 * 105ms + 180ms + 140ms);
+      }
+      @keyframes ink-cursor {
+        0%, 55% { opacity: 1; }
+        56%, 100% { opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .home-title .ink-char { opacity: 1; animation: none; transform: none; }
+        .home-title .ink-cursor { display: none; }
+      }
+      .home-lede {
+        max-width: 42ch;
+        margin: 0;
+        font-family: var(--font-read);
+        font-size: 1.08em;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+      .home-lede a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent-soft);
+      }
+      .home-ctas {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin: 22px 0 0;
+      }
+
+      .home-contents {
+        align-self: start;
+        padding-top: 18px;
+        font-size: var(--read-size);
+      }
+      .home-contents-list {
+        list-style: none;
+        margin: 8px 0 0;
+        padding: 0;
+      }
+      .home-contents-list li {
+      }
+      .home-contents-list a {
+        display: block;
+        padding: 6px 0;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .contents-line {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .contents-num {
+        flex: 0 0 auto;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent);
+      }
+      .contents-title {
+        font-family: var(--font-read);
+        font-size: 0.95em;
+        line-height: 1.25;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 140ms ease;
+      }
+      .home-contents-list a:hover .contents-title { color: var(--accent); }
+      .contents-dots {
+        flex: 1;
+        min-width: 18px;
+        margin: 0 2px;
+        border-bottom: 1px dotted var(--line);
+        transform: translateY(-4px);
+      }
+      .contents-date {
+        flex: 0 0 auto;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .contents-kind {
+        margin: 2px 0 0 30px;
+        font-family: var(--font-mono);
+        font-size: 7px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .contents-all {
+        display: inline-block;
+        margin-top: 10px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .contents-all:hover {
+        color: var(--accent);
+      }
+      @keyframes home-reveal {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: none; }
+      }
+      html[data-book-intro="full"] .home-copy,
+      html[data-book-intro="full"] .home-contents {
+        animation: home-reveal 700ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+      }
+      html[data-book-intro="full"] .home-contents {
+        animation-delay: 90ms;
+      }
+
+      @media (max-width: 900px) {
+        .home-main {
+          padding: 22px 22px 14px;
+          justify-content: flex-start;
+        }
+        .home-hero {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 26px;
+        }
+        .home-title {
+          font-size: clamp(46px, 13vw, 62px);
+        }
+        .home-lede {
+          font-size: 1em;
+          line-height: 1.5;
+        }
+        .home-ctas {
+          margin: 16px 0 0;
+        }
+        .home-contents {
+          padding-top: 14px;
+        }
+        .contents-title {
+          font-size: 0.85em;
+        }
+        .contents-kind {
+          margin-left: 26px;
+        }
+      }
+      @media (max-width: 820px) and (max-height: 720px) {
+        .home-main { padding: 12px 18px; }
+        .home-hero { gap: 16px; }
+        .home-title { font-size: 42px; }
+        .home-lede { font-size: 0.95em; line-height: 1.45; }
+        .home-ctas { margin: 12px 0 0; }
+        .home-contents-list a { padding: 10px 0; }
+        .contents-title { font-size: 0.8em; }
+        .contents-kind { display: none; }
+      }
+    </style>
   </head>
-  <body>
-    <Header title={SITE_TITLE} />
-    <main>
-      <h1>Hey fellow datanaut! 🧑‍🚀</h1>
-      <p>
-        Welcome to my data impostor blog. I'm a data engineer and here I write a
-        bit about data engineering, my latest readings and whatever comes to my
-        mind. The way I see the world there are a couple of truly geniuses among
-        us. For the rest of us we struggle to get a hold of how the world works
-        and the more we learn, the more we know that we know nothing. So here is
-        a public space for me to share my learnings, what I'm struggling with
-        and how (hopefully) I overcome it.
-      </p>
-      <br />
-      <h3>Latest</h3>
-      <main>
-        <ul>
-          {
-            posts.map((post) => (
-              <a href={`/blog/${post.id}/`}>
-                <h4 class="title">
-                  <FormattedDate date={post.data.pubDate} /> - {post.data.title}
-                </h4>
-              </a>
-            ))
-          }
-        </ul>
-      </main>
+
+  <body class="home-page">
+    <Header />
+    <main class="home-main">
+      <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-copy">
+          <h1 id="home-title" class="home-title">
+            <span class="ink">
+              {
+                Array.from("José Cabeda").map((char, i) => (
+                  <span class="ink-char" style={`--i:${i}`}>{char === " " ? "\u00A0" : char}</span>
+                ))
+              }
+              <span class="ink-cursor" aria-hidden="true"></span>
+            </span>
+          </h1>
+          <p class="home-lede">
+            A nerd, reader and fan of francesinhas. Oh, and data engineer.
+          </p>
+          <div class="home-ctas">
+            <a class="btn btn-primary" href={startHref}>
+              Start reading <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-quiet" href="/about">About me</a>
+          </div>
+        </div>
+
+        <aside class="home-contents" aria-label="Recently">
+          <p class="kicker">Recent</p>
+          <ol class="home-contents-list">
+            {
+              contents.map((item, index) => (
+                <li>
+                  <a href={item.href}>
+                    <div class="contents-line">
+                      <span class="contents-num">{String(index + 1).padStart(2, "0")}</span>
+                      <span class="contents-title">{item.title}</span>
+                      <span class="contents-dots" aria-hidden="true"></span>
+                      <span class="contents-date">
+                        <FormattedDate date={item.date} />
+                      </span>
+                    </div>
+                    <p class="contents-kind">{item.kind}</p>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+          <a class="contents-all" href="/blog">See all notes →</a>
+        </aside>
+      </section>
     </main>
-    <Footer />
   </body>
 </html>

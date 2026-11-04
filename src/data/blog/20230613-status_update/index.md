@@ -1,9 +1,9 @@
 ---
 title: "Readings and quick side project | Readings"
 pubDate: "2023-06-13"
+heroImage: padel.avif
+heroImageAlt: "Padel"
 ---
-
-![Padel](./padel.avif)
 
 I've gotten a lot of reading done, almost finished with the backlog of articles and "Stream Processing with Apache Flink" is next on the line. In the meantime, I've been asked to help on local festivities and created a small website to help manage orders from the phone. Nothing major but should be fun to have maybe 100 concurrent users using the website (you can check [here](https://pos.cabeda.dev) but for now it's only in portuguese). I've written it in nextJS and deployed to vercel to use their serverless functions.
 

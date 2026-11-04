@@ -1,9 +1,9 @@
 ---
 title: "Talk, Advent of code & Rust | Readings"
 pubDate: "2022-12-11"
+heroImage: tree.avif
+heroImageAlt: "Photo by Bao Menglong"
 ---
-
-![Photo by Bao Menglong](./tree.avif)
 
 I've been a bit busy each day doing the challenges of Advent of code. Again, didn't yet convince myself into doing them on Rust 😅. The hardest part is starting I guess. I've read a bit more of the Rust book and the issue is really that I think if I start I won't have time in the day to finish. And that is true but I guess that's the point. Learn slowly and steady. Regarding my talk, I've decided to do an adaptation of the data mesh for the data Porto meetup and it's on! I'll give the talk on December 20th 🙂
 

@@ -1,9 +1,9 @@
 ---
 title: "Status update"
 pubDate: "2022-10-16"
+heroImage: marques.jpg
+heroImageAlt: "Photo by Inês Lucas on Unsplash"
 ---
-
-![Photo by Inês Lucas on Unsplash](./marques.jpg)
 
 As I said I've slowly been working on the statistics course. It's great to get to the basics again and I'm greatly enjoying how empowering it can be. I've done a bit of reading (again on statistics) and I'll be doing a bit of research to prepare for the talk I'm writing.
 

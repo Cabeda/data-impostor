@@ -1,6 +1,6 @@
 ---
 title: "Status update - February 2025 Week 1"
-pubDate: 2025-02-02
+pubDate: 2025-02-01
 heroImage: paintball.avif
 heroImageAlt: https://unsplash.com/photos/man-wearing-mask-holding-paintball-gun-during-daytime--s54WNv_3UM
 tags:

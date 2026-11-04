@@ -1,9 +1,9 @@
 ---
 title: "Reading Update | dbt speaker!"
 pubDate: "2021-12-11"
+heroImage: berlin.jpeg
+heroImageAlt: "Photo by Florian Wehde on Unsplash"
 ---
-
-![Photo by Florian Wehde on Unsplash](./berlin.jpeg)
 
 Well, on thursday I went through my first international talk at Coalesce where I've talked about [dbt in a data mesh world](https://coalesce.getdbt.com/talks/dbt-in-a-data-mesh-world/) (basically it's trino + data mesh + dbt at talkdesk). Quite exciting 😄
 

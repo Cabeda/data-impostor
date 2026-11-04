@@ -1,6 +1,6 @@
 ---
 title: "Another week on udemy | Readings"
-pubDate: "2024-03-26"
+pubDate: 2024-03-30
 tags:
   - newsletter
 heroImage: "./easter.avif"

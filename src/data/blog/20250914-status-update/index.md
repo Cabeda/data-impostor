@@ -1,6 +1,6 @@
 ---
 title: "Status Update - Infra above all"
-pubDate: 2025-09-15
+pubDate: 2025-09-14
 heroImage: wedding.avif
 heroImageAlt: https://unsplash.com/photos/gold-wedding-band-on-white-textile-8vaQKYnawHw
 tags:

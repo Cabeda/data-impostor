@@ -1,9 +1,9 @@
 ---
 title: "Reading Update | Hopes for 2022"
 pubDate: "2021-12-21"
+heroImage: ireland-library.jpg
+heroImageAlt: "Photo by Giammarco on Unsplash"
 ---
-
-![Photo by Giammarco on Unsplash](./ireland-library.jpg)
 
 2021 was an year where I got to fulfill some of my goals. I got a greater track of writing articles (most of them reading updates) and I got to talk at a podcast and at Coalesce. Of course this meant getting new knowledge in areas like dbt, data testing. I also got started on a second brain which is helping me to learn more and better (writing really helps). And these have been some of my main goals.
 

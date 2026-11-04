@@ -1,13 +1,14 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
-import { notionLoader } from "notion-astro-loader";
-import {
-    notionPageSchema,
-    transformedPropertySchema,
-} from "notion-astro-loader/schemas";
+import { mastodonLoader } from "./loaders/mastodon.js";
+import { identityGlob } from "./lib/identity-loader.ts";
 
 const blog = defineCollection({
-    loader: glob({ pattern: '**/[^_]*.md', base: "./src/data/blog" }),
+    // .mdx stays out: its PyScript demo needs a worker-mode terminal, which
+    // cross-origin isolation alone did not start. The file is repaired and
+    // ready; the component is the blocker, not the glob.
+    loader: identityGlob({ collection: "blog", pattern: '**/[^_]*.md', base: "./src/data/blog" }),
     schema: ({ image }) => z.object({
         title: z.string(),
         description: z.string().optional(),
@@ -15,12 +16,15 @@ const blog = defineCollection({
         updatedDate: z.coerce.date().optional(),
         tags: z.array(z.string()).optional(),
         heroImage: image().optional(),
-        heroImageAlt: z.string().optional()
+        heroImageAlt: z.string().optional(),
+        mastodonUrl: z.url().optional(),
+        syndication: z.record(z.string(), z.url()).optional(),
+        syndicate: z.boolean().optional()
     }),
 });
 const reads = defineCollection({
     // Load data from Markdown files on disk
-    loader: glob({ pattern: "**/*.md", base: "./src/data/reads" }),
+    loader: identityGlob({ collection: "reads", pattern: "**/*.md", base: "./src/data/reads" }),
     schema: z.object({
         pubDate: z.coerce.date(),
     }),
@@ -35,24 +39,12 @@ const talks = defineCollection({
     }),
 });
 
-const database = defineCollection({
-    loader: notionLoader({
-        auth: import.meta.env.NOTION_TOKEN,
-        database_id: import.meta.env.NOTION_DATABASE_ID,
-        filter: {
-            property: "Published",
-            checkbox: { equals: true },
-        },
-    }),
-    schema: notionPageSchema({
-        properties: z.object({
-            "Name": transformedPropertySchema.title,
-            pubDate: transformedPropertySchema.created_time.pipe(z.coerce.date()),
-            description: transformedPropertySchema.rich_text.optional(),
-            tags: z.array(z.string()).optional(),
-            heroImageAlt: z.string().optional()
-        })
-    }),
+const mastodon = defineCollection({
+    loader: mastodonLoader({
+        instance: import.meta.env.MASTODON_INSTANCE || 'mastodon.social',
+        userId: import.meta.env.MASTODON_USER_ID || '107151811153023138',
+        limit: 40
+    })
 });
 
-export const collections = { blog, reads, talks, database }
+export const collections = { blog, reads, talks, mastodon }
