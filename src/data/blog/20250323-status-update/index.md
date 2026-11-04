@@ -1,7 +1,7 @@
 ---
 title: "Status update - March 23 Week 4"
 pubDate: 2025-03-23
-heroImage: oriented.avif
+heroImage: oriente.avif
 heroImageAlt: https://unsplash.com/photos/people-walking-inside-building-during-daytime-u_Svc_bDgHk
 tags:
   - status
