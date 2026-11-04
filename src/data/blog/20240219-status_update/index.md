@@ -47,7 +47,7 @@ As a result of the test, I've gotten to read to a lot. From a list of >100 to re
 - [Use dbt and Duckdb instead of Spark in data pipelines | by Niels Claeys | datamindedbe | Medium by Niels Claeys](https://medium.com/datamindedbe/use-dbt-and-duckdb-instead-of-spark-in-data-pipelines-9063a31ea2b5)
 - [Introducing Gemini 1.5, Google's next-generation AI model by Sundar Pichai](https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/)
 - [uv: Python packaging in Rust](https://astral.sh/blog/uv)
-- [Nvidia’s “Chat With RTX” is a ChatGPT-style app that runs on your own GPU | Ars Technica by Binge Edwards](https://arstechnica.com/?p=2003542)
+- [Nvidia’s “Chat With RTX” is a ChatGPT-style app that runs on your own GPU | Ars Technica by Benj Edwards](https://arstechnica.com/?p=2003542)
 - [AWS re:Invent 2023 - Best practices for analytics and generative AI on AWS (ANT329) by AWS Events](https://www.youtube.com/watch?t=1959&v=0ixjc4QrnTs)
 - [https://motherduck.com/blog/introducing-column-explorer](https://motherduck.com/blog/introducing-column-explorer)
 - [Scaling Large Language Models to zero with Ollama · The Fly Blog](https://fly.io/blog/scaling-llm-ollama/)

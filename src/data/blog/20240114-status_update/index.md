@@ -17,7 +17,7 @@ Of course this could sidetrack very easily as I'm at 164 articles to read 😅.
 
 Something to note from my readings this week is the introduction of the JIT compiler in Python 3.13. For now it doesn't give much of a speedup (2% to 9%) but provides the groundwork for much important and complicated optimizations.
 
-- [Can Brain Science Help Us Break Bad Habits? | The New Yorker by Jerome Groopman](https://www.new yorker.com/magazine/2019/10/28/can-brain-science-help-us-break-bad-habits)
+- [Can Brain Science Help Us Break Bad Habits? | The New Yorker by Jerome Groopman](https://www.newyorker.com/magazine/2019/10/28/can-brain-science-help-us-break-bad-habits)
 - [Python 3.13 gets a JIT](https://tonybaloney.github.io/posts/python-gets-a-jit.html)
 - [Brandt Bucher – A JIT Compiler for CPython by encukou](https://www.youtube.com/watch?v=HxSHIpEQRjs)
 

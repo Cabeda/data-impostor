@@ -9,7 +9,7 @@ This was a relative calm week. I've read a lot and coded less than I wanted. I'l
 
 ## Analytics
 
-Data isn't a panacea and I've found [What Data can't do](https://www.new yorker.com/magazine/2021/03/29/what-data-cant-do) a great overview on how the wrong data will lead to wrong insights.
+Data isn't a panacea and I've found [What Data can't do](https://www.newyorker.com/magazine/2021/03/29/what-data-cant-do) a great overview on how the wrong data will lead to wrong insights.
 As SQL is a declarative language, the query planner takes care of finding the most performant way of retrieving data. Ben Levy and Christian Charukiewicz write in [Speeding up SQL queries by orders of magnitude using UNION](https://www.foxhound.systems/blog/sql-performance-with-union/) of a case where the results aren't optimal and how a UNION can greatly improve a query.
 [How Data Discovery Tools Enable Data Democratization](https://www.datacamp.com/community/blog/data-discovery-tools?utm_medium=email&utm_source=customerio&utm_id=7190073&utm_campaign=dc_insights&utm_term=v2blog) is an article by datacamp on why and how these tools improve the data trust and fluency.
 
