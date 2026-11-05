@@ -83,7 +83,7 @@ const ogImage = heroImage
 
     {
       hasChapters && (
-        <div class="chapter-bar" data-chapter-bar style={heroImage ? undefined : "top: 0"}>
+        <div class="chapter-bar" data-chapter-bar>
           <div class="chapter-inner">
             <nav class="chapter-track" aria-label="Chapters">
               {chapters.map((heading, index) => (
@@ -163,10 +163,15 @@ const ogImage = heroImage
         class="dock-btn"
         data-audio-locate
         type="button"
-        aria-label="Jump to the sentence being read"
-        title="Jump to the sentence being read"
+        aria-label="Show the content being read"
+        title="Show the content being read"
         hidden
       >⌖</button>
+      <button class="dock-btn" data-audio-replay type="button" aria-label="Replay sentence" title="Replay sentence">↺</button>
+      <button class="dock-btn" data-audio-skip type="button" aria-label="Skip current block" title="Skip current block">⇥</button>
+      <button class="dock-action" data-audio-details type="button" hidden>Read full block</button>
+      <button class="dock-action" data-audio-spell type="button" title="Select article text to hear its exact characters" disabled>Spell selection</button>
+      <button class="dock-action" data-audio-return type="button" hidden>Return to article</button>
       <div class="dock-copy">
         <span data-audio-status>Not listening</span>
         <span class="dock-sub" data-audio-chapter></span>

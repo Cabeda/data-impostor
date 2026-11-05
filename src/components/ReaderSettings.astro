@@ -50,6 +50,14 @@ const { align = "right" } = Astro.props;
       </div>
     </div>
 
+    <div class="settings-row">
+      <label for="listening-detail">Listening detail</label>
+      <select id="listening-detail" data-narration-mode aria-label="Listening detail" class="settings-select">
+        <option value="adapted">Use available descriptions</option>
+        <option value="original">Read full details</option>
+      </select>
+    </div>
+
     <div class="settings-row" data-voice-row>
       <span>Voice</span>
       <select data-voice aria-label="Voice" class="settings-select"></select>
@@ -182,6 +190,9 @@ const { align = "right" } = Astro.props;
   function sync() {
     const prefs = read();
     apply(prefs);
+    document.querySelectorAll<HTMLSelectElement>("[data-narration-mode]").forEach((select) => {
+      select.value = prefs.narration || "adapted";
+    });
     document.querySelectorAll<HTMLElement>("[data-pref-group]").forEach((group) => {
       const name = group.dataset.prefGroup as "theme" | "size" | "face";
       group.querySelectorAll<HTMLElement>("[data-pref-value]").forEach((button) => {
@@ -288,6 +299,13 @@ const { align = "right" } = Astro.props;
     document.addEventListener("change", (event) => {
       const target = event.target;
       if (!(target instanceof HTMLSelectElement)) return;
+      if (target.matches("[data-narration-mode]")) {
+        const narration = target.value === "original" ? "original" : "adapted";
+        write({ ...read(), narration });
+        sync();
+        document.dispatchEvent(new CustomEvent("di:narration-changed", { detail: { narration } }));
+        return;
+      }
       if (!target.matches("[data-voice]")) return;
       const prefs = read();
       const next = { ...prefs, voice: target.value } as ReaderPrefs;

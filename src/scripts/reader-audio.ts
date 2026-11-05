@@ -1,5 +1,6 @@
 import { audioReducer, initialAudioPlayback } from "../lib/audio-state";
 import { chapterIndex } from "../lib/reader-chapters";
+import { buildNarration, spellText, type NarrationSegment, type NarrationMode } from "../lib/reader-narration";
 import {
   READER_PREFS_KEY,
   parseReaderPrefs,
@@ -7,9 +8,7 @@ import {
   type ReaderPrefs,
 } from "../lib/reader-prefs";
 
-interface Sentence {
-  el: HTMLElement;
-  text: string;
+interface Sentence extends NarrationSegment {
   chapter: number;
 }
 
@@ -53,6 +52,62 @@ let headings: HTMLElement[] = [];
 let sentences: Sentence[] = [];
 let current: HTMLElement | null = null;
 let simTimer: ReturnType<typeof setTimeout> | undefined;
+let speechTimer: ReturnType<typeof setTimeout> | undefined;
+let generation = 0;
+let pendingNext: number | null = null;
+let noteReturn: number | null = null;
+let narrationMode: NarrationMode = "adapted";
+let selectedText = "";
+let spelling = false;
+
+function cancelSpeech() {
+  generation++;
+  clearTimeout(speechTimer);
+  pendingNext = null;
+  spelling = false;
+  synth()?.cancel();
+}
+
+function spellSelection() {
+  const api = synth();
+  if (!api || !state.hasVoices || !selectedText) return;
+  const wasSpeaking = state.speaking;
+  const wasPaused = state.paused;
+  const returnIndex = state.idx;
+  cancelSpeech();
+  clearTimeout(simTimer);
+  const token = generation;
+  spelling = true;
+  state.speaking = true;
+  state.paused = false;
+  const utterance = new SpeechSynthesisUtterance(`Spelling selection. ${spellText(selectedText)}`);
+  utterance.lang = "en";
+  utterance.rate = state.rate;
+  if (state.voice) utterance.voice = state.voice;
+  utterance.onend = () => {
+    if (token !== generation) return;
+    generation++;
+    spelling = false;
+    const remainPaused = wasPaused || state.paused;
+    if (wasSpeaking && !remainPaused) play(returnIndex);
+    else {
+      state.speaking = wasSpeaking || remainPaused;
+      state.paused = remainPaused;
+      if (remainPaused) pendingNext = returnIndex;
+      updateUI();
+    }
+  };
+  utterance.onerror = () => {
+    if (token !== generation) return;
+    spelling = false;
+    state.speaking = false;
+    state.paused = false;
+    updateUI();
+  };
+  api.resume();
+  api.speak(utterance);
+  updateUI();
+}
 
 function prefs(): ReaderPrefs {
   try {
@@ -95,60 +150,95 @@ function chapterOf(el: Element): number {
 }
 
 function unwrapSentences() {
-  if (!article) return;
-  article.querySelectorAll<HTMLElement>(".tts-sentence").forEach((span) => {
-    span.replaceWith(document.createTextNode(span.textContent || ""));
+  document.querySelectorAll<HTMLElement>("[data-narration-source]").forEach((el) => {
+    el.classList.remove("tts-sentence", "is-speaking");
+    delete el.dataset.s;
+    delete el.dataset.narrationSource;
   });
   sentences = [];
   current = null;
 }
 
+function sourceSegments(root: HTMLElement, mode: NarrationMode): Sentence[] {
+  return buildNarration(root, mode).map((segment) => ({ ...segment, chapter: chapterOf(segment.el) }));
+}
+
+function indexSources() {
+  document.querySelectorAll<HTMLElement>("[data-narration-source]").forEach((el) => {
+    el.classList.remove("tts-sentence");
+    delete el.dataset.s;
+    delete el.dataset.narrationSource;
+  });
+  sentences.forEach((segment, index) => {
+    if (segment.el.dataset.narrationSource) return;
+    segment.el.classList.add("tts-sentence");
+    segment.el.dataset.narrationSource = "true";
+    segment.el.dataset.s = String(index);
+  });
+}
+
 function prepareSentences() {
   if (!article || prepared) return;
   prepared = true;
+  narrationMode = prefs().narration || "adapted";
+  const title = document.querySelector<HTMLElement>(".reader-hero h1");
+  sentences = [
+    ...(title ? sourceSegments(title, narrationMode) : []),
+    ...sourceSegments(article, narrationMode),
+  ];
+  indexSources();
+}
 
-  const titleElement = document.querySelector<HTMLElement>(".reader-hero h1");
-  if (titleElement) {
-    const titleText = titleElement.textContent?.trim();
-    if (titleText) {
-      const span = document.createElement("span");
-      span.className = "tts-sentence";
-      span.textContent = `${titleText}. `;
-      span.dataset.s = String(sentences.length);
-      titleElement.textContent = "";
-      titleElement.appendChild(span);
-      sentences.push({ el: span, text: `${titleText}.`, chapter: 0 });
-    }
+function changeNarrationMode(mode: NarrationMode) {
+  const source = sentences[state.idx];
+  const playing = state.speaking;
+  const paused = state.paused;
+  cancelSpeech();
+  clearTimeout(simTimer);
+  savePrefs({ narration: mode });
+  prepared = false;
+  prepareSentences();
+  const match = sentences.findIndex((segment) => segment.el === source?.el && segment.text === source.text);
+  const blockMatch = sentences.findIndex((segment) => segment.block === source?.block);
+  state.idx = Math.max(0, match >= 0 ? match : blockMatch);
+  noteReturn = null;
+  if (playing && !paused) play(state.idx);
+  else {
+    if (playing && paused) pendingNext = state.idx;
+    highlight(state.idx);
+    updateUI();
   }
+}
 
-  const blocks = Array.from(article.querySelectorAll("p, li, blockquote, h2, h3"));
-  for (const block of blocks) {
-    if (block.closest("pre, code, figure")) continue;
-    const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
-    const nodes: Text[] = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode as Text);
+function readFullBlock() {
+  const segment = sentences[state.idx];
+  if (!segment?.hasDetails) return;
+  cancelSpeech();
+  clearTimeout(simTimer);
+  const start = sentences.findIndex((item) => item.block === segment.block);
+  let end = start;
+  while (end < sentences.length && sentences[end].block === segment.block) end++;
+  sentences.splice(start, end - start, ...sourceSegments(segment.block, "original"));
+  indexSources();
+  noteReturn = null;
+  play(start);
+}
 
-    for (const node of nodes) {
-      const text = node.nodeValue || "";
-      if (!text.trim()) continue;
-      const parts = text.match(/[^.!?…]+[.!?…]+["')\]]*\s*|[^.!?…]+$/g) || [text];
-      const frag = document.createDocumentFragment();
-
-      for (const part of parts) {
-        if (!part.trim()) {
-          frag.appendChild(document.createTextNode(part));
-          continue;
-        }
-        const span = document.createElement("span");
-        span.className = "tts-sentence";
-        span.textContent = part;
-        span.dataset.s = String(sentences.length);
-        sentences.push({ el: span, text: part.trim(), chapter: chapterOf(block) });
-        frag.appendChild(span);
-      }
-
-      node.parentNode?.replaceChild(frag, node);
-    }
+function skipBlock() {
+  const block = sentences[state.idx]?.block;
+  let next = state.idx + 1;
+  while (next < sentences.length && sentences[next].block === block) next++;
+  cancelSpeech();
+  clearTimeout(simTimer);
+  if (next >= sentences.length) {
+    Object.assign(state, audioReducer(state, { type: "finish" }));
+    updateUI();
+  } else if (state.speaking && !state.paused) play(next);
+  else {
+    state.idx = next;
+    if (state.speaking && state.paused) pendingNext = next;
+    highlight(next);
+    updateUI();
   }
 }
 
@@ -197,12 +287,12 @@ function updateUI() {
     el.textContent = icon;
   });
 
-  const mode = state.paused ? "Paused" : state.hasVoices ? "Listening" : "Simulated read";
+  const mode = state.paused ? "Paused" : spelling ? "Spelling selection" : state.hasVoices ? "Listening" : "Simulated read";
   const status = !state.speaking
     ? state.finished
-      ? "Finished · click any sentence"
+      ? "Finished · click article text"
       : state.listen
-        ? "Ready · click any sentence"
+        ? "Ready · click article text"
         : "Not listening"
     : `${mode} · ${Math.min(state.idx + 1, sentences.length)}/${sentences.length}`;
 
@@ -221,6 +311,11 @@ function updateUI() {
       el.textContent = `Chapter ${chapter + 1} · ${headings[chapter]?.textContent ?? ""}`;
     });
   }
+  document.querySelectorAll<HTMLSelectElement>("[data-narration-mode]").forEach((el) => { el.value = narrationMode; });
+  document.querySelectorAll<HTMLButtonElement>("[data-audio-details]").forEach((el) => { el.hidden = !sentences[state.idx]?.hasDetails; });
+  document.querySelectorAll<HTMLButtonElement>("[data-audio-return]").forEach((el) => { el.hidden = noteReturn === null; });
+  document.querySelectorAll<HTMLButtonElement>("[data-audio-skip], [data-audio-replay]").forEach((el) => { el.disabled = !sentences.length; });
+  document.querySelectorAll<HTMLButtonElement>("[data-audio-spell]").forEach((el) => { el.disabled = !selectedText || !state.hasVoices; });
   if ("mediaSession" in navigator) {
     try {
       navigator.mediaSession.playbackState =
@@ -267,18 +362,27 @@ function speakFrom(index: number) {
   state.paused = false;
   highlight(index);
 
+  const token = ++generation;
   const next = new SpeechSynthesisUtterance(sentences[index].text);
+  next.lang = sentences[index].lang || "en";
   next.rate = state.rate;
-  if (state.voice) next.voice = state.voice;
+  const language = next.lang.split("-")[0].toLowerCase();
+  const voice = state.voice?.lang.toLowerCase().startsWith(language) ? state.voice
+    : api.getVoices().find((candidate) => candidate.lang.split("-")[0].toLowerCase() === language);
+  if (voice) next.voice = voice;
   next.onend = () => {
-    // Zen/Firefox can fire `onend` more than once per utterance; only
-    // advance when this sentence is still the active one.
-    if (!state.speaking || state.paused) return;
-    if (state.idx !== index) return;
-    speakFrom(index + 1);
+    if (token !== generation || !state.speaking || state.idx !== index || pendingNext !== null) return;
+    pendingNext = index + 1;
+    const advance = () => {
+      if (token !== generation || !state.speaking || state.paused) return;
+      const nextIndex = pendingNext;
+      pendingNext = null;
+      if (nextIndex !== null) speakFrom(nextIndex);
+    };
+    if (!state.paused) speechTimer = setTimeout(advance, sentences[index].pauseAfter);
   };
   next.onerror = (event) => {
-    if (event.error === "interrupted" || event.error === "canceled") return;
+    if (token !== generation || event.error === "interrupted" || event.error === "canceled") return;
     state.speaking = false;
     state.paused = false;
     updateUI();
@@ -295,8 +399,9 @@ function seekTo(index: number) {
     return;
   }
   if (state.hasVoices) {
-    synth()?.cancel();
+    cancelSpeech();
     if (state.paused) {
+      pendingNext = index;
       highlight(index);
       updateUI();
     } else {
@@ -312,13 +417,15 @@ function seekTo(index: number) {
 
 function play(from?: number) {
   ensurePrepared();
+  if (!sentences.length) return;
   if (typeof from === "number") state.idx = from;
   else if (state.finished) state.idx = 0;
 
   Object.assign(state, audioReducer(state, { type: "play", from: typeof from === "number" ? from : undefined }));
 
   if (state.hasVoices) {
-    synth()?.cancel();
+    cancelSpeech();
+    synth()?.resume();
     speakFrom(state.idx);
   } else {
     highlight(state.idx);
@@ -329,7 +436,7 @@ function play(from?: number) {
 
 function stop() {
   Object.assign(state, audioReducer(state, { type: "stop" }));
-  synth()?.cancel();
+  cancelSpeech();
   clearTimeout(simTimer);
   if (current) {
     current.classList.remove("is-speaking");
@@ -346,6 +453,15 @@ function pause() {
 }
 
 function resume() {
+  if (pendingNext !== null) {
+    const next = pendingNext;
+    pendingNext = null;
+    clearTimeout(speechTimer);
+    Object.assign(state, audioReducer(state, { type: "resume" }));
+    synth()?.resume();
+    speakFrom(next);
+    return;
+  }
   synth()?.resume();
   Object.assign(state, audioReducer(state, { type: "resume" }));
   updateUI();
@@ -367,7 +483,7 @@ function enableListen() {
   state.listen = true;
   ensurePrepared();
   syncListenUI();
-  updateUI();
+  play();
 }
 
 function disableListen() {
@@ -419,14 +535,36 @@ function stepChapter(direction: number) {
 
 function handleArticleClick(target: HTMLElement) {
   if (!state.listen || !article) return;
-  if (target.closest("a")) return;
+  const note = target.closest<HTMLAnchorElement>("a[data-footnote-ref], a[data-footnote-backref]");
+  if (note) {
+    const destination = article.ownerDocument.getElementById(decodeURIComponent(note.hash.slice(1)));
+    if (note.hasAttribute("data-footnote-backref") && noteReturn !== null) {
+      const back = noteReturn; noteReturn = null; play(back);
+    } else if (destination && article.contains(destination)) {
+      const section = destination.closest<HTMLElement>("section[data-footnotes], section.footnotes");
+      if (section && sentences.some((segment) => segment.block === section && segment.hasDetails)) {
+        const summaryIndex = sentences.findIndex((segment) => segment.block === section);
+        sentences.splice(summaryIndex, 1, ...sourceSegments(section, "original"));
+        indexSources();
+      }
+      const index = sentences.findIndex((segment) => destination === segment.el || destination.contains(segment.el));
+      if (index >= 0) {
+        const source = note.closest<HTMLElement>("[data-narration-source]");
+        const referring = sentences.findIndex((segment) => segment.el === source && segment.text.includes(`footnote ${note.textContent?.trim()}`));
+        noteReturn = referring >= 0 ? referring : state.idx;
+        play(index);
+      }
+    }
+    return;
+  }
+  if (target.closest("a, button, input, summary")) return;
   if (window.getSelection()?.toString()) return;
 
   const span = target.closest<HTMLElement>(".tts-sentence");
   let index = span ? Number(span.dataset.s) : -1;
 
   if (index < 0) {
-    const block = target.closest("p, li, blockquote");
+    const block = target.closest("p, li, blockquote, pre, table, figure, math");
     const first = block?.querySelector<HTMLElement>(".tts-sentence");
     if (first) index = Number(first.dataset.s);
   }
@@ -447,6 +585,14 @@ function onClick(event: MouseEvent) {
     if (state.speaking) {
       sentences[state.idx]?.el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+    return;
+  }
+  if (target.closest("[data-audio-details]")) { readFullBlock(); return; }
+  if (target.closest("[data-audio-spell]")) { spellSelection(); return; }
+  if (target.closest("[data-audio-skip]")) { skipBlock(); return; }
+  if (target.closest("[data-audio-replay]")) { play(state.idx); return; }
+  if (target.closest("[data-audio-return]")) {
+    if (noteReturn !== null) { const back = noteReturn; noteReturn = null; play(back); }
     return;
   }
   const chapter = target.closest<HTMLElement>("[data-chapter]");
@@ -476,7 +622,7 @@ function onChange(event: Event) {
   });
   if (state.speaking && !state.paused) {
     if (state.hasVoices) {
-      synth()?.cancel();
+      cancelSpeech();
       speakFrom(state.idx);
     } else {
       scheduleSim();
@@ -520,6 +666,9 @@ function refresh() {
   headings = Array.from(article.querySelectorAll<HTMLElement>("h2"));
 
   prepared = false;
+  noteReturn = null;
+  narrationMode = prefs().narration || "adapted";
+  selectedText = "";
   sentences = [];
   if (current) {
     current.classList.remove("is-speaking");
@@ -527,7 +676,7 @@ function refresh() {
   }
   unwrapSentences();
   Object.assign(state, audioReducer(state, { type: "reset" }));
-  synth()?.cancel();
+  cancelSpeech();
   clearTimeout(simTimer);
 
   if (state.listen) {
@@ -544,6 +693,19 @@ export function initReaderAudio(): ReaderAudioApi {
 
   document.addEventListener("click", onClick);
   document.addEventListener("change", onChange);
+  document.addEventListener("di:narration-changed", (event) => {
+    const { narration } = (event as CustomEvent<{ narration: NarrationMode }>).detail;
+    if (state.listen) changeNarrationMode(narration);
+  });
+  document.addEventListener("selectionchange", () => {
+    const selection = window.getSelection();
+    selectedText = selection && article?.contains(selection.anchorNode) && article.contains(selection.focusNode)
+      ? selection.toString() : "";
+    updateUI();
+  });
+  document.addEventListener("toggle", (event) => {
+    if (state.listen && article?.contains(event.target as Node)) changeNarrationMode(narrationMode);
+  }, true);
   document.addEventListener("astro:before-swap", () => {
     stop();
   });
@@ -555,7 +717,7 @@ export function initReaderAudio(): ReaderAudioApi {
     const voices = synth()?.getVoices().filter((v) => /^en/i.test(v.lang)) ?? [];
     state.voice = (detail?.voiceURI && voices.find((v) => v.voiceURI === detail.voiceURI)) || state.voice;
     if (state.speaking && !state.paused && state.hasVoices) {
-      synth()?.cancel();
+      cancelSpeech();
       speakFrom(state.idx);
     }
   });
