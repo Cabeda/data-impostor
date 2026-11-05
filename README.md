@@ -2,7 +2,7 @@
 
 ## Writing articles
 
-Follow [Writing for listeners](docs/writing-for-listeners.md) when drafting or editing a post. The [tutorial](src/data/blog/20261105-writing-for-listeners/index.md) covers prose, lists, code, tables, images, mathematics and notes, with examples of optional listening descriptions.
+Follow the [Writing for listeners tutorial](src/data/blog/20261105-writing-for-listeners/index.md) when drafting or editing a post. It covers prose, lists, code, tables, images, mathematics and notes, with examples of optional listening descriptions.
 
 ## 🚀 Project Structure
 

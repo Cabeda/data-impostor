@@ -173,6 +173,4 @@ Use the actual voice and device you expect to listen with. Automated checks can 
 
 These choices borrow from accessible publishing: preserve meaning, expose structure and let the listener control detail. DAISY's [reading-app requirements](https://daisy.github.io/reading-apps-ux-reqs/requirements/published/FINAL-20251031/) provide useful guidance. They do not prescribe a universal way to summarize code, and this site does not claim conformance simply by adding narration.
 
-The repository's [writing guide](https://github.com/Cabeda/data-impostor/blob/main/docs/writing-for-listeners.md) turns this tutorial into a repeatable workflow for an author or an assisting agent.
-
 [^supporting-note]: A note can preserve supporting evidence without interrupting the main explanation. It should not hide a qualification that changes the article's conclusion.
