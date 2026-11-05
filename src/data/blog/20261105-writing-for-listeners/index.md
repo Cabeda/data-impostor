@@ -10,7 +10,7 @@ tags:
 ---
 
 
-**AI-generated:** This tutorial was generated with AI.
+> **AI-generated:** This tutorial was generated with AI.
 
 A technical article can read well on a screen and still be difficult to follow aloud. A listener cannot scan back to a table header or glance at the preceding line of code. The audio needs to preserve those relationships.
 
