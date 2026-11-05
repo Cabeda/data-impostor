@@ -106,7 +106,7 @@ body.reader-page {
 /* Chapters --------------------------------------------------------------- */
 .chapter-bar {
   position: sticky;
-  top: var(--header-h);
+  top: 0;
   z-index: 40;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
