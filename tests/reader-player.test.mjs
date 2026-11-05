@@ -23,8 +23,19 @@ test("article playback supports adapted detail, skipping, mode changes and footn
     });
     const response = await page.goto(`${process.env.READER_TEST_URL}/blog/20261105-writing-for-listeners/`);
     assert.equal(response.status(), 200);
+    await page.locator("[data-settings-toggle]").first().click();
+    assert.equal(await page.getByLabel("Listening detail").inputValue(), "adapted");
+    await page.getByLabel("Listening detail").selectOption("original");
+    assert.equal(await page.evaluate(() => window.testSpeech.utterances.length), 0);
+    await page.reload();
+    await page.locator("[data-settings-toggle]").first().click();
+    assert.equal(await page.getByLabel("Listening detail").inputValue(), "original");
+    await page.getByLabel("Listening detail").selectOption("adapted");
+    await page.locator("[data-settings-close]").first().click();
     await page.locator("[data-listen-toggle]").first().click();
     await page.waitForFunction(() => document.documentElement.dataset.listen === "on");
+    await page.waitForFunction(() => window.testSpeech.utterances.length > 0);
+    assert.equal(await page.locator("[data-audio-dock] [data-narration-mode]").count(), 0);
     await page.locator("#orders-by-country").click();
     await page.waitForFunction(() => window.testSpeech.current?.text.startsWith("Adapted description."));
     assert.equal(await page.locator("[data-audio-details]").isVisible(), true);
@@ -40,7 +51,9 @@ test("article playback supports adapted detail, skipping, mode changes and footn
     await page.waitForFunction(() => window.testSpeech.current.text.startsWith("The description explains"));
 
     await page.locator("[data-audio-toggle]").click();
-    await page.locator("[data-narration-mode]").selectOption("original");
+    await page.locator("[data-settings-toggle]").first().click();
+    await page.getByLabel("Listening detail").selectOption("original");
+    await page.locator("[data-settings-close]").first().click();
     const beforeResume = await page.evaluate(() => window.testSpeech.utterances.length);
     await page.locator("[data-audio-toggle]").click();
     await page.waitForFunction((count) => window.testSpeech.utterances.length > count, beforeResume);
@@ -58,7 +71,9 @@ test("article playback supports adapted detail, skipping, mode changes and footn
     await page.waitForTimeout(250);
     assert.equal(await page.evaluate(() => window.testSpeech.utterances.length), replayCount);
 
-    await page.locator("[data-narration-mode]").selectOption("adapted");
+    await page.locator("[data-settings-toggle]").first().click();
+    await page.getByLabel("Listening detail").selectOption("adapted");
+    await page.locator("[data-settings-close]").first().click();
     await page.locator("a[data-footnote-ref]").first().click();
     await page.waitForFunction(() => window.testSpeech.current.text.includes("A note can preserve supporting evidence"));
     assert.equal(await page.locator("[data-audio-return]").isVisible(), true);

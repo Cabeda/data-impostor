@@ -483,7 +483,7 @@ function enableListen() {
   state.listen = true;
   ensurePrepared();
   syncListenUI();
-  updateUI();
+  play();
 }
 
 function disableListen() {
@@ -615,10 +615,6 @@ function onClick(event: MouseEvent) {
 
 function onChange(event: Event) {
   const target = event.target as HTMLSelectElement;
-  if (target.matches("[data-narration-mode]")) {
-    changeNarrationMode(target.value === "original" ? "original" : "adapted");
-    return;
-  }
   if (!target.matches("[data-rate]")) return;
   state.rate = Number(target.value) || 1;
   document.querySelectorAll<HTMLSelectElement>("[data-rate]").forEach((select) => {
@@ -697,6 +693,10 @@ export function initReaderAudio(): ReaderAudioApi {
 
   document.addEventListener("click", onClick);
   document.addEventListener("change", onChange);
+  document.addEventListener("di:narration-changed", (event) => {
+    const { narration } = (event as CustomEvent<{ narration: NarrationMode }>).detail;
+    if (state.listen) changeNarrationMode(narration);
+  });
   document.addEventListener("selectionchange", () => {
     const selection = window.getSelection();
     selectedText = selection && article?.contains(selection.anchorNode) && article.contains(selection.focusNode)

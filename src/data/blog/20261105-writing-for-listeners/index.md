@@ -11,7 +11,7 @@ tags:
 
 A technical article can read well on a screen and still be difficult to follow aloud. A listener cannot scan back to a table header or glance at the preceding line of code. The audio needs to preserve those relationships.
 
-This reader offers two presentations. **Adapted listening** can use reviewed explanations of complex examples. **Full reading** includes their original content. Both preserve the article's order, and either lets you skip the current block or replay a sentence. Where there is an adapted description, **Read full block** expands that example and then continues through the article.
+Press **Listen** to start playback. By default, the reader uses reviewed explanations of complex examples when available. In **Aa reading settings**, **Listening detail** lets you choose **Use available descriptions** or **Read full details**. The latter includes original code and table details, external link destinations and footnotes. Your preference is saved on this device. You can skip the current block or replay a sentence in either setting. Where a description replaces the source, **Read full block** expands that example and then continues through the article.
 
 ## Start with the argument
 
@@ -25,7 +25,7 @@ The same care helps with abbreviations and unfamiliar names. Explain a component
 
 Write normal Markdown. Emphasis and links should remain part of a complete sentence. The reader combines inline elements before dividing prose into sentences, so **an emphasized phrase**, a [useful reference](https://www.w3.org/WAI/tutorials/), and an identifier such as `country` do not become unrelated audio fragments.
 
-Use meaningful link labels. Adapted listening reads the label in context. Full reading also includes external link destinations, which is useful when the destination itself matters.
+Use meaningful link labels. Use available descriptions reads the label in context. Read full details also includes external link destinations, which is useful when the destination itself matters.
 
 For a pronunciation the voice gets wrong, provide an equivalent spoken form:
 
@@ -35,7 +35,7 @@ For a pronunciation the voice gets wrong, provide an equivalent spoken form:
 
 This changes what our player says, while leaving the visible wording intact. It is a pronunciation override, not permission to substitute a different claim. Keep exact commands, flags and identifiers available in the article.
 
-When exact spelling matters, select the source text and use **Spell selection**. It announces individual letters with their case, digits, symbols and whitespace, then resumes the article. Full reading also verbalizes punctuation in inline code.
+When exact spelling matters, select the source text and use **Spell selection**. It announces individual letters with their case, digits, symbols and whitespace, then resumes the article. Read full details also verbalizes punctuation in inline code.
 
 ## Headings, lists and task state
 
@@ -104,7 +104,7 @@ The following values are invented to demonstrate narration; they are not benchma
 | Example A | 12 milliseconds | 10 |
 | Example B | 4 milliseconds | 10 |
 
-Full reading introduces the table and reads rows with column labels. This avoids presenting “twelve, ten, four, ten” without context. Empty cells are announced as empty; a zero remains zero.
+Read full details introduces the table and reads rows with column labels. This avoids presenting “twelve, ten, four, ten” without context. Empty cells are announced as empty; a zero remains zero.
 
 For a larger table, write a description of the result the argument uses. Preserve relevant units, exceptions and limitations:
 
@@ -151,7 +151,7 @@ Blockquotes have audible boundaries:
 
 Make a warning's subject explicit. “Warning: this command deletes the selected files” works in audio; a red border alone does not. Deleted text is announced as deleted when semantic deletion markup is present.
 
-Keep essential qualifications in the main argument. Supporting material can live in a footnote.[^supporting-note] Adapted listening announces that notes are available. Follow a note reference to hear it, then use **Return to article** to resume at the referring sentence.
+Keep essential qualifications in the main argument. Supporting material can live in a footnote.[^supporting-note] Use available descriptions announces that notes are available. Follow a note reference to hear it, then use **Return to article** to resume at the referring sentence.
 
 <details>
 <summary>An optional aside about narration</summary>
@@ -166,7 +166,7 @@ The reader excludes hidden elements and article controls. For raw HTML, check th
 
 Use the actual voice and device you expect to listen with. Automated checks can verify the speech text and navigation, but cannot tell you that a technical name sounds right or that a passage is easy to understand.
 
-1. Listen in adapted mode without reading the page. Identify any point that makes you need to look back.
+1. Listen with available descriptions without reading the page. Identify any point that makes you need to look back.
 2. Read full code and table blocks. Check that you can recover the exact syntax, labels and values.
 3. Skip a long block and follow a footnote. Confirm that you return to the expected part of the argument.
 4. Compare every description with its current source, including conditions and exceptions.
