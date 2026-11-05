@@ -16,10 +16,10 @@ However, I had a [decision model demo](https://github.com/Cabeda/decision-models
 
 I had the demo already prepared using kiro and I knew the jist of what was done because I had asked for it.
 
-1. First, I wanted to present what jev and decision models were using the docs.
-2. Second, show 3/4 use cases.
-3. Third, run it locally (asked to use ollaya).
-4. Finally, fit everything into 25 minutes.
+1. I wanted to present what jev and decision models were using the docs.
+2. Show 3/4 use cases.
+3. Run it locally (asked to use ollaya).
+4. Had to be shown in 25 minutes.
 
 However to do an actual presentation it's important to 1) understand the content and 2) train it so that it goes without any hiccups.
 
@@ -33,9 +33,9 @@ In another 20 minutes I was able to enter the flow, get focused on a single task
 
 I had previously tried to use STT but I think this works so great on Codex because of all the following features being packaged together:
 
-1. First, it is capable of interrupting me or being interrupted with the correct timming (specially on 6.1 openai models).
-2. Second, it's truly realtime (desktop, on browser).
-3. Third, the voice is pleasant (after configuring a tone I liked).
-4. Finally, it provides a concise but useful voice response while having a complete written text.
+1. It is capable of interrupting me or being interrupted with the correct timming (specially on 6.1 openai models).
+2. It's truly realtime (desktop, on browser).
+3. The voice is pleasant (after configuring a tone I liked).
+4. It provides a concise but useful voice response while having a complete written text.
 
 For me, these are what truly make the experience form unusable to actually pleasant.
