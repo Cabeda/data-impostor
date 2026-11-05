@@ -201,6 +201,10 @@ body.reader-page {
 .post-body code { font-size: 0.86em; background: var(--code-bg); }
 .post-body pre { font-size: 0.86em; }
 .post-body img { border-radius: 4px; }
+.post-body figure { margin: 1.6em 0; max-width: 100%; }
+.post-body figcaption { margin-bottom: 0.6em; color: var(--muted); font-size: 0.9em; }
+.post-body table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1em 0; }
+.post-body th, .post-body td { padding: 0.5em 0.7em; text-align: left; border-bottom: 1px solid var(--line); }
 
 /* In-article listen toggle ----------------------------------------------- */
 .post-body .reader-listen {
@@ -358,6 +362,12 @@ html[data-listen="on"] .reader-dock { display: flex; }
 }
 .dock-btn:hover { color: var(--ink); background: var(--code-bg); }
 .dock-btn[hidden] { display: none; }
+.dock-action { border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; background: transparent; color: var(--ink); font: inherit; font-size: 12px; cursor: pointer; }
+.dock-action[hidden] { display: none; }
+.dock-action:disabled { display: none; }
+.dock-btn:disabled { opacity: 0.4; cursor: default; }
+.reader-dock { flex-wrap: wrap; border-radius: 16px; }
+.post-body pre.is-speaking, .post-body table.is-speaking, .post-body figure.is-speaking { outline: 2px solid var(--accent); outline-offset: 4px; }
 .dock-play {
   flex: 0 0 auto;
   display: grid;

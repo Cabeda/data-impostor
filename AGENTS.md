@@ -38,6 +38,8 @@ Create a small script under `scripts/` named `sync-tags.ts` that scans `src/data
 
 ## Review & Testing Guidelines
 
+- When drafting or improving blog articles, follow [Writing for listeners](docs/writing-for-listeners.md), including code, tables, images, equations and notes when present. Compare descriptions with their current source before marking them reviewed; leave uncertain editorial choices for the author.
+
 - Always review generated code manually. Agents can make syntactic or semantic mistakes.
 - Run the local build and preview the site after changes that affect content or layout.
 - If you modify data under `src/data/` or `public/`, verify that rendered pages look as expected.

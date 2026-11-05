@@ -1,5 +1,9 @@
 # Data Impostor - Blog
 
+## Writing articles
+
+Follow [Writing for listeners](docs/writing-for-listeners.md) when drafting or editing a post. The [tutorial](src/data/blog/20261105-writing-for-listeners/index.md) covers prose, lists, code, tables, images, mathematics and notes, with examples of optional listening descriptions.
+
 ## 🚀 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:

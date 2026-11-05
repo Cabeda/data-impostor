@@ -14,6 +14,7 @@ export interface ReaderPrefs {
   face: Face;
   listen: boolean;
   voice?: string;
+  narration?: "adapted" | "original";
 }
 
 export const THEME_COLORS: Record<Theme, string> = {
@@ -54,6 +55,7 @@ export function parseReaderPrefs(raw: string | null | undefined): ReaderPrefs {
       face: oneOf(FACES, value.face, DEFAULT_READER_PREFS.face),
       listen: typeof value.listen === "boolean" ? value.listen : DEFAULT_READER_PREFS.listen,
       ...(typeof value.voice === "string" ? { voice: value.voice } : {}),
+      ...(value.narration === "adapted" || value.narration === "original" ? { narration: value.narration } : {}),
     };
   } catch {
     return { ...DEFAULT_READER_PREFS, theme: fallbackTheme };
