@@ -96,6 +96,18 @@ const ogImage = new URL(image, Astro.url);
 <!-- Vercel Analytics (enable in Vercel dashboard → Analytics) -->
 <script defer src="/_vercel/insights/script.js"></script>
 
+<!-- Cloudflare's beacon tracks ClientRouter navigation automatically. -->
+<script>
+  if (import.meta.env.PROD && ['cabeda.dev', 'www.cabeda.dev'].includes(location.hostname)) {
+    const beacon = document.createElement('script');
+    beacon.type = 'module';
+    beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    // Public website identifier supplied by Cloudflare, not an API credential.
+    beacon.dataset.cfBeacon = JSON.stringify({ token: '1e0446c3cfa94061a9c1048eae60d40e' });
+    document.head.append(beacon);
+  }
+</script>
+
 <!-- Font preloads -->
 <link
   rel="preload"
