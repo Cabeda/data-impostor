@@ -1,5 +1,5 @@
 ---
-title: "Working with just my voice"
+title: Testing out Codex voice chat
 pubDate: 2026-11-05
 heroImage: paris_rooftop.avif
 heroImageAlt: "Paris rooftops with the Eiffel Tower in the distance"
@@ -10,34 +10,37 @@ tags:
 ---
 
 
-Last week I've gotten access to a codex subscription. One of the features I was most curious to try out was its voice chat mode. At first I didn't understand why some people were so hyped about it aside from the cool demo they showed on [Astra's release](https://www.youtube.com/watch?v=1QNsdr-Qx_I).
+Last week I got access to a Codex. One of the features I was most curious to try out was its voice chat mode. At first, I didn't understand why some people were so hyped about it, aside from the cool demo shown at [Astra's release](https://www.youtube.com/watch?v=1QNsdr-Qx_I).
 
-However, I had a [decision model demo](https://github.com/Cabeda/decision-models-demo) I was postponing to prepare and I thought I could give it a go.
+## Voice as a presentation coach
 
-I had the demo already prepared using kiro and I knew the gist of what was done because I had asked for it.
-
-1. I wanted to present what jev and decision models were using the docs.
-2. Show 3/4 use cases.
-3. Run it locally (asked to use Ollama).
-4. Had to be shown in 25 minutes.
-
-However to do an actual presentation it's important to 1) understand the content and 2) train it so that it goes without any hiccups.
-
-As I was postponing the actual training of the presentation I clicked on the voice chat inside my demo folder and prompted with:
+With a month to prepare and a clear idea of what I wanted to show, I quickly built a demo using Kiro about [decision model demo](https://github.com/Cabeda/decision-models-demo). The next step was to rehearse it. The issue is that I'm a productive procrastinator. The result was that I left it until the last two days. With the deadline approaching, I remembered codex's feature. Opened my demo folder, clicked on voice chat and gave it this prompt:
 
 > I have to present the demo, set a timer, listen to me present and feel free to give me notes
 
-And that was it. With a calm presence doing its occasional "hmm" I suddenly had a companion that was listening to me, transcribing what I said and after ~20 minutes I got a really useful report on what chatgpt felt I could improve.
+And that was it. I suddenly had a calm and polite companion listening to me, offering an occasional "hmm" and transcribing what I said. After about 20 minutes, I got a really useful report on what ChatGPT suggested I could improve.
 
-In another 20 minutes I was able to enter the flow, get focused on a single task (something I've been struggling to do with the advent of the coding agents) and deliver a presentation that I felt was at the required level for the audience.
+After another 20 minutes, I was able to get into a flow and focus on a single task. I went on to deliver a presentation to 50 people that received good feedback.
 
-I had previously tried to use STT but I think this works so great on Codex because of all the following features being packaged together:
+## Why this worked for me
 
-1. It is capable of interrupting me or being interrupted with the correct timing (specially on 6.1 openai models).
-2. It's truly realtime (desktop, on browser).
+I had previously tried speech-to-text, but I think voice chat works so well in Codex because it packages all the following features together:
+
+1. It can interrupt me or let me interrupt it at the right time (especially with OpenAI's 6.1 models).
+2. It works in real time, both on desktop and in the browser.
 3. The voice is pleasant (after configuring a tone I liked).
-4. It provides a concise but useful voice response while having a complete written text.
+4. It can understand my mumbling and turn it into a coherent request.
+5. It provides a concise but useful spoken response alongside a complete written version.
 
-For me, these are what truly make the experience from unusable to actually pleasant.
+For me, these features take the experience from unusable to pleasant.
+
+## What now?
+
+There's clearly a lot going on here, and I expect to start typing less from now on. During coding sessions, I still type some of my prompts. But I now find myself automatically reaching for voice chat when:
+
+- I need to check that I understand a concept or problem
+- I want to verbalize my random thoughts and have the AI help turn them into something coherent (rubber duck)
+- I want to rehearse a presentation
+- I'm tired and keep losing focus
 
 Photo: [Unsplash](https://unsplash.com/photos/road-near-buildings-6rPOyWzj1Xo).

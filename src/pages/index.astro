@@ -284,7 +284,7 @@ const contents = latestContents(blogposts, reads, mastodon);
             A nerd, reader and fan of francesinhas. Oh, and data engineer.
           </p>
           <div class="home-ctas">
-            <a class="btn btn-primary" href={startHref}>
+            <a class="btn btn-primary" href={startHref} data-astro-prefetch="load">
               Start reading <span aria-hidden="true">→</span>
             </a>
             <a class="btn btn-quiet" href="/about">About me</a>
@@ -297,7 +297,7 @@ const contents = latestContents(blogposts, reads, mastodon);
             {
               contents.map((item, index) => (
                 <li>
-                  <a href={item.href}>
+                  <a href={item.href} data-astro-prefetch="load">
                     <div class="contents-line">
                       <span class="contents-num">{String(index + 1).padStart(2, "0")}</span>
                       <span class="contents-title">{item.title}</span>
@@ -312,7 +312,7 @@ const contents = latestContents(blogposts, reads, mastodon);
               ))
             }
           </ol>
-          <a class="contents-all" href="/blog">See all notes →</a>
+          <a class="contents-all" href="/blog" data-astro-prefetch="load">See all notes →</a>
         </aside>
       </section>
     </main>

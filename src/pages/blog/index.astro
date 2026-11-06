@@ -1,10 +1,10 @@
 ---
+import PostDiscovery from "../../components/PostDiscovery.astro";
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
-import FormattedDate from "../../components/FormattedDate.astro";
 import { ClientRouter } from "astro:transitions";
 
 const posts = (await getCollection("blog")).sort(
@@ -20,137 +20,11 @@ const posts = (await getCollection("blog")).sort(
       description={`All ${posts.length} notes from ${SITE_TITLE}. ${SITE_DESCRIPTION}`}
     />
     <ClientRouter />
-    <style>
-      .archive {
-        width: 100%;
-        max-width: 860px;
-        margin: 0 auto;
-        padding: 54px 24px 90px;
-        font-size: var(--read-size);
-      }
-      .archive-head {
-        margin-bottom: 38px;
-      }
-      .archive-head h1 {
-        margin: 0.1em 0 0.25em;
-        font-family: var(--font-read);
-        font-size: 2.8em;
-        line-height: 1.02;
-        letter-spacing: -0.03em;
-      }
-      .archive-head p {
-        max-width: 54ch;
-        margin: 0;
-        color: var(--muted);
-        font-family: var(--font-read);
-        font-size: 1em;
-        line-height: var(--read-leading);
-      }
-      .post-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        border-top: 1px solid var(--line);
-      }
-      .post-list li {
-        border-bottom: 1px solid var(--line);
-      }
-      .post-list a {
-        display: grid;
-        grid-template-columns: 108px minmax(0, 1fr) auto;
-        gap: 20px;
-        align-items: baseline;
-        padding: 20px 0;
-        color: var(--ink);
-        text-decoration: none;
-      }
-      .post-list a:hover h2,
-      .post-list a:hover .arrow {
-        color: var(--accent);
-      }
-      .post-list time {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-      .post-copy h2 {
-        margin: 0 0 4px;
-        font-family: var(--font-read);
-        font-size: 1.2em;
-        line-height: 1.2;
-        transition: color 140ms ease;
-      }
-      .post-copy p {
-        margin: 0;
-        color: var(--muted);
-        font-family: var(--font-read);
-        font-size: 0.8em;
-        line-height: 1.45;
-      }
-      .arrow {
-        color: var(--muted);
-        font-size: 16px;
-        transition: color 140ms ease;
-      }
-      @media (max-width: 640px) {
-        .archive {
-          padding: 32px 20px 64px;
-        }
-        .archive-head {
-          margin-bottom: 24px;
-        }
-        .archive-head h1 {
-          font-size: 2em;
-        }
-        .post-list a {
-          grid-template-columns: minmax(0, 1fr) auto;
-          gap: 4px 12px;
-          padding: 16px 0;
-        }
-        .post-list time {
-          grid-column: 1 / -1;
-        }
-        .post-copy h2 {
-          font-size: 1.05em;
-        }
-        .post-copy p {
-          font-size: 0.75em;
-        }
-      }
-    </style>
+
   </head>
   <body>
     <Header />
-    <main class="archive">
-      <header class="archive-head">
-        <p class="kicker">Notebook</p>
-        <h1>All notes</h1>
-        <p>
-          {posts.length} pieces on data systems, reading, and the rest. Newest first.
-        </p>
-      </header>
-
-      <ol class="post-list">
-        {
-          posts.map((post) => (
-            <li>
-              <a href={`/blog/${post.id}/`}>
-                <time datetime={post.data.pubDate.toISOString()}>
-                  <FormattedDate date={post.data.pubDate} />
-                </time>
-                <div class="post-copy">
-                  <h2>{post.data.title}</h2>
-                  {post.data.description && <p>{post.data.description}</p>}
-                </div>
-                <span class="arrow" aria-hidden="true">→</span>
-              </a>
-            </li>
-          ))
-        }
-      </ol>
-    </main>
+    <PostDiscovery posts={posts} />
     <Footer />
   </body>
 </html>

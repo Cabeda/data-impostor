@@ -14,6 +14,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "node --test \"src/lib/**/*.test.ts\"",
+    "test:reader": "node --test tests/reader-*.test.mjs",
     "check": "astro check",
     "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts",
     "syndicate": "deno run --allow-read --allow-write --allow-env --allow-net scripts/syndicate.ts",
