@@ -27,6 +27,10 @@ const { post, headings, prev: prevPost, next: nextPost } = Astro.props;
 const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, mastodonUrl, syndication } =
   post.data;
 
+const coverPreload = heroImage && !import.meta.env.DEV
+  ? await getImage({ src: heroImage, width: 1600, height: 900, widths: [800, 1200, 1600], sizes: "100vw", format: "avif", layout: "constrained", fit: "cover", position: "center" })
+  : null;
+
 const chapters = headings.filter((heading) => heading.depth === 2);
 const hasChapters = chapters.length > 0;
 const words = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
@@ -47,6 +51,7 @@ const ogImage = heroImage
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} image={ogImage} />
+    {heroImage && <link rel="preload" as="image" href={coverPreload?.src || heroImage.src} imagesrcset={coverPreload?.srcSet.attribute} imagesizes={coverPreload ? "100vw" : undefined} fetchpriority="high" />}
     <ClientRouter />
   </head>
 
@@ -120,7 +125,7 @@ const ogImage = heroImage
           (prevPost || nextPost) && (
             <nav class="reader-pager" aria-label="Article navigation">
               {prevPost && (
-                <a class="pager-card pager-prev" href={`/blog/${prevPost.id}/`}>
+                <a data-astro-prefetch="viewport" class="pager-card pager-prev" href={`/blog/${prevPost.id}/`}>
                   <span class="pager-label">← Previous</span>
                   <span class="pager-title">{prevPost.data.title}</span>
                   <span class="pager-date">
@@ -129,7 +134,7 @@ const ogImage = heroImage
                 </a>
               )}
               {nextPost && (
-                <a class="pager-card pager-next" href={`/blog/${nextPost.id}/`}>
+                <a data-astro-prefetch="viewport" class="pager-card pager-next" href={`/blog/${nextPost.id}/`}>
                   <span class="pager-label">Next →</span>
                   <span class="pager-title">{nextPost.data.title}</span>
                   <span class="pager-date">
@@ -218,8 +223,18 @@ const ogImage = heroImage
     <Footer />
 
     <script>
+      import { prefetch } from "astro:prefetch";
       import { initReaderShell } from "../scripts/reader-shell";
       initReaderShell();
+      // Delegate intent handling so links work on every ClientRouter navigation.
+      function warmArticleLink(event: Event) {
+        const link = (event.target as Element).closest<HTMLAnchorElement>('#post-content a[href]');
+        if (link && link.origin === location.origin && link.pathname.startsWith('/blog/') && link.pathname !== location.pathname) {
+          prefetch(link.href);
+        }
+      }
+      document.addEventListener('pointerover', warmArticleLink);
+      document.addEventListener('focusin', warmArticleLink);
     </script>
 
     <script>
