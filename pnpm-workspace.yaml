@@ -7,3 +7,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@astrojs/mdx@7.0.1'
   - astro@7.0.5
+# Security fixes for dependencies pinned by the slide tooling.
+overrides:
+  dompurify: ^3.4.17
+  'mermaid>katex': ^0.18.2

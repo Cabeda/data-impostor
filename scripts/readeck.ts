@@ -1,6 +1,6 @@
-import { parseArgs } from "jsr:@std/cli";
-import { ensureDir } from "jsr:@std/fs";
-import * as log from "jsr:@std/log"; // new import
+import { parseArgs } from "@std/cli";
+import { ensureDir } from "@std/fs";
+import * as log from "@std/log"; // new import
 import { postIdentity, renderReadsEntry } from "../src/lib/content-intake.ts";
 
 
@@ -143,7 +143,7 @@ async function delete_bookmarks(bookmarks: Bookmark[]): Promise<void> {
         }
         log.info("Bookmarks deleted successfully");
     } catch (error) {
-        log.error("Error deleting bookmarks:", error.message);
+        log.error("Error deleting bookmarks:", error instanceof Error ? error.message : String(error));
     }
 }
 
@@ -200,7 +200,7 @@ async function archiveBookmarks(bookmarks: Bookmark[]): Promise<void> {
         }
         log.info("Bookmarks archived successfully");
     } catch (error) {
-        log.error("Error archiving bookmarks:", error.message);
+        log.error("Error archiving bookmarks:", error instanceof Error ? error.message : String(error));
     }
 }
 
