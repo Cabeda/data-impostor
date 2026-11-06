@@ -1,19 +1,25 @@
 ---
+import { coverPlaceholder } from "../lib/cover-placeholder";
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 interface Props {
-  image: ImageMetadata;
+  image: ImageMetadata | string;
   alt?: string;
 }
 
 const { image, alt = "" } = Astro.props;
+const placeholder = await coverPlaceholder(image);
+const imageSource = typeof image === "string" ? { src: image } : { src: image };
 ---
 
+<div class="post-cover" data-post-cover data-cover-loading="true">
+  <img class="cover-preview" src={placeholder} alt="" aria-hidden="true" width="32" height="18" />
 {
   import.meta.env.DEV ? (
     <img
-      src={image.src}
+      data-cover-full
+      src={typeof image === "string" ? image : image.src}
       alt={alt}
       width={1600}
       height={900}
@@ -23,7 +29,8 @@ const { image, alt = "" } = Astro.props;
     />
   ) : (
     <Image
-      src={image}
+      data-cover-full
+      {...imageSource}
       alt={alt}
       width={1600}
       height={900}
@@ -36,3 +43,42 @@ const { image, alt = "" } = Astro.props;
     />
   )
 }
+
+  <noscript>
+    <style is:inline>
+      .post-cover [data-cover-full] { opacity: 0.78 !important; }
+      .post-cover .cover-preview { display: none; }
+    </style>
+  </noscript>
+</div>
+
+<style>
+  .post-cover { position: absolute; inset: 0; overflow: hidden; }
+  .post-cover :global([data-cover-full]) { transition: opacity 220ms ease; }
+  .post-cover[data-cover-loading="true"] :global([data-cover-full]) { opacity: 0; }
+  .post-cover .cover-preview { opacity: 0; transition: opacity 220ms ease; }
+  .post-cover[data-cover-loading="true"] .cover-preview { opacity: 0.78; }
+  @media (prefers-reduced-motion: reduce) {
+    .post-cover :global([data-cover-full]), .post-cover .cover-preview { transition: none; }
+  }
+</style>
+
+<script>
+  function revealCovers() {
+    document.querySelectorAll<HTMLElement>('[data-post-cover][data-cover-loading="true"]').forEach(cover => {
+      if (cover.dataset.coverBound) return;
+      cover.dataset.coverBound = 'true';
+      const image = cover.querySelector<HTMLImageElement>('[data-cover-full]')!;
+      const reveal = () => {
+        image.decode().then(() => {
+          if (cover.isConnected && image.naturalWidth > 0) delete cover.dataset.coverLoading;
+        }).catch(() => { /* Keep the preview if loading or decoding fails. */ });
+      };
+      image.addEventListener('load', reveal, { once: true });
+      if (image.complete) reveal();
+
+    });
+  }
+  revealCovers();
+  document.addEventListener('astro:page-load', revealCovers);
+</script>
