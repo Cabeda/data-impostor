@@ -2,7 +2,7 @@
 title: Testing out Codex voice chat
 pubDate: 2026-11-05
 heroImage: paris_rooftop.avif
-heroImageAlt: "https://unsplash.com/photos/road-near-buildings-6rPOyWzj1Xo?utm_source=raycast_unsplash&utm_medium=referral"
+heroImageAlt: "Paris rooftops with the Eiffel Tower in the distance"
 tags:
   - ai
   - codex
@@ -42,3 +42,5 @@ There's clearly a lot going on here, and I expect to start typing less from now 
 - I want to verbalize my random thoughts and have the AI help turn them into something coherent (rubber duck)
 - I want to rehearse a presentation
 - I'm tired and keep losing focus
+
+Photo: [Unsplash](https://unsplash.com/photos/road-near-buildings-6rPOyWzj1Xo).
