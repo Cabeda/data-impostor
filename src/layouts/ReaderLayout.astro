@@ -125,7 +125,7 @@ const ogImage = heroImage
           (prevPost || nextPost) && (
             <nav class="reader-pager" aria-label="Article navigation">
               {prevPost && (
-                <a data-astro-prefetch="viewport" class="pager-card pager-prev" href={`/blog/${prevPost.id}/`}>
+                <a data-astro-prefetch="viewport" aria-keyshortcuts="ArrowLeft" class="pager-card pager-prev" href={`/blog/${prevPost.id}/`}>
                   <span class="pager-label">← Previous</span>
                   <span class="pager-title">{prevPost.data.title}</span>
                   <span class="pager-date">
@@ -134,7 +134,7 @@ const ogImage = heroImage
                 </a>
               )}
               {nextPost && (
-                <a data-astro-prefetch="viewport" class="pager-card pager-next" href={`/blog/${nextPost.id}/`}>
+                <a data-astro-prefetch="viewport" aria-keyshortcuts="ArrowRight" class="pager-card pager-next" href={`/blog/${nextPost.id}/`}>
                   <span class="pager-label">Next →</span>
                   <span class="pager-title">{nextPost.data.title}</span>
                   <span class="pager-date">
@@ -225,7 +225,9 @@ const ogImage = heroImage
     <script>
       import { prefetch } from "astro:prefetch";
       import { initReaderShell } from "../scripts/reader-shell";
+      import { initReaderNavigation } from "../scripts/reader-navigation";
       initReaderShell();
+      initReaderNavigation();
       // Delegate intent handling so links work on every ClientRouter navigation.
       function warmArticleLink(event: Event) {
         const link = (event.target as Element).closest<HTMLAnchorElement>('#post-content a[href]');
