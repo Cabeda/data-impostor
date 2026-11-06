@@ -10,6 +10,7 @@ interface Props {
 
 const { image, alt = "" } = Astro.props;
 const placeholder = await coverPlaceholder(image);
+const imageSource = typeof image === "string" ? { src: image } : { src: image };
 ---
 
 <div class="post-cover" data-post-cover data-cover-loading="true">
@@ -29,7 +30,7 @@ const placeholder = await coverPlaceholder(image);
   ) : (
     <Image
       data-cover-full
-      src={image}
+      {...imageSource}
       alt={alt}
       width={1600}
       height={900}
