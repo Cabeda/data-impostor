@@ -2,7 +2,7 @@
 title: "Working with just my voice"
 pubDate: 2026-11-05
 heroImage: paris_rooftop.avif
-heroImageAlt: "https://unsplash.com/photos/road-near-buildings-6rPOyWzj1Xo?utm_source=raycast_unsplash&utm_medium=referral"
+heroImageAlt: "Paris rooftops with the Eiffel Tower in the distance"
 tags:
   - ai
   - codex
@@ -39,3 +39,5 @@ I had previously tried to use STT but I think this works so great on Codex becau
 4. It provides a concise but useful voice response while having a complete written text.
 
 For me, these are what truly make the experience from unusable to actually pleasant.
+
+Photo: [Unsplash](https://unsplash.com/photos/road-near-buildings-6rPOyWzj1Xo).
