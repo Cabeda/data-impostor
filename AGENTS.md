@@ -67,19 +67,19 @@ This repository is a personal blog and slide site maintained by José Cabeda (da
 - **Slides & themes:** Slide content uses `@slidev/theme-default` and `slidev-theme-academic` for slide rendering and theming.
 - **TypeScript:** `typescript` is listed as a dependency; the project uses TypeScript in scripts and site components.
 - **Testing / browser automation:** `playwright-chromium` is a dev dependency useful for screenshotting or automated checks. Installing Playwright may require additional setup steps (browsers download) if you plan to run tests.
-- **Runtime note — Deno:** The `new-article` script in `package.json` runs a Deno script (`scripts/new_article.ts`) with `deno run --allow-read --allow-write --allow-run`. This means that to run `npm run new-article` you must have Deno installed on your machine in addition to Node/pnpm.
+- **Runtime note — Bun:** The local automation scripts run with Bun. Install Bun to use `new-article`, `readeck`, and `syndicate`.
 
 Key `package.json` scripts:
 
 - `dev` / `start`: runs the Astro dev server (`astro dev`).
 - `build`: runs `astro build` to produce a production-ready site.
 - `preview`: runs `astro preview` for a local preview of the built site.
-- `new-article`: runs the Deno script for scaffolding a new article.
+- `new-article`: runs the Bun script for scaffolding a new article.
 
 Recommended local setup:
 
 1. Install Node.js (LTS) and `pnpm` (the project uses `pnpm` in documentation; `npm` works for scripts but `pnpm` keeps installs reproducible). Node 18+ is recommended for modern Astro versions.
-2. Install Deno if you plan to use `scripts/new_article.ts`.
+2. Install Bun if you plan to use the scripts under `scripts/`.
 3. Run:
 
 ```bash
