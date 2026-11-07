@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-env --allow-net
 
-import { parseArgs } from "jsr:@std/cli";
-import { walk } from "jsr:@std/fs";
+import { parseArgs } from "@std/cli";
+import { walk } from "@std/fs";
 
 const INSTANCE = Deno.env.get("MASTODON_INSTANCE") || "mastodon.social";
 const TOKEN = Deno.env.get("MASTODON_ACCESS_TOKEN") || "";

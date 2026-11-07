@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-run
 
-import { join } from "https://deno.land/std/path/mod.ts";
+import { join } from "@std/path";
 import { postIdentity } from "../src/lib/content-intake.ts";
 
 // Function to prompt user for input

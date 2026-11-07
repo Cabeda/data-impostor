@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "author": {
-    "name": "José Cabeda",
+    "name": "Jos\u00e9 Cabeda",
     "email": "jecabeda@gmail.com"
   },
   "scripts": {
@@ -14,6 +14,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "node --test \"src/lib/**/*.test.ts\"",
+    "test:reader": "node --test tests/reader-*.test.mjs",
     "check": "astro check",
     "new-article": "deno run --allow-read --allow-write --allow-run scripts/new_article.ts",
     "syndicate": "deno run --allow-read --allow-write --allow-env --allow-net scripts/syndicate.ts",
@@ -24,15 +25,15 @@
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.4",
     "@slidev/theme-default": "^0.25.0",
-    "astro": "^7.4.4",
+    "astro": "^7.4.5",
     "remark-toc": "^9.0.0",
     "sharp": "^0.35.5",
-    "slidev-theme-academic": "^2.1.0",
+    "slidev-theme-academic": "^3.0.1",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "playwright-chromium": "^1.53.0"
+    "playwright-chromium": "^1.64.1"
   },
   "packageManager": "pnpm@11.9.0",
   "engines": {

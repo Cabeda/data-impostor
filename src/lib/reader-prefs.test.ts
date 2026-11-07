@@ -33,3 +33,11 @@ test("round trips through storage", () => {
   const prefs = { theme: "sepia", size: "s", face: "sans", listen: false } as const;
   assert.deepEqual(parseReaderPrefs(serializeReaderPrefs(prefs)), prefs);
 });
+
+test("persists listening presentation while ignoring invalid modes", () => {
+  for (const narration of ["adapted", "original"] as const) {
+    const prefs = { ...DEFAULT_READER_PREFS, narration };
+    assert.deepEqual(parseReaderPrefs(serializeReaderPrefs(prefs)), prefs);
+  }
+  assert.deepEqual(parseReaderPrefs('{"narration":"unknown"}'), DEFAULT_READER_PREFS);
+});
