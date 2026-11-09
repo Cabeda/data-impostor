@@ -1,10 +1,10 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write --allow-env --allow-net
+#!/usr/bin/env bun
 
-import { parseArgs } from "@std/cli";
-import { walk } from "@std/fs";
+import { readFile, writeFile } from "node:fs/promises";
+import { parseCliArgs, walkFiles } from "./runtime.ts";
 
-const INSTANCE = Deno.env.get("MASTODON_INSTANCE") || "mastodon.social";
-const TOKEN = Deno.env.get("MASTODON_ACCESS_TOKEN") || "";
+const INSTANCE = process.env.MASTODON_INSTANCE || "mastodon.social";
+const TOKEN = process.env.MASTODON_ACCESS_TOKEN || "";
 const SITE_URL = "https://cabeda.dev";
 
 interface Frontmatter {
@@ -76,21 +76,21 @@ async function publishToMastodon(post: { title: string; url: string; description
   return data.url || `https://${INSTANCE}/@${data.account?.username || ""}/${data.id}`;
 }
 
-const flags = parseArgs(Deno.args, { boolean: ["all", "dry-run", "help"], string: [] });
+const flags = parseCliArgs(Bun.argv.slice(2), ["all", "dry-run", "help"]);
 
 if (flags.help) {
-  console.log("Usage: deno run --allow-read --allow-write --allow-env --allow-net scripts/syndicate.ts [--all] [--dry-run]");
-  Deno.exit(0);
+  console.log("Usage: bun run scripts/syndicate.ts [--all] [--dry-run]");
+  process.exit(0);
 }
 
 const dryRun = flags["dry-run"] === true;
 let processed = 0;
 let published = 0;
 
-for await (const entry of walk("src/data/blog", { exts: ["md"], match: [/index\.md$/] })) {
-  const path = entry.path;
+for await (const path of walkFiles("src/data/blog")) {
+  if (!path.endsWith("index.md")) continue;
   if (path.includes("/_")) continue;
-  const content = await Deno.readTextFile(path);
+  const content = await readFile(path, "utf8");
   const { fm } = parseFrontmatter(content);
   if (!fm.title) continue;
   if (hasMastodonUrl(fm)) continue;
@@ -108,7 +108,7 @@ for await (const entry of walk("src/data/blog", { exts: ["md"], match: [/index\.
   try {
     const url = await publishToMastodon({ title: fm.title, url: postUrl, description: fm.description, tags: fm.tags });
     const updated = insertMastodonUrl(content, url);
-    await Deno.writeTextFile(path, updated);
+    await writeFile(path, updated);
     published++;
     console.log(`Published: ${fm.title} -> ${url}`);
   } catch (err) {
