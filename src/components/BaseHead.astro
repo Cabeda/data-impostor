@@ -94,21 +94,12 @@ const ogImage = new URL(image, Astro.url);
   })();
 </script>
 
-<!-- Analytics (gated on connection speed; Astro/Vercel handle slow connections). -->
+<!-- Cloudflare Web Analytics (production only). -->
 <script>
-  (() => {
+  if (import.meta.env.PROD && ['cabeda.dev', 'www.cabeda.dev'].includes(location.hostname)) {
     const conn = (navigator as any).connection;
     const slow = !!(conn && (conn.saveData || /2g/.test(conn.effectiveType || '')));
-    const prod = import.meta.env.PROD && ['cabeda.dev', 'www.cabeda.dev'].includes(location.hostname);
-
     if (!slow) {
-      const s = document.createElement('script');
-      s.defer = true;
-      s.src = '/_vercel/insights/script.js';
-      document.head.append(s);
-    }
-
-    if (prod && !slow) {
       const beacon = document.createElement('script');
       beacon.type = 'module';
       beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
@@ -116,7 +107,7 @@ const ogImage = new URL(image, Astro.url);
       beacon.dataset.cfBeacon = JSON.stringify({ token: '1e0446c3cfa94061a9c1048eae60d40e' });
       document.head.append(beacon);
     }
-  })();
+  }
 </script>
 
 <!-- Font preloads -->
