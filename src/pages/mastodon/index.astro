@@ -25,6 +25,8 @@ function relativeTime(dateStr: string): string {
 <html lang="en">
   <head>
     <BaseHead title="Mastodon" description="Posts from Mastodon" />
+    <link rel="preconnect" href="https://mastodon.social" crossorigin />
+    <link rel="dns-prefetch" href="https://mastodon.social" />
   </head>
   <body>
     <Header />
@@ -47,6 +49,7 @@ function relativeTime(dateStr: string): string {
                   width="40"
                   height="40"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div class="post-meta">
                   <div class="post-author">
@@ -68,6 +71,7 @@ function relativeTime(dateStr: string): string {
                       src={img.url}
                       alt={img.description || ''}
                       loading="lazy"
+                      decoding="async"
                       width="400"
                       height="300"
                     />

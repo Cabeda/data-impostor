@@ -71,6 +71,15 @@ import ReaderSettings from "./ReaderSettings.astro";
       </button>
     </div>
   </nav>
+  <noscript>
+    <style>
+      @media (max-width: 720px) {
+        header nav .internal-links { display: flex !important; flex-wrap: wrap; }
+        header .menu-button { display: none !important; }
+        #navPanel { display: none !important; }
+      }
+    </style>
+  </noscript>
 </header>
 
 <style>

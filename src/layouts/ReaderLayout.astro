@@ -221,7 +221,11 @@ const ogImage = heroImage
     }
 
     <Footer />
-
+    <noscript>
+      <style>
+        .reader-dock, .reader-listen { display: none !important; }
+      </style>
+    </noscript>
     <script>
       import { prefetch } from "astro:prefetch";
       import { initReaderShell } from "../scripts/reader-shell";

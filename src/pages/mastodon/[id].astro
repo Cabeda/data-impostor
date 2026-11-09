@@ -19,6 +19,8 @@ const { post } = Astro.props;
 <html lang="en">
   <head>
     <BaseHead title={`Post by ${post.data.account.display_name}`} description={post.data.content.replace(/<[^>]*>/g, '').substring(0, 160)} />
+    <link rel="preconnect" href="https://mastodon.social" crossorigin />
+    <link rel="dns-prefetch" href="https://mastodon.social" />
   </head>
   <body>
     <Header />
