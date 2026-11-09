@@ -1,6 +1,6 @@
-import { parseArgs } from "@std/cli";
-import { ensureDir } from "@std/fs";
-import * as log from "@std/log"; // new import
+import { mkdir, writeFile } from "node:fs/promises";
+import { parseCliArgs } from "./runtime.ts";
+const log = { info: console.log, warn: console.warn, error: console.error };
 import { postIdentity, renderReadsEntry } from "../src/lib/content-intake.ts";
 
 
@@ -46,13 +46,13 @@ interface Bookmark {
     };
 }
 
-const API_KEY = Deno.env.get("READDECK_API_KEY");
-const API_BASE = Deno.env.get("READDECK_API_URL") || "https://read.cabeda.dev/api";
+const API_KEY = process.env.READDECK_API_KEY;
+const API_BASE = process.env.READDECK_API_URL || "https://read.cabeda.dev/api";
 
 // Add a help function to display usage information.
 function printHelp(): void {
     log.info(`
-Usage: deno run --allow-net --allow-env --allow-write readeck.ts [options]
+Usage: bun run scripts/readeck.ts [options]
 
 Options:
   --total       Display total number of bookmarks.
@@ -67,7 +67,7 @@ Options:
 async function retrieveBookmarks(query = "?is_marked=true&is_archived=false", addHighlights: boolean = true): Promise<Bookmark[]> {
     if (!API_KEY) {
         log.error("Missing READDECK_API_KEY");
-        Deno.exit(1);
+        process.exit(1);
     }
 
     try {
@@ -82,7 +82,7 @@ async function retrieveBookmarks(query = "?is_marked=true&is_archived=false", ad
 
         if (response.status !== 200) {
             log.error(`Failed to retrieve bookmarks: ${response.statusText}`);
-            Deno.exit(1);
+            process.exit(1);
         }
 
         const bookmarks = await response.json();
@@ -174,8 +174,8 @@ async function writeToFile(markdown: string) {
         const identity = postIdentity("reads", { date: new Date() });
         const dirPath = identity.path.slice(0, identity.path.lastIndexOf("/"));
 
-        await ensureDir(dirPath);
-        await Deno.writeTextFile(
+        await mkdir(dirPath, { recursive: true });
+        await writeFile(
             identity.path,
             `---\npubDate: ${identity.pubDate}\n---\n\n${markdown}`,
         );
@@ -205,20 +205,17 @@ async function archiveBookmarks(bookmarks: Bookmark[]): Promise<void> {
 }
 
 // Main execution
-const flags = parseArgs(Deno.args, {
-    boolean: ["total", "write", "archive", "clean", "help"],
-    string: ["query"],
-});
+const flags = parseCliArgs(Bun.argv.slice(2), ["total", "write", "archive", "clean", "help"], ["query"]);
 
 // Check for the help flag first.
 if (flags.help) {
     printHelp();
-    Deno.exit(0);
+    process.exit(0);
 }
 
 if (!API_KEY) {
     log.error("Missing READDECK_API_KEY");
-    Deno.exit(1);
+    process.exit(1);
 }
 
 // Log starting operation for clarity.
@@ -229,13 +226,13 @@ const bookmarks = await retrieveBookmarks();
 if (!bookmarks) {
     log.warn("No bookmarks found");
 
-    Deno.exit(0);
+    process.exit(0);
 }
 
 if (flags.total) {
     const totalBookmarks = await retrieveBookmarks("?is_archived=false&has_labels=false", false);
     log.info(`${calculateTotalTimes(totalBookmarks)}`);
-    Deno.exit(0);
+    process.exit(0);
 }
 
 if (flags.archive) {
@@ -244,7 +241,7 @@ if (flags.archive) {
     } else {
         log.warn("No marked articles to archive");
     }
-    Deno.exit(0);
+    process.exit(0);
 }
 
 if (flags.clean) {
@@ -253,14 +250,14 @@ if (flags.clean) {
         log.info(`Deleting ${articles.length} unloaded bookmarks`);
         await delete_bookmarks(articles);
     }
-    Deno.exit(0);
+    process.exit(0);
 }
 
 const md = await convertToMarkdown(bookmarks);
 
 if (flags.write && bookmarks.length > 0) {
     await writeToFile(md);
-    Deno.exit(0);
+    process.exit(0);
 }
 
 log.info(md);

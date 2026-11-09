@@ -4,7 +4,7 @@
  * The one module that answers, for an entry the site generates, where it lives
  * and when it was published. Astro's collection loaders (`src/lib/identity-loader.ts`)
  * and the scripts under `scripts/` are adapters over this module. It imports
- * nothing, so the Astro build and the Deno scripts can both use it.
+ * nothing, so the Astro build and Bun scripts can both use it.
  *
  * The rule it enforces: **the path is the identity**. A blog entry's folder is
  * `YYYYMMDD-slug/index.md` (and its id `YYYYMMDD-slug` is the URL), a reads
