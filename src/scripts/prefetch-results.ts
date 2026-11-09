@@ -14,9 +14,6 @@ export function createResultPrefetcher(root: HTMLElement) {
   }
 
   function schedule(articles: HTMLElement[], limit = articles.length) {
-    const conn = (navigator as any).connection;
-    const slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
-    if (slow) return;
     cancel();
     const current = generation;
     const queue = articles.filter(article => !article.hidden).slice(0, limit);

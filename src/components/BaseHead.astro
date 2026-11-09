@@ -94,25 +94,21 @@ const ogImage = new URL(image, Astro.url);
   })();
 </script>
 
-<!-- Vercel Analytics (enable in Vercel dashboard → Analytics) -->
+<!-- Analytics (gated on connection speed; Astro/Vercel handle slow connections). -->
 <script>
   (() => {
     const conn = (navigator as any).connection;
-    const slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
-    if (slow) return;
-    const s = document.createElement('script');
-    s.defer = true;
-    s.src = '/_vercel/insights/script.js';
-    document.head.append(s);
-  })();
-</script>
+    const slow = !!(conn && (conn.saveData || /2g/.test(conn.effectiveType || '')));
+    const prod = import.meta.env.PROD && ['cabeda.dev', 'www.cabeda.dev'].includes(location.hostname);
 
-<!-- Cloudflare's beacon tracks ClientRouter navigation automatically. -->
-<script>
-  if (import.meta.env.PROD && ['cabeda.dev', 'www.cabeda.dev'].includes(location.hostname)) {
-    const conn = (navigator as any).connection;
-    const slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
     if (!slow) {
+      const s = document.createElement('script');
+      s.defer = true;
+      s.src = '/_vercel/insights/script.js';
+      document.head.append(s);
+    }
+
+    if (prod && !slow) {
       const beacon = document.createElement('script');
       beacon.type = 'module';
       beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
@@ -120,7 +116,7 @@ const ogImage = new URL(image, Astro.url);
       beacon.dataset.cfBeacon = JSON.stringify({ token: '1e0446c3cfa94061a9c1048eae60d40e' });
       document.head.append(beacon);
     }
-  }
+  })();
 </script>
 
 <!-- Font preloads -->
