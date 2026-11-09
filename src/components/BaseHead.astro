@@ -31,6 +31,7 @@ const ogImage = new URL(image, Astro.url);
 <meta name="generator" content={Astro.generator} />
 <meta name="fediverse:creator" content="@jecabeda@mastodon.social" />
 <meta name="theme-color" content="#fbf8f1" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
 
 <!-- Apply reader preferences and the first-visit book intro before paint. -->
 <script
@@ -94,17 +95,31 @@ const ogImage = new URL(image, Astro.url);
 </script>
 
 <!-- Vercel Analytics (enable in Vercel dashboard → Analytics) -->
-<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  (() => {
+    const conn = (navigator as any).connection;
+    const slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
+    if (slow) return;
+    const s = document.createElement('script');
+    s.defer = true;
+    s.src = '/_vercel/insights/script.js';
+    document.head.append(s);
+  })();
+</script>
 
 <!-- Cloudflare's beacon tracks ClientRouter navigation automatically. -->
 <script>
   if (import.meta.env.PROD && ['cabeda.dev', 'www.cabeda.dev'].includes(location.hostname)) {
-    const beacon = document.createElement('script');
-    beacon.type = 'module';
-    beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-    // Public website identifier supplied by Cloudflare, not an API credential.
-    beacon.dataset.cfBeacon = JSON.stringify({ token: '1e0446c3cfa94061a9c1048eae60d40e' });
-    document.head.append(beacon);
+    const conn = (navigator as any).connection;
+    const slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
+    if (!slow) {
+      const beacon = document.createElement('script');
+      beacon.type = 'module';
+      beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      // Public website identifier supplied by Cloudflare, not an API credential.
+      beacon.dataset.cfBeacon = JSON.stringify({ token: '1e0446c3cfa94061a9c1048eae60d40e' });
+      document.head.append(beacon);
+    }
   }
 </script>
 

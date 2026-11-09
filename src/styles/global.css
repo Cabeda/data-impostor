@@ -95,6 +95,23 @@
 :root[data-size="l"] { --read-size: 22px; --read-leading: 1.76; }
 :root[data-face="sans"] { --font-read: var(--font-ui); }
 
+/* No-JS fallback: honour the OS colour scheme before the inline theme script runs. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #000000;
+    --surface: #0c0c0c;
+    --surface-2: #131313;
+    --ink: #e8e2d6;
+    --muted: #8f8878;
+    --line: #232323;
+    --accent: #e0a36a;
+    --accent-dark: #c98a4f;
+    --accent-soft: #2a1d10;
+    --code-bg: #121212;
+  }
+}
+
 * { box-sizing: border-box; }
 
 html {

@@ -104,27 +104,43 @@ function bind() {
   document.addEventListener('astro:before-swap', () => { controller.abort(); cancelAnimationFrame(scrollFrame); }, { once: true });
   window.addEventListener('pagehide', remember, { signal });
 
-  // Cache the already-normalized build artifact across ClientRouter navigations.
-  indexPromise ??= fetch('/search/posts.json', { priority: 'low' }).then(response => {
-    if (!response.ok) throw new Error('Search index unavailable');
-    return response.json() as Promise<SearchEntry[]>;
-  }).catch(error => { indexPromise = undefined; throw error; });
-  indexPromise.then(index => {
-    if (!root!.isConnected) return;
-    entries = index;
-    input.disabled = false;
-    scope.disabled = false;
-    buttons.forEach(button => button.disabled = false);
-    update();
-    requestAnimationFrame(() => {
+  // Load the search index lazily so 2G / save-data visitors don't pay for it
+  // until they actually search (or the browser is idle).
+  let indexStarted = false;
+  function startIndexLoad() {
+    if (indexStarted) return;
+    indexStarted = true;
+    indexPromise ??= fetch('/search/posts.json', { priority: 'low' }).then(response => {
+      if (!response.ok) throw new Error('Search index unavailable');
+      return response.json() as Promise<SearchEntry[]>;
+    }).catch(error => { indexPromise = undefined; indexStarted = false; throw error; });
+    indexPromise.then(index => {
       if (!root!.isConnected) return;
-      if (saved?.href === href && Number.isFinite(saved.scrollY)) window.scrollTo({ top: saved.scrollY, behavior: 'instant' });
+      entries = index;
+      input.disabled = false;
+      scope.disabled = false;
+      buttons.forEach(button => button.disabled = false);
+      update();
+      requestAnimationFrame(() => {
+        if (!root!.isConnected) return;
+        if (saved?.href === href && Number.isFinite(saved.scrollY)) window.scrollTo({ top: saved.scrollY, behavior: 'instant' });
+        restoring = false;
+        remember();
+      });
+    }).catch(() => {
+      if (!root!.isConnected) return;
+      count.textContent = `${articles.length} notes · Search unavailable. Reload to try again.`;
       restoring = false;
-      remember();
     });
-  }).catch(() => {
-    if (!root!.isConnected) return;
-    count.textContent = `${articles.length} notes · Search unavailable. Reload to try again.`;
-    restoring = false;
-  });
+  }
+  input.addEventListener('focus', startIndexLoad, { once: true, signal });
+  const conn = (navigator as any).connection;
+  const slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
+  if (!slow) {
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(startIndexLoad, { timeout: 4000 });
+    } else {
+      setTimeout(startIndexLoad, 1500);
+    }
+  }
 }
