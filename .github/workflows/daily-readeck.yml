@@ -12,19 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: 2.x
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
 
-      - name: Run Deno script
+      - name: Run Readeck script
         env:
           READDECK_API_KEY: ${{ secrets.READDECK_API_KEY }}
-        run: deno run --allow-read --allow-env --allow-net --allow-write scripts/readeck.ts --write
+        run: bun run scripts/readeck.ts --write
 
       - uses: stefanzweifel/git-auto-commit-action@v5
 
       - name: Archive newsletter readeck articles
         env:
           READDECK_API_KEY: ${{ secrets.READDECK_API_KEY }}
-        run: deno run --allow-read --allow-env --allow-net --allow-write scripts/readeck.ts --archive
+        run: bun run scripts/readeck.ts --archive
