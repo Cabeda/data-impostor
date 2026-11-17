@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # main is protected by the `main-2` ruleset (PR + required checks).
+          # On a personal repo GitHub refuses `github-actions[bot]` as a bypass
+          # actor, so this deploy key is a ruleset bypass actor and does the push.
+          ssh-key: ${{ secrets.DAILY_PUSH_DEPLOY_KEY }}
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
