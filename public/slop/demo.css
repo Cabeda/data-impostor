@@ -1,0 +1,57 @@
+/* The Python 3.15 flatten demo in the "Slop just raised the bar" article.
+   Uses the reader's tokens so it follows the light / sepia / night theme. */
+
+.slop-demo {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 1.6em 0;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.slop-demo-hint {
+  margin: 0.7em 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.slop-demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.9em;
+}
+
+.slop-demo button {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.slop-demo button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.slop-demo button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.slop-demo-output {
+  margin: 0.8em 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.slop-demo-output.is-ok { color: var(--ink); }
+.slop-demo-output.is-error { color: var(--accent); }
