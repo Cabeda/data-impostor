@@ -15,13 +15,13 @@ In my opinion it's all a matter of perspective. The value we put on things comes
 
 That is why we consider really good-looking websites slop, because we now see the same patterns on thousands of other websites. For example, AI for a time decided that purple was the color to make a design edgy. I did that on my [bingo app](https://bingo.cabeda.dev). I prompted with "make the design edgy" and voilà, it was purple all over.
 
-Now, we can say that we've been invaded by slop, but I also think we've had that for a long time — people used to email me dramatic PowerPoints telling a story with the gladiator in the background at the beginning of the 2000s.
+Now, we can say that we've been invaded by slop, but I also think we've had that for a long time. People used to email me dramatic PowerPoints telling a story with the gladiator in the background at the beginning of the 2000s.
 
 No, I'm optimistic that now the web has become accessible to many more people and that we raised the bar for what something made with love means.
 
 ## What we can build
 
-Let's consider my personal website, [cabeda.dev](https://cabeda.dev). I've had a basic Astro theme for years, but within a couple of hours I was able to:
+Let's consider my personal website, [cabeda.dev](https://cabeda.dev). I've had a basic AstroJS theme for years, but within a couple of hours I was able to:
 
 1. Improve the Lighthouse score to 100 (and it's now a CI job)
 2. Redesign entirely to a theme that increases the reading quality (following my own benchmark)
@@ -31,7 +31,7 @@ Let's consider my personal website, [cabeda.dev](https://cabeda.dev). I've had a
 6. Preload links to make the UX almost instant
 7. Offline mode
 
-For sure, there are some pesky bugs I need to resolve. The animation of my name still needs improvement to be buttery smooth, for example. And of course I need to improve my writing. But I now have a really good base, and I can focus on improving the quality of the blog. That list is the base.
+For sure, there are some pesky bugs I need to resolve. The animation of my name still needs improvement to be buttery smooth. And of course I need to improve my writing. But I now have a really good base, and I can focus on improving the quality of the blog.
 
 Now I can focus on the content.
 For example, let's imagine we are explaining the new syntax on Python 3.15 for unpacking inside comprehensions ([PEP 798](https://peps.python.org/pep-0798/)). We could have shared Python snippets and that was it. Or we could have AI help us bootstrap a full Python environment in the browser, which is much more engaging.
